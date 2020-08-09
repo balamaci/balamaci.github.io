@@ -1,0 +1,28 @@
+name: GitHub Pages
+
+on:
+  push:
+    branches:
+      - hugo-sources
+
+jobs:
+  build-deploy:
+    runs-on: ubuntu-18.04
+    steps:
+      - uses: actions/checkout@v2
+        with:
+          submodules: true
+          fetch-depth: 0
+
+      - name: Build
+        run: docker run --rm --volume $PWD:/src bric3/hugo-builder hugo --verbose --buildDrafts --buildFuture
+
+      - name: Deploy
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          deploy_key: ${{ secrets.ACTIONS_DEPLOY_KEY }}
+          publish_branch: master
+          publish_dir: ./public
+          cname: balamaci.ro
+#          force_orphan: true
+          
