@@ -1,0 +1,1692 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.73.0" />
+
+    
+    
+    
+
+<title>Reactor Core Explained • Serban Balamaci</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Serban Balamaci">
+<meta property="og:title" content="Reactor Core Explained">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://balamaci.ro/2019/07/21/reactor-core-explained/" />
+<meta property="og:description" content="Java mostly, and general tech">
+<meta property="og:image" content="https://balamaci.ro/social-sharing.png">
+<meta property="og:image:type" content="image/png">
+    
+    
+    
+<meta property="og:image:width" content="192">
+<meta property="og:image:height" content="192">
+    
+
+<meta property="og:updated_time" content="2019-07-21T01:54:58&#43;0200">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@sbalamaci">
+<meta name="twitter:title" content="Reactor Core Explained">
+
+<meta name="twitter:image" content="https://balamaci.ro/social-sharing.png">
+
+<meta name="twitter:description" content="Java mostly, and general tech">
+<meta name="twitter:creator" content="@sbalamaci">
+    
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/a11y-light.min.css" media="(prefers-color-scheme: light)"><link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/gruvbox-dark.min.css" media="(prefers-color-scheme: dark)">
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.57d57be207f95258b69c5563e34ed2c632000ecb862ce9bd97e7e35f3957094c.css" integrity="sha256-V9V74gf5Uli2nFVj407SxjIADsuGLOm9l&#43;fjXzlXCUw=">
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde-dark.2eddfb769610f72f40f6bc949e62a3acf298eb8504c073739085a417978b18cd.css" integrity="sha256-Lt37dpYQ9y9A9ryUnmKjrPKY64UEwHNzkIWkF5eLGM0=" media="(prefers-color-scheme: dark)">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    
+    <link rel="shortcut icon" sizes="192x192" href="/android-192-favicon.png">
+
+    
+    <link rel="shortcut icon" href="/android-192-favicon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/v4-shims.min.css" integrity="sha256-wN7QJaqAwQ03kgUhyN4EU2phRdDkLrQYbFe0EvpQ60U=" crossorigin="anonymous" />
+
+    
+    
+
+
+    
+</head>
+
+
+    <body class="">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://balamaci.ro">Serban Balamaci</a>
+      </span>
+      
+      
+        <div class="author-image">
+          <img src="https://www.gravatar.com/avatar/309afbf8c2f162060e4fa28d670d2ec8?s=240&d=mp" class="img--circle img--headshot element--center" alt="gravatar">
+        </div>
+      
+      <p class="site__description">
+         Java and JVM related 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">Serban Balamaci</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/"><span class='fa-icon'><i class='fas fa-home'></i></span> Home
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/posts/"><span class='fa-icon'><i class='fas fa-stream'></i></span> Posts
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/series/"><span class='fa-icon'><i class='fas fa-list-alt'></i></span> Series
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/"><span class='fa-icon'><i class='fas fa-tags'></i></span> Tags
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/whoami/"><span class='fa-icon'><i class='fas fa-id-card'></i></span> About
+						<span></span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/@sbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="bird" class="svg-inline--fa fa-bird fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></i></a>
+	
+	
+	
+	<a href="https://github.com/balamaci" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/serbanbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="pro-network" class="svg-inline--fa fa-pro-network fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="container fixed-container">
+    
+<div class="copyright">
+  &copy; 2010 - 2020 Serban Balamaci
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+
+<article>
+  <header>
+    <h1>Reactor Core Explained</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> 2019-07-21
+    
+    
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/jvm">jvm</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/java">java</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/reactive">reactive</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 90 min read
+
+    
+    
+    
+
+</div>
+
+
+  </header>
+  
+  
+  
+  <div class="post md">
+    <h1 id="reactor-core">Reactor Core</h1>
+<h2 id="contents">Contents</h2>
+<ul>
+<li><a href="#flux-and-mono">Flux and Mono</a></li>
+<li><a href="#simple-operators">Simple Operators</a></li>
+<li><a href="#merging-streams">Merging Streams</a></li>
+<li><a href="#flatmap-operator">FlatMap Operator</a></li>
+<li><a href="#schedulers">Schedulers</a></li>
+<li><a href="#error-handling">Error Handling</a></li>
+<li><a href="#backpressure">Backpressure</a></li>
+</ul>
+<h2 id="reactive-streams">Reactive Streams</h2>
+<p>Reactive Streams is a programming concept for handling asynchronous data streams in a non-blocking manner while providing backpressure to stream publishers.
+It has evolved into a <a href="https://github.com/reactive-streams/reactive-streams-jvm">specification</a> that is based on the concept of <strong>Publisher</strong>&lt;T&gt;** and **Subscriber<!-- raw HTML omitted -->**.
+A **Publisher** is the source of events **T** in the stream, and a **Subscriber** is the consumer for those events.
+A **Subscriber** subscribes to a **Publisher** by invoking a &ldquo;factory method&rdquo; :</p>
+<pre><code>public interface Publisher&lt;T&gt; {
+    public void subscribe(Subscriber&lt;? super T&gt; s);
+}
+</code></pre>
+<p>When the Subscriber is ready to start handling events, it signals this via a request to the Publisher through <strong>Subscription</strong></p>
+<pre><code>public interface Subscription {
+    public void request(long n); //request n items
+    public void cancel();
+}
+</code></pre>
+<p>This is an important thing to be aware of, that the <strong>Subscriber</strong> is signalling demand to the <strong>Publisher</strong> that is ready to receive X items from upstream.
+After it finishes processing them, it might ask for another set or even more.
+Now, some subscribers begin by requesting an infinite amount(you&rsquo;d see this a request(unbounded)) of items from the Publisher and this why it.</p>
+<p>Upon receiving this signal, the Publisher begins to invoke <strong>Subscriber::onNext(T)</strong> for each event <strong>T</strong>.
+This continues until either completion of the stream (<strong>Subscriber::onComplete()</strong>)
+or an error occurs during processing (<strong>Subscriber::onError(Throwable)</strong>).</p>
+<pre><code>public interface Subscriber&lt;T&gt; {
+    //signals to the Publisher to start sending events
+    public void onSubscribe(Subscription s);     
+    
+    public void onNext(T t);
+    public void onError(Throwable t);
+    public void onComplete();
+}
+</code></pre>
+<p>Between the <strong>Subscriber</strong> and <strong>Publisher</strong> there normally are the <strong>Operators</strong> chains (<strong>.map()</strong>, <strong>.filter()</strong>).
+Each <strong>Operator</strong> acts as a <strong>Subscriber</strong> to the previous <strong>Operator</strong> in the chain so forth until it reaches the actual <strong>Publisher</strong>.
+The <strong>subscription</strong> and <strong>demand</strong> signals travels upstream back through each Operator in the chain to the original <strong>Publisher</strong>.
+Each operator actually can change the amount requested from upstream according to his own logic - for ex. a default subscriber usually requests an unlimited
+number of items, but as the request signal bubbles upstream to the Publisher each operator.</p>
+<p>This is nicely explained by the &ldquo;Movers&rdquo; analogy that I found <a href="https://tomstechnicalblog.blogspot.ro/2015_10_01_archive.html">here</a>
+<img src="images/movers.gif?raw=true" alt="">
+This image is missing the request to send more items from the last mover after it receives items - lets assume that it initially, the last mover
+requested for an unlimited number of items which travelled to the next guy till the one in the house and then the objects started flowing-</p>
+<p>The real world is not ideal and something the Publisher might not always conform to demand from downstream</p>
+<ul>
+<li>events might get produced even if your subscriber whose role might be storing the events in a database is not able to keep up.-
+The mechanisms of controlling this possible mismatch of demand and this is the subject of <strong>Backpressure</strong> and is it based on either dropping or buffering the events.</li>
+</ul>
+<h2 id="flux-and-mono">Flux and Mono</h2>
+<p>Reactor provides two main types of publishers:</p>
+<ul>
+<li><strong>Flux</strong> publisher that emits 0..N elements, and then completes (successfully or with an error)</li>
+<li><strong>Mono</strong> a specialized publisher that can contain only 0 or 1 events and then completes (successfully or with an error)
+Can be useful to express in an API that a single/no value(just completion notification) value is expected.</li>
+</ul>
+<h3 id="simple-operators-to-create-flux">Simple operators to create Flux</h3>
+<pre><code>Flux&lt;Integer&gt; flux = Flux.just(1, 5, 10);
+Flux&lt;Integer&gt; flux = Flux.range(1, 10);
+
+Flux&lt;String&gt; flux = Flux.fromArray(new String[] {&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;black&quot;});
+Flux&lt;String&gt; flux = Flux.fromIterable(List.of(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;));
+
+/* from Java Stream */
+Stream&lt;String&gt; stream = Stream.of(&quot;red&quot;, &quot;green&quot;);
+Flux&lt;String&gt; flux = Flux.fromStream(stream);
+</code></pre>
+<p>Streams that just complete without emitting a value are valid - useful for example to say that a DB update completed(or failed)-.</p>
+<pre><code>Flux.empty(); / Mono.empty();
+</code></pre>
+<p>so are streams that just complete with an error</p>
+<pre><code>Flux.error(new IllegalStateException()); / Mono.error(new IllegalStateException());
+</code></pre>
+<p>Code is available at <a href="https://github.com/balamaci/reactor-core-playground/blob/master/src/test/java/com/balamaci/reactor/Part01CreateFluxAndMono.java">Part01CreateFluxAndMono.java</a></p>
+<h3 id="creating-your-own-flux">Creating your own Flux</h3>
+<p>Using <strong>Flux.create</strong> to handle the actual emissions of events with the events like <strong>onNext</strong>, <strong>onCompleted</strong>, <strong>onError</strong></p>
+<pre><code>        Flux&lt;Integer&gt; flux = Flux.create(subscriber -&gt; {
+            log.info(&quot;Started emitting&quot;);
+
+            log.info(&quot;Emitting 1st&quot;);
+            subscriber.next(1);
+
+            log.info(&quot;Emitting 2nd&quot;);
+            subscriber.next(2);
+
+            subscriber.complete();
+        });
+
+
+        Disposable cancelable =
+                flux
+                        .log()
+                        .subscribe(
+                                val -&gt; log.info(&quot;Subscriber received: {}&quot;, val),   //--&gt; onNext
+                                err -&gt; log.error(&quot;Subscriber received error&quot;, err),//--&gt; onError
+                                () -&gt; log.info(&quot;Subscriber got Completed event&quot;)   //--&gt; onComplete
+                        );
+</code></pre>
+<p>When subscribing to the Flux with flux.subscribe(&hellip;) the lambda code inside <strong>create()</strong> gets executed.
+Flux.subscribe(&hellip;) can take 3 handlers for each type of event - <strong>onNext, onError</strong> and <strong>onComplete</strong>.</p>
+<p>We can get a more clear picture of what is happening by adding the <strong>log()</strong> operator:</p>
+<pre><code>17:54:53:755 [main] INFO 1 - onSubscribe(FluxCreate.BufferAsyncSink)
+17:54:53:757 [main] INFO 1 - request(unbounded)
+17:54:53:759 [main]  - Started emitting
+17:54:53:759 [main]  - Emitting 1st
+17:54:53:760 [main] INFO 1 - onNext(1)
+17:54:53:760 [main]  - Subscriber received: 1
+17:54:53:760 [main]  - Emitting 2nd
+17:54:53:761 [main] INFO 1 - onNext(2)
+17:54:53:761 [main]  - Subscriber received: 2
+17:54:53:762 [main] INFO 1 - onComplete()
+17:54:53:762 [main]  - Subscriber got Completed event
+</code></pre>
+<p>Now we&rsquo;re also seeing the subscribe request being made and the request upstream signaling demand for an unlimited number of items to be published.
+the <strong>request(unbounded)</strong> message.</p>
+<h3 id="first-look-at-backpressure">First look at backpressure</h3>
+<p>It is not obvious above, but we&rsquo;ve not been fair in our <strong>Publisher</strong>, we didn&rsquo;t care what the subscriber demand was, we just pushed on subscribing 2 items downstream.
+If we look in our</p>
+<h2 id="working-with-legacy-code---mono-from-future">Working with Legacy code - Mono from Future</h2>
+<p>Lets imagine we want to incrementally make our legacy code more reactive.
+We can create a stream from Future, making easier to switch from legacy code to reactive so that&rsquo;s it right?
+Since <strong>CompletableFuture</strong> can only return a single result(<strong>future.get()</strong>), <strong>Mono</strong> is the returned type when converting
+from a Future.</p>
+<pre><code class="language-java">    @Test
+    public void fromFuture() {
+        CompletableFuture&lt;String&gt; completableFuture = CompletableFuture.
+                supplyAsync(() -&gt; { //starts a background thread the ForkJoin common pool
+                    log.info(&quot;About to sleep and return a value&quot;);
+                    Helpers.sleepMillis(100);
+                    return &quot;red&quot;;
+                });
+
+        Mono&lt;String&gt; mono = Mono.fromFuture(completableFuture);
+        mono
+                .log()
+                .subscribe(val -&gt; log.info(&quot;Subscriber received: {}&quot;, val));
+    }
+</code></pre>
+<p>The <strong>Mono.fromFuture</strong> does a <strong>subcriber.onNext(futureVal)</strong> followed by <strong>subscriber.onComplete()</strong> registered with <strong>completableFuture.whenComplete()</strong>
+However if we ran this, we&rsquo;d not see anything being printed.</p>
+<pre><code>21:45:35:321 [ForkJoinPool.commonPool-worker-1]  - About to sleep and return a value
+21:45:35:481 [main] INFO 1 - | onSubscribe([Fuseable] Operators.MonoSubscriber)
+21:45:35:488 [main] INFO 1 - | request(unbounded)
+21:45:35:824 [ForkJoinPool.commonPool-worker-1] INFO 1 - | onNext(red)
+21:45:35:825 [ForkJoinPool.commonPool-worker-1]  - Subscriber received: red
+21:45:35:826 [ForkJoinPool.commonPool-worker-1] INFO 1 - | onComplete()
+</code></pre>
+<p>because when we invoked <strong>CompletableFuture.supplyAsync</strong> our work is started in a thread of
+the Java&rsquo;s ForkJoin pool and so will be the call to <strong>subscriber.onNext</strong> and <strong>onComplete()</strong>.</p>
+<p>Our <strong>Mono.subscribe()</strong> call is invoked on the main thread however and there is nothing preventing it from finishing before the one which generates the event.
+We could, wait for the value to arrive onSubscribe using a CountdownLatch:</p>
+<pre><code>        CountDownLatch latch = new CountDownLatch(1);
+        Mono&lt;String&gt; mono = Mono.fromFuture(completableFuture);
+        mono
+                .log()
+                .subscribe(val -&gt; {
+                    log.info(&quot;Subscriber received: {}&quot;, val);
+                    latch.countDown();
+                });
+
+        latch.await();
+</code></pre>
+<p>Reactor provides for us some helper methods already: <strong>mono.block()</strong> which blocks the current thread</p>
+<pre><code class="language-java">        Mono&lt;String&gt; mono = Mono.fromFuture(completableFuture);
+        mono
+                .log()
+                .subscribe(val -&gt; log.info(&quot;Subscriber received: {}&quot;, val));
+
+        String val = mono.block(); //--block indefinitely until a onNext signal is received, this is a new Subscription than above
+</code></pre>
+<p>and <strong>flux.blockFirst()</strong> or <strong>flux.blockLast()</strong> if Flux instead of Mono(but we must understand those are a new Subscription).</p>
+<p>Another thing to notice is the use of <strong>Thread.sleep()</strong> means that the async thread is blocked for some time. The point of using Reactor is that
+we aim for using non-blocking code as much as possible, because it means a low number of threads and context switches which translates in optimal usage of resources.
+We should confine blocking parts to special thread pools that don&rsquo;t starve the one used by non blocking code. However, for the sake of simplicity we&rsquo;ll see some examples using Thread.sleep(),
+You might even want to know there is a tool specially created to root out blocking code like <a href="https://github.com/reactor/BlockHound">Blockhound</a>.</p>
+<h3 id="flux-and-mono-are-lazy">Flux and Mono are lazy</h3>
+<p>Flux and Mono are lazy, meaning that the code inside create() doesn&rsquo;t get executed without subscribing to the Flux.
+So even if we sleep for a long time inside create() method(to simulate a costly operation),
+without subscribing to this Publisher(Flux or Mono) the code is not executed and the method returns immediately.</p>
+<pre><code>public void fluxIsLazy() {
+    Flux&lt;Integer&gt; flux = Flux.create(subscriber -&gt; {
+        log.info(&quot;Started emitting but sleeping for 5 secs&quot;); //this is not executed
+        Helpers.sleepMillis(5000);
+        subscriber.next(1);
+    });
+    log.info(&quot;Finished&quot;); 
+}
+</code></pre>
+<h3 id="multiple-subscriptions-to-the-same-flux">Multiple subscriptions to the same Flux</h3>
+<p>When subscribing to a Flux, the <em>create()</em> method gets executed for each subscription. This means that the events
+inside create are re-emitted to each subscriber.</p>
+<p>So every subscriber will get the same events and will not lose any events - this is named a <strong>Cold Publisher&rsquo;</strong></p>
+<pre><code>Flux&lt;Integer&gt; flux = Flux.create(subscriber -&gt; {
+   log.info(&quot;Started emitting&quot;);
+
+   log.info(&quot;Emitting 1st event&quot;);
+   subscriber.next(1);
+
+   log.info(&quot;Emitting 2nd event&quot;);
+   subscriber.next(2);
+
+   subscriber.onCompleted();
+});
+
+log.info(&quot;Subscribing 1st subscriber&quot;);
+flux.subscribe(val -&gt; log.info(&quot;First Subscriber received: {}&quot;, val));
+
+log.info(&quot;=======================&quot;);
+
+log.info(&quot;Subscribing 2nd subscriber&quot;);
+flux.subscribe(val -&gt; log.info(&quot;Second Subscriber received: {}&quot;, val));
+</code></pre>
+<p>will output</p>
+<pre><code>[main] - Subscribing 1st subscriber
+[main] - Started emitting
+[main] - Emitting 1st event
+[main] - First Subscriber received: 1
+[main] - Emitting 2nd event
+[main] - First Subscriber received: 2
+[main] - =======================
+[main] - Subscribing 2nd subscriber
+[main] - Started emitting
+[main] - Emitting 1st event
+[main] - Second Subscriber received: 1
+[main] - Emitting 2nd event
+[main] - Second Subscriber received: 2
+</code></pre>
+<h3 id="checking-if-there-are-any-active-subscribers">Checking if there are any active subscribers</h3>
+<p>Inside the create() method, we can check is there are still active subscribers to our Flux.
+It&rsquo;s a way to prevent to do extra work(like for ex. querying a datasource for entries) if no one is listening
+In the following example we&rsquo;d expect to have an infinite stream, but because we stop if there are no active subscribers we stop producing events.
+The <strong>take()</strong> operator for ex. just unsubscribes(cancels subscription) from the Flux after it has received the specified amount of events.</p>
+<pre><code>Flux&lt;Integer&gt; flux = Flux.create(subscriber -&gt; {
+
+    int i = 1;
+    while(true) {
+        if(subscriber.isCancelled()) {
+             break;
+        }
+
+        subscriber.onNext(i++);
+    }
+    //subscriber.completed(); too late to emit Complete event since subscriber already unsubscribed
+});
+
+flux
+    .take(5) //unsubscribes after the 5th event
+    .subscribe(val -&gt; log.info(&quot;Subscriber received: {}&quot;, val),
+               err -&gt; log.error(&quot;Subscriber received error&quot;, err),
+               () -&gt; log.info(&quot;Subscriber got Completed event&quot;) //The Complete event 
+               //is triggered by 'take()' operator
+
+</code></pre>
+<h2 id="simple-operators">Simple Operators</h2>
+<h3 id="deeper-look-at-the-workings-of-operators">Deeper look at the workings of operators</h3>
+<p>Between the source Flux Publisher and the Subscriber, there can be a wide range of operators and <strong>reactor</strong> provides
+lots of operators to chose from. Probably you are already familiar with functional operations like <strong>filter</strong> and <strong>map</strong>.
+so let&rsquo;s use them as example:</p>
+<pre><code class="language-java">Flux&lt;Integer&gt; stream = Flux.create(subscriber -&gt; {
+        subscriber.onNext(1);
+        subscriber.onNext(2);
+        ....
+        subscriber.onComplete();
+    });
+    .log()
+    .map(val -&gt; val * 10)
+    .filter(val -&gt; val &gt; 10)
+    .subscribe(val -&gt; log.info(&quot;Received: {}&quot;, val));
+</code></pre>
+<p>outputs</p>
+<pre><code>16:00:32:530 [main] INFO 1 - onSubscribe(FluxCreate.BufferAsyncSink)
+16:00:32:532 [main] INFO 1 - request(unbounded)
+16:00:32:534 [main]  - Started emitting
+16:00:32:535 [main]  - Emitting 1st
+16:00:32:535 [main] INFO 1 - onNext(1)
+16:00:32:535 [main] INFO 1 - request(1)
+16:00:32:535 [main]  - Emitting 2nd
+16:00:32:535 [main] INFO 1 - onNext(2)
+16:00:32:536 [main]  - Subscriber received: 20
+16:00:32:537 [main] INFO 1 - onComplete()
+</code></pre>
+<p>When we call <em>Flux.create()</em> you might think that we&rsquo;re calling <strong>onNext(..)</strong>, <strong>onComplete(..)</strong> on the Subscriber at the end of the chain,
+not the operators between them.</p>
+<p>This is not true because <strong>the operators themselves are decorators for their source</strong> wrapping it with the operator behavior
+like an onion&rsquo;s layers.
+Above <strong>Flux.map()</strong> returns a new Flux instances that wraps the <strong>Flux.create</strong> one and so on.</p>
+<p>When we call <strong>.subscribe()</strong> at the end of the chain, <strong>Subscription propagates through the layers back to the source,
+each operator subscribing itself to it&rsquo;s wrapped source Flux and so on till the original source,
+triggering it to start producing/emitting items</strong>.</p>
+<p><strong>Flux.create</strong> calls <strong>&mdash;&gt; mapOperator.onNext(val)</strong> does val = val * 10 <strong>&mdash;&gt; filterOperator.onNext(val)</strong> which if val &gt; 10 calls <strong>&mdash;&gt; subscriber.onNext(val)</strong>.</p>
+<p>Said above that I found helpful, a nice analogy with a team of house movers, with every mover doing his thing(like boxing) before passing objects to the next in line
+until it reaches the final subscriber(the truck, which <strong>onComplete</strong> drives off).</p>
+<p><img src="images/movers.gif?raw=true" alt="Movers"></p>
+<ul>
+<li>Call to .subscribe() starts the subscription, and the <strong>subscribe</strong> event bubbles upstream triggering <em>onSubscribe</em> through the <em>log</em> operator.
+The subscriber then requests an unlimited number of items, from upstream.</li>
+</ul>
+<pre><code>16:00:32:530 [main] INFO 1 - onSubscribe(FluxCreate.BufferAsyncSink)
+16:00:32:532 [main] INFO 1 - request(unbounded)
+</code></pre>
+<ul>
+<li>First element is sent downstream and passes through the <em>.log()</em> operator</li>
+</ul>
+<pre><code>16:00:32:534 [main]  - Started emitting
+16:00:32:535 [main]  - Emitting 1st
+16:00:32:535 [main] INFO 1 - onNext(1)
+</code></pre>
+<ul>
+<li>Element reaches <strong>.filter()</strong> and fails condition so is not sent next on to the <em>.map()</em>. However, it meant that there was demand for elements,
+and so is asking upstream to send another element instead, this is why we see <em>request(1)</em>.</li>
+</ul>
+<pre><code>16:00:32:535 [main] INFO 1 - request(1)
+</code></pre>
+<h3 id="doonnext-doonsubscribe-doonerror-dooncancel">doOnNext, doOnSubscribe, doOnError, doOnCancel</h3>
+<p>Reactor provides these operators who act on signals which are helpful for debugging or any side effects</p>
+<ul>
+<li>doOnNext</li>
+<li>doOnSubscribe</li>
+<li>doOnRequest</li>
+<li>doOnError</li>
+<li>doOnComplete</li>
+<li>doOnEach</li>
+<li>doFinally - this is executed after the Flux terminates(completes or terminates with error).</li>
+</ul>
+<h3 id="delayelements">delayElements</h3>
+<p>Delay operator - the Thread.sleep() equivalent in the reactive world, it&rsquo;s delaying for a particular increment of time
+before emitting the events which are thus shifted by the specified time amount.</p>
+<p><img src="https://raw.githubusercontent.com/reactor/projectreactor.io/master/src/main/static/assets/img/marble/delayonnext.png" alt="delay"></p>
+<pre><code class="language-java">log.info(&quot;Starting&quot;);
+CountDownLatch latch = new CountDownLatch(1);
+
+Flux.range(0, 5)
+          .doOnNext(val -&gt; log.info(&quot;Emitted {}&quot;, val))
+          .delayElements(Duration.of(2, ChronoUnit.SECONDS))
+          .subscribe(
+                tick -&gt; log.info(&quot;Tick {}&quot;, tick),
+                (ex) -&gt; log.info(&quot;Error emitted&quot;),
+                 () -&gt; {
+                            log.info(&quot;Completed&quot;);
+                            latch.countDown();
+                        });
+
+latch.await();
+</code></pre>
+<p>produces</p>
+<pre><code>12:38:00:996 [main]  - Starting
+12:38:01:231 [main]  - Emitted 0
+12:38:01:275 [main]  - Emitted 1
+12:38:01:275 [main]  - Emitted 2
+12:38:01:275 [main]  - Emitted 3
+12:38:01:275 [main]  - Emitted 4
+12:38:03:277 [parallel-1]  - Tick 0
+12:38:05:277 [parallel-2]  - Tick 1
+12:38:07:278 [parallel-3]  - Tick 2
+12:38:09:279 [parallel-4]  - Tick 3
+12:38:11:280 [parallel-5]  - Tick 4
+12:38:11:280 [parallel-5]  - Completed
+</code></pre>
+<p>To make it work non blocking(cannot use <em>Thread.sleep()</em>), we can imagine the implementation to use a separate thread from a ThreadPool</p>
+<pre><code class="language-java">onNext(T val) {
+  ScheduledExecutorService.scheduleAtFixedRate (()-&gt; { subscriber.onNext(val) }, long initialDelay, long period, TimeUnit timeunit)
+}
+</code></pre>
+<p>Reactor works with an abstraction above ThreadPools, the <a href="#schedulers">Schedulers</a>.</p>
+<p>The <strong>delayElements()</strong> operator uses by default a specific Scheduler, the <strong>Scheduler.parallel()</strong>,
+The downstream operators and final subscriber run in this same thread from <em>Schedulers.parallel()</em> and so the test method
+will terminate before we see the text from the log, unless we use some sort of waiting mechanism like <strong>CountDownLatch</strong></p>
+<h3 id="delaysubscription">delaySubscription</h3>
+<p>Simply delays when the subscription happens.</p>
+<pre><code class="language-java">log.info(&quot;Starting&quot;);
+Flux&lt;Integer&gt; flux = Flux.range(0, 5)
+        .doOnSubscribe(subscription -&gt; log.info(&quot;Subscribed&quot;))
+        .delaySubscription(Duration.of(5, ChronoUnit.SECONDS));
+
+subscribeWithLogWaiting(flux);
+</code></pre>
+<p>produces</p>
+<pre><code>16:59:55:068 [main]  - Starting
+17:00:00:282 [parallel-1]  - Subscribed
+17:00:00:286 [parallel-1]  - Subscriber received: 0
+17:00:00:286 [parallel-1]  - Subscriber received: 1
+17:00:00:286 [parallel-1]  - Subscriber received: 2
+17:00:00:286 [parallel-1]  - Subscriber got Completed event
+</code></pre>
+<h3 id="interval">interval</h3>
+<p>Periodically emits a number starting from 0 and then increasing the value on each emission.</p>
+<p><img src="https://raw.githubusercontent.com/reactor/projectreactor.io/master/src/main/static/assets/img/marble/interval.png" alt="interval"></p>
+<pre><code>log.info(&quot;Starting&quot;);
+CountDownLatch latch = new CountDownLatch(1);
+
+Flux.interval(Duration.of(1, ChronoUnit.SECONDS))
+    .take(5)
+    .subscribe(tick -&gt; log.info(&quot;Tick {}&quot;, tick),
+                  (ex) -&gt; log.info(&quot;Error emitted&quot;),
+                  () -&gt; {
+                          log.info(&quot;Completed&quot;);
+                          latch.countDown();
+                  });
+
+Helpers.wait(latch);
+</code></pre>
+<p>produces</p>
+<pre><code>15:44:43 [main]  - Starting
+15:44:44 [timer-1]  - Tick 0
+15:44:45 [timer-1]  - Tick 1
+15:44:46 [timer-1]  - Tick 2
+15:44:47 [timer-1]  - Tick 3
+15:44:48 [timer-1]  - Tick 4
+15:44:48 [timer-1]  - Completed
+</code></pre>
+<h3 id="scan">scan</h3>
+<p>Takes an initial value and a function(accumulator, currentValue). It goes through the events
+sequence and combines the current event value with the previous result(accumulator) emitting downstream the
+The initial value is used for the first event</p>
+<pre><code>Flux&lt;Integer&gt; numbers = 
+                Flux.just(3, 5, -2, 9)
+                    .scan(0, (totalSoFar, currentValue) -&gt; {
+                               log.info(&quot;TotalSoFar={}, currentValue={}&quot;, totalSoFar, currentValue);
+                               return totalSoFar + currentValue;
+                    });
+</code></pre>
+<pre><code>16:09:17 [main] - Subscriber received: 0
+16:09:17 [main] - TotalSoFar=0, currentValue=3
+16:09:17 [main] - Subscriber received: 3
+16:09:17 [main] - TotalSoFar=3, currentValue=5
+16:09:17 [main] - Subscriber received: 8
+16:09:17 [main] - TotalSoFar=8, currentValue=-2
+16:09:17 [main] - Subscriber received: 6
+16:09:17 [main] - TotalSoFar=6, currentValue=9
+16:09:17 [main] - Subscriber received: 15
+16:09:17 [main] - Subscriber got Completed event
+</code></pre>
+<h3 id="reduce">reduce</h3>
+<p>reduce operator acts like the scan operator but it only passes downstream the final result
+(doesn&rsquo;t pass the intermediate results downstream) so the subscriber receives just one event</p>
+<pre><code>Mono&lt;Integer&gt; numbers = Flux.just(3, 5, -2, 9)
+                            .reduce(0, (totalSoFar, val) -&gt; {
+                                         log.info(&quot;totalSoFar={}, emitted={}&quot;, totalSoFar, val);
+                                         return totalSoFar + val;
+                            });
+</code></pre>
+<pre><code>17:08:29 [main] - totalSoFar=0, emitted=3
+17:08:29 [main] - totalSoFar=3, emitted=5
+17:08:29 [main] - totalSoFar=8, emitted=-2
+17:08:29 [main] - totalSoFar=6, emitted=9
+17:08:29 [main] - Subscriber received: 15
+17:08:29 [main] - Subscriber got Completed event
+</code></pre>
+<h3 id="collect">collect</h3>
+<p>collect operator acts similar to the <em>reduce</em> operator, but while the <em>reduce</em> operator uses a reduce function
+which returns a value, the <em>collect</em> operator takes a container supplier and a function which doesn&rsquo;t return
+anything(a consumer). The mutable container is passed for every event and thus you get a chance to modify it
+in this collect consumer function.</p>
+<pre><code>Mono&lt;List&lt;Integer&gt;&gt; numbers = Flux.just(3, 5, -2, 9)
+                                  .collect(ArrayList::new, (container, value) -&gt; {
+                                        log.info(&quot;Adding {} to container&quot;, value);
+                                        container.add(value);
+                                        //notice we don't need to return anything
+                                  });
+</code></pre>
+<pre><code>17:40:18 [main] - Adding 3 to container
+17:40:18 [main] - Adding 5 to container
+17:40:18 [main] - Adding -2 to container
+17:40:18 [main] - Adding 9 to container
+17:40:18 [main] - Subscriber received: [3, 5, -2, 9]
+17:40:18 [main] - Subscriber got Completed event
+</code></pre>
+<p>because the usecase to store to a List container is so common, there is a <strong>.toList()</strong> operator that is just a collector adding to a List.</p>
+<h2 id="extra-debugging-help">Extra debugging help</h2>
+<h2 id="merging-streams">Merging Streams</h2>
+<p>Operators for working with multiple streams</p>
+<h3 id="zip">zip</h3>
+<p>Zip operator operates sort of like a zipper in the sense that it takes an event from one stream and waits
+for an event from another other stream. Once an event for the other stream arrives, it uses the zip function
+to merge the two events.</p>
+<p>This is an useful scenario when for example you want to make requests to remote services in parallel and
+wait for both responses before continuing. It also takes a function which will produce the combined result
+of the zipped streams once each has emitted a value.</p>
+<p><img src="https://projectreactor.io/docs/core/release/api/reactor/core/publisher/doc-files/marbles/zipIterableSourcesForFlux.svg" alt="Zip"></p>
+<p>Zip operator besides the streams to zip, also takes as parameter a function which will produce the
+combined result of the zipped streams once each stream emitted it&rsquo;s value</p>
+<pre><code class="language-java">Mono&lt;Boolean&gt; isUserBlockedStream = Mono.
+                                     fromFuture(CompletableFuture.supplyAsync(() -&gt; {
+            Helpers.sleepMillis(200);
+            return Boolean.FALSE;
+}));
+
+Mono&lt;Integer&gt; userCreditScoreStream = Mono.
+                                       fromFuture(CompletableFuture.supplyAsync(() -&gt; {
+            Helpers.sleepMillis(2300);
+            return 5;
+}));
+
+Flux&lt;Pair&lt;Boolean, Integer&gt;&gt; userCheckStream = Flux.
+           zip(isUserBlockedStream, userCreditScoreStream, 
+                      (blocked, creditScore) -&gt; new Pair&lt;Boolean, Integer&gt;(blocked, creditScore));
+
+userCheckStream.subscribe(pair -&gt; log.info(&quot;Received &quot; + pair));
+</code></pre>
+<p>Even if the &lsquo;isUserBlockedStream&rsquo; finishes after 200ms, &lsquo;userCreditScoreStream&rsquo; is slow at 2.3secs,
+the &lsquo;zip&rsquo; method applies the combining function(new Pair(x,y)) after it received both values and passes it
+to the subscriber.</p>
+<p>Another good example of &lsquo;zip&rsquo; is to slow down a stream by another basically <strong>implementing a periodic emitter of events</strong>:</p>
+<pre><code class="language-java">Flux&lt;String&gt; colors = Flux.just(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;);
+Flux&lt;Long&gt; timer = Flux.interval(2, TimeUnit.SECONDS);
+
+Flux&lt;String&gt; periodicEmitter = Flux.zip(colors, timer, (key, val) -&gt; key);
+</code></pre>
+<p>Since the zip operator needs a pair of events, the slow stream will work like a timer by periodically emitting
+with zip setting the pace of emissions downstream every 2 seconds.</p>
+<p><strong>Zip is not limited to just two streams</strong>, it can merge 2,3,4,.. streams and wait for groups of 2,3,4 &lsquo;pairs&rsquo; of events which it combines with the zip function and sends downstream.</p>
+<h3 id="merge">merge</h3>
+<p>Merge operator combines one or more stream and passes events downstream as soon as they appear.
+<img src="https://projectreactor.io/docs/core/release/api/reactor/core/publisher/doc-files/marbles/mergeFixedSources.svg" alt="merge"></p>
+<pre><code class="language-java">Flux&lt;String&gt; colors = periodicEmitter(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;, 2, TimeUnit.SECONDS);
+
+Flux&lt;Long&gt; numbers = Flux.interval(Duration.of(1, ChronoUnit.SECONDS))
+                         .take(5);
+</code></pre>
+<pre><code>21:32:15 - Subscriber received: 0
+21:32:16 - Subscriber received: red
+21:32:16 - Subscriber received: 1
+21:32:17 - Subscriber received: 2
+21:32:18 - Subscriber received: green
+21:32:18 - Subscriber received: 3
+21:32:19 - Subscriber received: 4
+21:32:20 - Subscriber received: blue
+</code></pre>
+<h3 id="concat">concat</h3>
+<p>Concat operator appends another streams at the end of another
+<img src="https://projectreactor.io/docs/core/release/api/reactor/core/publisher/doc-files/marbles/concatVarSources.svg" alt="concat"></p>
+<pre><code class="language-java">Flux&lt;String&gt; colors = periodicEmitter(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;, 2, TimeUnit.SECONDS);
+
+Flux&lt;Long&gt; numbers = Flux.interval(Duration.of(1, ChronoUnit.SECONDS))
+                         .take(4);
+
+Flux events = Flux.concat(colors, numbers);
+</code></pre>
+<pre><code>22:48:23 - Subscriber received: red
+22:48:25 - Subscriber received: green
+22:48:27 - Subscriber received: blue
+22:48:28 - Subscriber received: 0
+22:48:29 - Subscriber received: 1
+22:48:30 - Subscriber received: 2
+22:48:31 - Subscriber received: 3
+</code></pre>
+<p>Even if the &lsquo;numbers&rsquo; streams should start early, the &lsquo;colors&rsquo; stream emits fully its events
+before we see any &lsquo;numbers&rsquo;.
+This is because &lsquo;numbers&rsquo; stream is subscribed only after the &lsquo;colors&rsquo; complete.
+Should the second stream be a &lsquo;hot&rsquo; emitter, its events would be lost until the first one finishes,
+and the seconds stream is subscribed.</p>
+<h3 id="thenmany">thenMany</h3>
+<p><strong>thenMany</strong> is similar to concat, with the big difference that the emissions from the first stream are ignored, they are not passed downstream,
+and only the <strong>complete</strong> signal is triggering subscription of the next stream.
+<img src="https://projectreactor.io/docs/core/release/api/reactor/core/publisher/doc-files/marbles/thenManyForFlux.svg" alt="thenMany"></p>
+<pre><code class="language-java">log.info(&quot;Starting&quot;);
+Flux&lt;String&gt; colors = periodicEmitter(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;, 2, ChronoUnit.SECONDS);
+
+Flux&lt;Long&gt; numbers = Flux.interval(Duration.of(1, ChronoUnit.SECONDS))
+                .take(4);
+
+Flux flux = colors.thenMany(numbers);
+subscribeWithLogWaiting(flux);
+</code></pre>
+<p>notice the difference in time between the <em>&lsquo;Starting&rsquo;</em> message. The first stream still runs but there isn&rsquo;t any colors arriving at the subscription for the whole time,
+then the stream completes, which triggers subscription on the second stream.</p>
+<pre><code>08:41:18:689 [main]  - Starting
+08:41:25:946 [parallel-2]  - Subscriber received: 0
+08:41:26:943 [parallel-2]  - Subscriber received: 1
+08:41:27:943 [parallel-2]  - Subscriber received: 2
+08:41:28:943 [parallel-2]  - Subscriber received: 3
+08:41:28:943 [parallel-2]  - Subscriber got Completed event
+</code></pre>
+<h2 id="hot-publishers">Hot Publishers</h2>
+<p>We&rsquo;ve seen that with <em>&lsquo;cold publishers&rsquo;</em>, whenever a subscriber subscribes, each subscriber will get
+its version of emitted values independently, the exact set of data indifferently when they subscribe.
+But cold publishers only produce data when the subscribers subscribes, however there are cases where
+the events happen independently of the consumers, regardless if someone is
+listening or not, and we don&rsquo;t have control to request more. So you could say we have &lsquo;cold publishers&rsquo; for pull
+scenarios and &lsquo;hot publishers&rsquo; which push.</p>
+<h3 id="processors---act-as-both-publisher-and-subscriber">Processors - act as both Publisher and Subscriber</h3>
+<p>Reactive streams specifications also mention the concept of <strong>Procesor</strong>s which act as both Publisher and Subscriber to help.
+You can use the same operators and subscribe to them, but also implementing the 3 methods <strong>onNext, onError, onComplete</strong>,
+meaning you can invoke <strong>processor.onNext(value)</strong> from different parts in the code,
+which means that you publish events which the Subject will pass on to their subscribers.</p>
+<pre><code class="language-java">DirectProcessor&lt;String&gt; hotSource = DirectProcessor.create();
+
+Flux&lt;String&gt; hotFlux = hotSource.map(String::toUpperCase);
+//can both subscribe
+hotFlux.subscribe(it -&gt; log.info(&quot;Subscriber1 received:{}&quot;, it));
+
+//but also can push some events to it 
+hotSource.onNext(&quot;blue&quot;);
+hotSource.onNext(&quot;green&quot;);
+</code></pre>
+<h3 id="directprocessor">DirectProcessor</h3>
+<p>A simple Processor that keeps a list of subscribers and publishes events to all subscribers.</p>
+<pre><code class="language-java">	@Override
+	public void onNext(T t) {
+		DirectInner&lt;T&gt;[] inners = subscribers;
+
+		for (DirectInner&lt;T&gt; s : inners) {
+			s.onNext(t);
+		}
+	}
+</code></pre>
+<p>Any late subscribers miss on previous events. Events must be published on the same Thread.</p>
+<pre><code class="language-java">DirectProcessor&lt;String&gt; hotSource = DirectProcessor.create();
+
+Flux&lt;String&gt; hotFlux = hotSource.map(String::toUpperCase);
+
+hotFlux.subscribe(it -&gt; log.info(&quot;Subscriber1 received:{}&quot;, it));
+
+hotSource.onNext(&quot;blue&quot;);
+hotSource.onNext(&quot;green&quot;);
+
+log.info(&quot;*** Subscribing 2nd**&quot;);
+hotFlux.subscribe(it -&gt; log.info(&quot;Subscriber2 received:{}&quot;, it));
+
+hotSource.onNext(&quot;orange&quot;);
+hotSource.onNext(&quot;purple&quot;);
+hotSource.onComplete();
+</code></pre>
+<p>we can see how the late subscription did not receive the events that were published before its subscription - the blue, green</p>
+<pre><code>11:15:51:882 [main] INFO  - Subscriber1 received:BLUE
+11:15:51:884 [main] INFO  - Subscriber1 received:GREEN
+11:15:51:884 [main] INFO  - *** Subscribing 2nd**
+11:15:51:885 [main] INFO  - Subscriber1 received:ORANGE
+11:15:51:885 [main] INFO  - Subscriber2 received:ORANGE
+11:15:51:886 [main] INFO  - Subscriber1 received:PURPLE
+11:15:51:886 [main] INFO  - Subscriber2 received:PURPLE
+</code></pre>
+<h3 id="connectableflux-and-resource-sharing">ConnectableFlux and resource sharing</h3>
+<p>There are cases when we want to share a single subscription between subscribers, meaning while the code that executes
+on subscribing should be executed once, the events should be published to all subscribers.</p>
+<p>For ex. when we want to share a connection between multiple subscriptions of the same Flux.
+Using a plain Flux would just reexecute the code inside <em>.create()</em> and opening / closing a new connection for each
+new subscriber when it subscribes / cancels its subscription.</p>
+<p><strong>ConnectableFlux</strong> is a special kind of <strong>Publisher</strong>. No matter how many Subscribers subscribe to <strong>ConnectableFlux</strong>,
+it opens just one subscription to the Observable from which it was created.</p>
+<p>Anyone who subscribes to <strong>ConnectableFlux</strong> is placed in a set of Subscribers(it doesn&rsquo;t trigger
+the <em>.create()</em> code a normal Flux would, when <em>.subscribe()</em> is called). A <strong>.connect()</strong> method is available for ConnectableObservable.
+<strong>As long as connect() is not called, these Subscribers are put on hold, they never directly subscribe to upstream Observable</strong></p>
+<h3 id="multicasting-to-all-connected-subscribers">Multicasting to all connected subscribers</h3>
+<p>In some cases we&rsquo;d like to publish events to all subscribers.</p>
+<p>For ex. a stream of stock exchange prices that changes frequently and websocket consumers that subscribe to them.
+Those on fast connection can keep up and display all the price changes, while others on slow connections will lose some price updates.
+The source is hot, the market prices will change(tick) regardless if subscribers can process them or not.
+The <strong>share()</strong> operator returns a <strong>FluxPublish</strong> which keeps a list of its subscribers and a <strong>Queue</strong> to which it collects the pushed events(price ticks) from Publisher upstream to the downstream subscribers.</p>
+<p>It then tries to drain this Queue by pulling the events from the queue and pushing to each downstream Subscriber but based on the minimum request .</p>
+<p>The exact logic is:</p>
+<pre><code class="language-java">//determine minimum request from downstream subscribers
+long maxRequested = Long.MAX_VALUE;
+for (PubSubInner&lt;T&gt; inner : a) {
+	long r = inner.requested;
+	if (r &gt;= 0L) {
+		maxRequested = Math.min(maxRequested, r);
+	}
+}
+
+while (count &lt; maxRequested ) {
+	queueEvent = queue.poll();
+
+    for (PubSubInner&lt;T&gt; inner : a) {
+        inner.onNext(queueEvent);
+    }
+    count++;
+}
+</code></pre>
+<p>So the fact that the draining of the queue and publishing to the downstream subscribers is dependent on the demand from subscribers,
+so a slow subscriber, and we probably don&rsquo;t intend this.
+In the following ex., the FAST subscriber completes close to the SLOW one, although we probably expected it to finish in 200 * 10 ms.</p>
+<pre><code class="language-java">        Flux&lt;Integer&gt; flux = Flux.range(0, 200)
+                .delayElements(Duration.of(10, ChronoUnit.MILLIS))
+                .share();
+
+        Flux&lt;Integer&gt; events = flux
+                .publishOn(Schedulers.elastic(), 2);
+
+        events.subscribe((val) -&gt; log.info(&quot;FAST Subscriber received:{}&quot;, val));
+
+        CountDownLatch latch = new CountDownLatch(1);
+        CountingConsumer&lt;Integer&gt; countingConsumer = new CountingConsumer&lt;&gt;(&quot;SLOW Subscriber&quot;);
+
+        Flux&lt;Integer&gt; delayedFlux = events.
+                delayElements(Duration.of(100, ChronoUnit.MILLIS));
+        delayedFlux
+                .subscribe(countingConsumer, logErrorConsumer(latch), logCompleteMethod(latch));
+
+        Helpers.wait(latch);
+</code></pre>
+<p>We can have as exercise to implement a correct solution, as its not a trivial task.</p>
+<h2 id="flatmap-operator">Flatmap operator</h2>
+<p>The flatMap operator is so important and has so many uses, it deserves its own category to explain it.</p>
+<p>I like to think of it as a sort of <strong>fork-join</strong> operation because what flatMap does is it takes individual stream items
+and maps each of them to an Flux(so it creates new Streams from each object) and then &lsquo;flattens&rsquo; the events from
+these Streams back as coming from a single stream.</p>
+<p>Why this looks like fork-join because for each element you can fork some jobs that keeps emitting results,
+and these results are emitted back as elements to the subscribers downstream
+<img src="https://raw.githubusercontent.com/reactor/projectreactor.io/master/src/main/static/assets/img/marble/flatmap.png" alt="flatmap"></p>
+<p>Rules of thumb to consider before getting comfortable with flatMap:</p>
+<ul>
+<li>When you have an &lsquo;item&rsquo; and you&rsquo;ll get Flux&lt;X&gt;, instead of X, you need flatMap. Most common example is when you want
+to make a remote call that returns an Observable. For ex if you have a stream of customerIds, and downstream you
+want to work with actual Customer objects:</li>
+</ul>
+<pre><code>Flux&lt;Employee&gt; getEmployees(Integer departmentId) {..}
+ ...
+
+Flux&lt;Integer&gt; departmentIds = Flux.of(1,2,3,4);
+Flux&lt;Employee&gt; employees = departmentIds
+                                .flatMap(departmentId -&gt; getEmployees(departmentId));
+</code></pre>
+<ul>
+<li>When you have Flux&lt;Flux&lt;T&gt;&gt; you probably need flatMap.</li>
+</ul>
+<p>We use a simulated remote call that might return asynchronous as many events as the length of the color string</p>
+<pre><code class="language-java">    private Flux&lt;String&gt; simulateRemoteOperation(String color) {
+        if(&quot;black&quot;.equals(color)) {
+            return Flux.error(new RuntimeException(&quot;Black is not a color&quot;));
+        }
+
+        return Flux.range(0, color.length())
+                .map(it -&gt; color + it)
+                .delayElements(Duration.of(200, ChronoUnit.MILLIS));
+    }
+</code></pre>
+<p>If we have a stream of color names:</p>
+<pre><code>Flux&lt;String&gt; colors = Flux.just(&quot;orange&quot;, &quot;red&quot;, &quot;green&quot;)
+</code></pre>
+<p>to invoke the remote operation:</p>
+<pre><code>Flux&lt;String&gt; colors = Flux.just(&quot;orange&quot;, &quot;red&quot;, &quot;green&quot;)
+         .flatMap(colorName -&gt; simulateRemoteOperation(colorName));
+
+colors.subscribe(val -&gt; log.info(&quot;Subscriber received: {}&quot;, val));         
+</code></pre>
+<p>returns</p>
+<pre><code>16:44:15 [Thread-0]- Subscriber received: orange0
+16:44:15 [Thread-2]- Subscriber received: green0
+16:44:15 [Thread-1]- Subscriber received: red0
+16:44:15 [Thread-0]- Subscriber received: orange1
+16:44:15 [Thread-2]- Subscriber received: green1
+16:44:15 [Thread-1]- Subscriber received: red1
+16:44:15 [Thread-0]- Subscriber received: orange2
+16:44:15 [Thread-2]- Subscriber received: green2
+16:44:15 [Thread-1]- Subscriber received: red2
+16:44:15 [Thread-0]- Subscriber received: orange3
+16:44:15 [Thread-2]- Subscriber received: green3
+16:44:16 [Thread-0]- Subscriber received: orange4
+16:44:16 [Thread-2]- Subscriber received: green4
+16:44:16 [Thread-0]- Subscriber received: orange5
+</code></pre>
+<p>Notice how the results are coming intertwined.
+We&rsquo;ve first got <em>&lsquo;orange&rsquo;</em>, we&rsquo;re not getting <em>orange0</em>, <em>orange1</em>, <em>orange2</em>, <em>orange3</em>, <em>orange4</em>, <em>orange5</em></p>
+<p>This is because <em>flatMap</em> actually subscribes to all it&rsquo;s inner Flux returned from <em>simulateRemoteOperation</em>.
+You can specify the concurrency level of flatMap as a parameter. Meaning you can say how many of the substreams should be subscribed &ldquo;concurrently&rdquo; - aka before the <em>onComplete</em> event is triggered on the substreams.
+By setting the concurrency to <strong>1</strong> we don&rsquo;t subscribe to other substreams until the current one finishes:</p>
+<pre><code>Flux&lt;String&gt; colors = Flux.just(&quot;orange&quot;, &quot;red&quot;, &quot;green&quot;)
+                     .flatMap(val -&gt; simulateRemoteOperation(val), 1);
+
+</code></pre>
+<p>Notice now there is a sequence from each color before the next one appears</p>
+<pre><code>17:15:24 [Thread-0]- Subscriber received: orange0
+17:15:24 [Thread-0]- Subscriber received: orange1
+17:15:25 [Thread-0]- Subscriber received: orange2
+17:15:25 [Thread-0]- Subscriber received: orange3
+17:15:25 [Thread-0]- Subscriber received: orange4
+17:15:25 [Thread-0]- Subscriber received: orange5
+17:15:25 [Thread-1]- Subscriber received: red0
+17:15:26 [Thread-1]- Subscriber received: red1
+17:15:26 [Thread-1]- Subscriber received: red2
+17:15:26 [Thread-2]- Subscriber received: green0
+17:15:26 [Thread-2]- Subscriber received: green1
+17:15:26 [Thread-2]- Subscriber received: green2
+17:15:27 [Thread-2]- Subscriber received: green3
+17:15:27 [Thread-2]- Subscriber received: green4
+</code></pre>
+<p>There is actually an operator which is basically this flatMap with 1 concurrency called <strong>concatMap</strong>.
+<img src="https://raw.githubusercontent.com/reactor/projectreactor.io/master/src/main/static/assets/img/marble/concatmap.png" alt="concatMap"></p>
+<h3 id="flatmap-substreams-are-still-streams">flatMap substreams are still streams</h3>
+<p>Inside the flatMap we can operate on the substream with the same stream operators</p>
+<pre><code>Flux&lt;Pair&lt;String, Integer&gt;&gt; colorsCounted = colors
+    .flatMap(colorName -&gt; {
+               Flux&lt;Long&gt; timer = Flux.interval(Duration.of(2, ChronoUnit.SECONDS));
+
+               return simulateRemoteOperation(colorName) // &lt;- Still a stream
+                              .zipWith(timer, (val, timerVal) -&gt; val)
+                              .count()
+                              .map(counter -&gt; new Pair&lt;&gt;(colorName, counter));
+               }
+    );
+</code></pre>
+<h3 id="flatmap-can-override-error-and-complete-event">flatMap can override &lsquo;error&rsquo; and &lsquo;complete&rsquo; event</h3>
+<p><strong>flatMap</strong> in it&rsquo;s most complex form allows to override the &lsquo;error&rsquo; and &lsquo;complete&rsquo; event not just the &lsquo;next&rsquo; event</p>
+<p>Here we introduce another event on window stream completion</p>
+<pre><code>Flux&lt;String&gt; colors = Flux.just(&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;, &quot;red&quot;, &quot;yellow&quot;, &quot;green&quot;, &quot;green&quot;);
+Flux remastered = colors
+                    .window(2)
+                    .flatMap(window -&gt; window.flatMap(Flux::just,
+                                                      Flux::error,
+                                                      () -&gt; Flux.just(&quot;===&quot;)
+                                              )
+                    );
+</code></pre>
+<p>produces</p>
+<pre><code>[main] - Subscriber received: red
+[main] - Subscriber received: green
+[main] - Subscriber received: ===
+[main] - Subscriber received: blue
+[main] - Subscriber received: red
+[main] - Subscriber received: ===
+[main] - Subscriber received: yellow
+[main] - Subscriber received: green
+[main] - Subscriber received: ===
+[main] - Subscriber received: green
+[main] - Subscriber received: ===
+[main] - Subscriber got Completed event
+</code></pre>
+<h3 id="schedulers">Schedulers</h3>
+<p>Reactor provides some high level concepts for concurrent execution, like ExecutorService we&rsquo;re not dealing
+with the low level constructs like creating the Threads ourselves. Instead we&rsquo;re using a <strong>Scheduler</strong> which create
+Workers who are responsible for scheduling and running code. By default Reactor will not introduce concurrency
+and will run the operations on the subscription thread(the one that calls flux.subscribe(&hellip;)).</p>
+<p>There are two methods through which we can introduce Schedulers into our chain of operations:</p>
+<ul>
+<li><strong>subscribeOn</strong> allows to specify which Scheduler invokes the code contained in the lambda code for Flux.create() -where the source runs
+it&rsquo;s event producing code-.</li>
+<li><strong>publishOn</strong> allows control to which Scheduler executes the code in the downstream operators</li>
+</ul>
+<p>Reactor provides some general use scheduler strategies:</p>
+<ul>
+<li><strong>Schedulers.parallel()</strong> - good for parallelization in general. It uses a fixed threadpool, so backlog can increase
+if there is congestion.</li>
+<li><strong>Schedulers.elastic()</strong> - scheduler that adjusts its capacity according to demand. Good for IO/blocking as it will
+pool threads and keep increasing the size of the pool if current threads are in use. Threads are cleared after some time being idle.</li>
+<li><strong>Schedulers.from(Executor)</strong> - custom ExecutorService</li>
+<li><strong>Schedulers.single()</strong> - uses a single thread - equivalent of parallel(1)- should be good enough if the whole code is non blocking.</li>
+</ul>
+<p>Although we said by default Reactor doesn&rsquo;t introduce concurrency, lots of operators involve waiting like <strong>delay</strong>,
+<strong>interval</strong> need to run on a Scheduler, otherwise they would just block the subscribing thread.
+By default <strong>Schedulers.timer()</strong> is used, but the Scheduler can be passed as a parameter.</p>
+<h2 id="advanced-operators">Advanced operators</h2>
+<h3 id="groupby">groupBy</h3>
+<p>groupBy splits a stream into multiple streams(a stream of streams), by a grouping function which provides the key
+for the grouping. These substreams are GroupedFlux which consists of the grouping key and a value.</p>
+<pre><code class="language-java">//the stream of events is transformed into a stream of streams
+Flux&lt;T&gt;  -&gt;  Flux&lt;GroupedFlux&lt;K, T&gt;&gt;
+</code></pre>
+<p><img src="https://raw.githubusercontent.com/reactor/projectreactor.io/master/src/main/static/assets/img/marble/groupby.png" alt="groupBy"></p>
+<p>In the following example we use the identity function <em>.groupBy(val -&gt; val)</em> when generating the grouping keys
+meaning that the keys are also the color values:</p>
+<pre><code>Flux&lt;String&gt; colors = Flux.fromArray(new String[]{&quot;red&quot;, &quot;green&quot;, &quot;blue&quot;,
+                &quot;red&quot;, &quot;yellow&quot;, &quot;green&quot;, &quot;green&quot;});
+
+Flux&lt;GroupedFlux&lt;String, String&gt;&gt; groupedColorsStream = colors
+                .groupBy(val -&gt; val); //identity function
+//                .groupBy(val -&gt; &quot;length&quot; + val.length());
+
+
+Flux&lt;Pair&lt;String, Long&gt;&gt; colorCountStream = groupedColorsStream
+                .flatMap(groupedColor -&gt; groupedColor
+                                            .count()
+                                            .map(count -&gt; new Pair&lt;&gt;(groupedColor.key(), count))
+                );
+</code></pre>
+<pre><code>16:10:59 - Subscriber received: red=2
+16:10:59 - Subscriber received: green=3
+16:10:59 - Subscriber received: blue=1
+16:10:59 - Subscriber received: yellow=1
+16:10:59 - Subscriber got Completed event
+</code></pre>
+<h2 id="error-handling">Error handling</h2>
+<p>Exceptions are for exceptional situations.
+The Reactive Streams specification says that exceptions are terminal operations.
+That means in case an error reaches the Subscriber, after invoking the &lsquo;onError&rsquo; handler, it also unsubscribes:</p>
+<pre><code>Flux&lt;String&gt; colors = Flux.just(&quot;green&quot;, &quot;blue&quot;, &quot;red&quot;, &quot;yellow&quot;)
+       .map(color -&gt; {
+              if (&quot;red&quot;.equals(color)) {
+                        throw new RuntimeException(&quot;Encountered red&quot;);
+              }
+              return color + &quot;*&quot;;
+       })
+       .map(val -&gt; val + &quot;XXX&quot;);
+
+colors.subscribe(
+         val -&gt; log.info(&quot;Subscriber received: {}&quot;, val),
+         exception -&gt; log.error(&quot;Subscriber received error '{}'&quot;, exception.getMessage()),
+         () -&gt; log.info(&quot;Subscriber completed&quot;)
+);
+</code></pre>
+<p>returns:</p>
+<pre><code>23:30:17 [main] INFO - Subscriber received: green*XXX
+23:30:17 [main] INFO - Subscriber received: blue*XXX
+23:30:17 [main] ERROR - Subscriber received error 'Encountered red'
+</code></pre>
+<p>After the map() operator encounters an error, it triggers the error handler in the subscriber which also unsubscribes(cancels the subscription) from the stream,
+therefore &lsquo;yellow&rsquo; is not even sent downstream.</p>
+<p>However there are operators to deal with error flow control.</p>
+<p>Let&rsquo;s introduce a more realcase scenario of a simulated remote request that might fail</p>
+<pre><code>private Flux&lt;String&gt; simulateRemoteOperation(String color) {
+    return Flux.&lt;String&gt;create(subscriber -&gt; {
+         if (&quot;red&quot;.equals(color)) {
+              log.info(&quot;Emitting RuntimeException for {}&quot;, color);
+              throw new RuntimeException(&quot;Color red raises exception&quot;);
+         }
+         if (&quot;black&quot;.equals(color)) {
+              log.info(&quot;Emitting IllegalArgumentException for {}&quot;, color);
+              throw new IllegalArgumentException(&quot;Black is not a color&quot;);
+         }
+
+         String value = &quot;**&quot; + color + &quot;**&quot;;
+
+         log.info(&quot;Emitting {}&quot;, value);
+         subscriber.next(value);
+         subscriber.complete();
+    });
+}
+</code></pre>
+<h3 id="onerrorreturn">onErrorReturn</h3>
+<p>The &lsquo;onErrorReturn&rsquo; operator replaces an exception with a value:</p>
+<pre><code>Flux&lt;String&gt; colors = Flux.just(&quot;green&quot;, &quot;blue&quot;, &quot;red&quot;, &quot;white&quot;, &quot;blue&quot;)
+                .flatMap(color -&gt; simulateRemoteOperation(color))
+                .onErrorReturn(throwable -&gt; &quot;-blank-&quot;);
+                
+subscribeWithLog(colors);
+</code></pre>
+<p>returns:</p>
+<pre><code>22:15:51 [main] INFO - Emitting **green**
+22:15:51 [main] INFO - Subscriber received: **green**
+22:15:51 [main] INFO - Emitting **blue**
+22:15:51 [main] INFO - Subscriber received: **blue**
+22:15:51 [main] INFO - Emitting RuntimeException for red
+22:15:51 [main] INFO - Subscriber received: -blank-
+22:15:51 [main] INFO - Subscriber got Completed event
+</code></pre>
+<p>flatMap encounters an error when it subscribes to &lsquo;red&rsquo; substreams and thus still unsubscribe from &lsquo;colors&rsquo;
+stream and the remaining colors are not longer emitted</p>
+<pre><code>Flux&lt;String&gt; colors = Flux.just(&quot;green&quot;, &quot;blue&quot;, &quot;red&quot;, &quot;white&quot;, &quot;blue&quot;)
+                .flatMap(color -&gt; simulateRemoteOperation(color)
+                                    .onErrorReturn(throwable -&gt; &quot;-blank-&quot;)
+                );
+</code></pre>
+<p>onErrorReturn() is applied to the flatMap substream and thus translates the exception to a value and so flatMap
+continues on with the other colors after red</p>
+<p>returns:</p>
+<pre><code>22:15:51 [main] INFO - Emitting **green**
+22:15:51 [main] INFO - Subscriber received: **green**
+22:15:51 [main] INFO - Emitting **blue**
+22:15:51 [main] INFO - Subscriber received: **blue**
+22:15:51 [main] INFO - Emitting RuntimeException for red
+22:15:51 [main] INFO - Subscriber received: -blank-
+22:15:51 [main] INFO - Emitting **white**
+22:15:51 [main] INFO - Subscriber received: **white**
+22:15:51 [main] INFO - Emitting **blue**
+22:15:51 [main] INFO - Subscriber received: **blue**
+22:15:51 [main] INFO - Subscriber got Completed event
+</code></pre>
+<h3 id="onerrorresumewith">onErrorResumeWith</h3>
+<p>onErrorResumeWith() returns a stream instead of an exception, useful for example to invoke a fallback
+method that returns also a stream</p>
+<pre><code>Observable&lt;String&gt; colors = Observable.just(&quot;green&quot;, &quot;blue&quot;, &quot;red&quot;, &quot;white&quot;, &quot;blue&quot;)
+     .flatMap(color -&gt; simulateRemoteOperation(color)
+                        .onErrorResumeNext(th -&gt; {
+                            if (th instanceof IllegalArgumentException) {
+                                return Observable.error(new RuntimeException(&quot;Fatal, wrong arguments&quot;));
+                            }
+                            return fallbackRemoteOperation();
+                        })
+     );
+...
+private Observable&lt;String&gt; fallbackRemoteOperation() {
+        return Observable.just(&quot;blank&quot;);
+}
+</code></pre>
+<h2 id="retrying">Retrying</h2>
+<h3 id="timeout">timeout()</h3>
+<p>Timeout operator raises exception when there are no events incoming before it&rsquo;s predecessor in the specified time limit.</p>
+<h3 id="retry">retry()</h3>
+<p><strong>retry()</strong> - resubscribes in case of exception to the Observable</p>
+<pre><code>Observable&lt;String&gt; colors = Observable.just(&quot;red&quot;, &quot;blue&quot;, &quot;green&quot;, &quot;yellow&quot;)
+       .concatMap(color -&gt; delayedByLengthEmitter(TimeUnit.SECONDS, color) //we're delaying by string length secs
+                             .timeout(6, TimeUnit.SECONDS) //if there are no events flowing in the timeframe 
+                             .retry(2)
+                             .onErrorResumeNext(Observable.just(&quot;blank&quot;))
+       );
+
+subscribeWithLog(colors.toBlocking());
+</code></pre>
+<p>returns</p>
+<pre><code>12:40:16 [main] INFO - Received red delaying for 3 
+12:40:19 [main] INFO - Subscriber received: red
+12:40:19 [RxComputationScheduler-2] INFO - Received blue delaying for 4 
+12:40:23 [main] INFO - Subscriber received: blue
+12:40:23 [RxComputationScheduler-4] INFO - Received green delaying for 5 
+12:40:28 [main] INFO - Subscriber received: green
+12:40:28 [RxComputationScheduler-6] INFO - Received yellow delaying for 6 
+12:40:34 [RxComputationScheduler-7] INFO - Received yellow delaying for 6 
+12:40:40 [RxComputationScheduler-1] INFO - Received yellow delaying for 6 
+12:40:46 [main] INFO - Subscriber received: blank
+12:40:46 [main] INFO - Subscriber got Completed event
+</code></pre>
+<p>When you want to retry considering the thrown exception type:</p>
+<pre><code>Observable&lt;String&gt; colors = Observable.just(&quot;blue&quot;, &quot;red&quot;, &quot;black&quot;, &quot;yellow&quot;)
+         .flatMap(colorName -&gt; simulateRemoteOperation(colorName)
+                .retry((retryAttempt, exception) -&gt; {
+                           if (exception instanceof IllegalArgumentException) {
+                               log.error(&quot;{} encountered non retry exception &quot;, colorName);
+                               return false;
+                           }
+                           log.info(&quot;Retry attempt {} for {}&quot;, retryAttempt, colorName);
+                           return retryAttempt &lt;= 2;
+                })
+                .onErrorResumeNext(Observable.just(&quot;generic color&quot;))
+         );
+</code></pre>
+<pre><code>13:21:37 [main] INFO - Emitting **blue**
+13:21:37 [main] INFO - Emitting RuntimeException for red
+13:21:37 [main] INFO - Retry attempt 1 for red
+13:21:37 [main] INFO - Emitting RuntimeException for red
+13:21:37 [main] INFO - Retry attempt 2 for red
+13:21:37 [main] INFO - Emitting RuntimeException for red
+13:21:37 [main] INFO - Retry attempt 3 for red
+13:21:37 [main] INFO - Emitting IllegalArgumentException for black
+13:21:37 [main] ERROR - black encountered non retry exception 
+13:21:37 [main] INFO - Emitting **yellow**
+13:21:37 [main] INFO - Subscriber received: **blue**
+13:21:37 [main] INFO - Subscriber received: generic color
+13:21:37 [main] INFO - Subscriber received: generic color
+13:21:37 [main] INFO - Subscriber received: **yellow**
+13:21:37 [main] INFO - Subscriber got Completed event
+</code></pre>
+<h3 id="retrywhen">retryWhen</h3>
+<p>A more complex retry logic like implementing a backoff strategy in case of exception
+This can be obtained with <strong>retryWhen</strong>(exceptionObservable -&gt; Observable)</p>
+<p>retryWhen resubscribes when an event from an Observable is emitted. It receives as parameter an exception stream</p>
+<p>we zip the exceptionsStream with a .range() stream to obtain the number of retries,
+however we want to wait a little before retrying so in the zip function we return a delayed event - .timer()</p>
+<p>The delay also needs to be subscribed to be effected so we also flatMap</p>
+<pre><code>Flux&lt;String&gt; colors = Flux.just(&quot;blue&quot;, &quot;green&quot;, &quot;red&quot;, &quot;black&quot;, &quot;yellow&quot;);
+
+colors.flatMap(colorName -&gt; 
+                    simulateRemoteOperation(colorName)
+                           .retryWhen(exceptionStream -&gt; exceptionStream
+                                        .zipWith(Observable.range(1, 3), (exc, attempts) -&gt; {
+                                                //don't retry for IllegalArgumentException
+                                                if(exc instanceof IllegalArgumentException) {
+                                                     return Observable.error(exc);
+                                                }
+
+                                                if(attempts &lt; 3) {
+                                                     return Observable.timer(2 * attempts, TimeUnit.SECONDS);
+                                                }
+                                                return Observable.error(exc);
+                                          })
+                                          .flatMap(val -&gt; val)
+                               )
+                               .onErrorResumeNext(Observable.just(&quot;generic color&quot;)
+                        )
+            );
+</code></pre>
+<pre><code>15:20:23 [main] INFO - Emitting **blue**
+15:20:23 [main] INFO - Emitting **green**
+15:20:23 [main] INFO - Emitting RuntimeException for red
+15:20:23 [main] INFO - Emitting IllegalArgumentException for black
+15:20:23 [main] INFO - Emitting **yellow**
+15:20:23 [main] INFO - Subscriber received: **blue**
+15:20:23 [main] INFO - Subscriber received: **green**
+15:20:23 [main] INFO - Subscriber received: generic color
+15:20:23 [main] INFO - Subscriber received: **yellow**
+15:20:25 [RxComputationScheduler-1] INFO - Emitting RuntimeException for red
+15:20:29 [RxComputationScheduler-2] INFO - Emitting RuntimeException for red
+15:20:29 [main] INFO - Subscriber received: generic color
+15:20:29 [main] INFO - Subscriber got Completed event
+</code></pre>
+<h2 id="backpressure">Backpressure</h2>
+<p>It can be the case of a slow consumer that cannot keep up with the producer that is producing too many events
+that the subscriber cannot process.</p>
+<p>Backpressure relates to a feedback mechanism through which the subscriber can signal to the producer how much data
+it can consume.</p>
+<p>The <a href="https://github.com/reactive-streams/reactive-streams-jvm">reactive-streams</a> section above we saw that besides the onNext, onError and onComplete handlers, the Subscriber
+has an <strong>onSubscribe(Subscription)</strong></p>
+<pre><code>public interface Subscriber&lt;T&gt; {
+    //signals to the Publisher to start sending events
+    public void onSubscribe(Subscription s);     
+    
+    public void onNext(T t);
+    public void onError(Throwable t);
+    public void onComplete();
+}
+</code></pre>
+<p>Subscription through which it can signal upstream it&rsquo;s ready to receive a number of items and after it
+processes the items request another batch.</p>
+<pre><code>public interface Subscription {
+    public void request(long n); //request n items
+    public void cancel();
+}
+</code></pre>
+<p>So in theory the Subscriber can prevent being overloaded by requesting an initial number of items. The Publisher would
+send those items downstream and not produce any more, until the Subscriber would request more. We say in theory because
+until now we did not see a custom <strong>onSubscribe</strong> request being implemented. This is because if not specified explicitly,
+there is a default implementation which requests of <strong>Integer.MAX_VALUE</strong> which basically means &ldquo;send all you have&rdquo;.</p>
+<p>Neither did we see the code in the producer that takes consideration of the number of items requested by the subscriber.</p>
+<pre><code>Flux.create(subscriber -&gt; {
+      log.info(&quot;Started emitting&quot;);
+
+      for(int i=0; i &lt; 300; i++) {
+           if(subscriber.isCanceled()) {
+              return;
+           }
+           log.info(&quot;Emitting {}&quot;, i);
+           subscriber.next(i);
+      }
+
+      subscriber.complete();
+}
+</code></pre>
+<p>Looks like it&rsquo;s not possible to slow down production based on request(as there is no reference to the requested items),
+we can at most stop production if the subscriber canceled subscription.</p>
+<p>This can be done if we extend Flux/Mono so we can pass our custom Subscription type to the downstream subscriber:</p>
+<pre><code>class CustomRangeFlux extends Flux&lt;Integer&gt; {
+    private int startFrom;
+    private int count;
+
+    CustomRangeFlux(int startFrom, int count) {
+        this.startFrom = startFrom;
+        this.count = count;
+    }
+
+    @Override
+    public void subscribe(Subscriber&lt;? super Integer&gt; subscriber) {
+        subscriber.onSubscribe(
+                    new CustomRangeSubscription(startFrom, count, subscriber));
+    }
+}
+
+private class CustomRangeSubscription implements Subscription {
+
+     volatile boolean cancelled;
+     private int count;
+     private int currentCount;
+     private int startFrom;
+
+     private Subscriber&lt;? super Integer&gt; actualSubscriber;
+
+     CustomRangeSubscription(int startFrom, int count, 
+                                    Subscriber&lt;? super Integer&gt; actualSubscriber) {
+           this.count = count;
+           this.startFrom = startFrom;
+           this.actualSubscriber = actualSubscriber;
+     }
+
+     @Override
+     public void request(long items) {
+           for(int i=0; i &lt; items; i++) {
+               if(cancelled) {
+                    return;
+               }
+
+               if(currentCount == count) {
+                    actualSubscriber.onComplete();
+                    return;
+               }
+
+               actualSubscriber.onNext(startFrom + currentCount);
+
+               currentCount++;
+           }
+     }
+
+     @Override
+     public void cancel() {
+           cancelled = true;
+     }
+}
+</code></pre>
+<p>and using our custom Flux that knows to produce just as many items that the Subscriber <strong>requests</strong>:</p>
+<pre><code>Flux&lt;Integer&gt; flux = new CustomFlux(5, 10)
+                             .log();
+
+//we request a limited number of items
+flux.subscribe(val -&gt; log.info(&quot;Subscriber received: {}&quot;, val), 3);
+
+[main] - onSubscribe(com.balamaci.reactor.Part09BackpressureHandling
+                        $CustomFlux$CustomRangeSubscription@7f560810)
+[main] - request(3)
+[main] - onNext(5)
+[main] - Subscriber received: 5
+[main] - onNext(6)
+[main] - Subscriber received: 6
+[main] - onNext(7)
+[main] - Subscriber received: 7
+[main] - request(3)
+[main] - onNext(7)
+[main] - onNext(8)
+[main] - onNext(9)
+[main] - Subscriber received: 7
+[main] - Subscriber received: 8
+[main] - Subscriber received: 9
+[main] - request(3)
+[main] - onNext(10)
+[main] - onNext(11)
+[main] - onNext(12)
+[main] - Subscriber received: 10
+[main] - Subscriber received: 11
+[main] - Subscriber received: 12
+[main] - request(3)
+[main] - onNext(13)
+[main] - onNext(14)
+[main] - onComplete()
+[main] - Subscriber received: 13
+[main] - Subscriber received: 14
+</code></pre>
+<p>So does it mean that streams created with <em>Flux.create()</em> are destined to failed for a slow subscriber?<br>
+And what about hot publishers(that emit indifferent of any subscribers listening)?</p>
+<p>If we look at the definition of <em>Flux.create()</em></p>
+<pre><code>public static &lt;T&gt; Flux&lt;T&gt; create(Consumer&lt;? super FluxSink&lt;T&gt;&gt; emitter) {
+	return create(emitter, OverflowStrategy.BUFFER);
+}
+</code></pre>
+<p>there is this OverflowStrategy that specifies how to deal with too many events that overflow the consumers:</p>
+<ul>
+<li>OverflowStrategy.BUFFER buffer in memory the events that overflow. Of course is we don&rsquo;t drop over some threshold, it might lead to OufOfMemory.</li>
+<li>OverflowStrategy.DROP just drop the overflowing events</li>
+<li>OverflowStrategy.LATEST drop queued older events and keep more recent</li>
+<li>OverflowStrategy.ERROR we get an error in the subscriber immediately</li>
+</ul>
+<p>Still what does it mean to &lsquo;overflow&rsquo; in the first place? It means to emit more items than requested downstream.
+But we said that by default the subscriber requests Integer.MAX_VALUE, so unless we override the request number
+it means it would never overflow. True, but between the Publisher and the Subscriber you&rsquo;d have a series of operators.
+When we subscribe, a Subscriber travels up through all operators to the original Publisher and some operators override
+the requested items. One such operator is <strong>publishOn</strong>() which makes it&rsquo;s own request to the upstream Publisher(256 by default),
+but can take a parameter to specify the request size.</p>
+<p>Let&rsquo;s see:</p>
+<pre><code>Flux&lt;Integer&gt; publisher = Flux.create(subscriber -&gt; {
+      log.info(&quot;Started emitting&quot;);
+
+      for(int i=0; i &lt; 10; i++) {
+           log.info(&quot;Emitting {}&quot;, i);
+           subscriber.next(i);
+      }
+
+      subscriber.complete();
+}, OverflowStrategy.DROP);
+
+publisher = publisher.log()
+                     .publishOn(Schedulers.newElastic(&quot;elast&quot;), 5);
+
+
+publisher.subscribe(val -&gt; {
+                      log.info(&quot;Subscriber received: {}&quot;, val);
+                      Helpers.sleepMillis(50); //slow down 
+                  });
+
+=======================
+[main] 1 - onSubscribe(reactor.core.publisher.FluxCreate$DropAsyncSink@50c87b21)
+[main] 1 - request(5)
+[main] BaseTestFlux - Started emitting
+[main] BaseTestFlux - Emitting 0
+[main] 1 - onNext(0)
+[main] BaseTestFlux - Emitting 1
+[main] 1 - onNext(1)
+[main] BaseTestFlux - Emitting 2
+[main] 1 - onNext(2)
+[elast-2] BaseTestFlux - Subscriber received: 0
+[main] BaseTestFlux - Emitting 3
+[main] 1 - onNext(3)
+[main] BaseTestFlux - Emitting 4
+[main] 1 - onNext(4)
+[main] BaseTestFlux - Emitting 5
+[main] BaseTestFlux - Emitting 6
+[main] BaseTestFlux - Emitting 7
+[main] BaseTestFlux - Emitting 8
+[main] BaseTestFlux - Emitting 9
+[main] 1 - onComplete()
+[elast-2] BaseTestFlux - Subscriber received: 1
+[elast-2] BaseTestFlux - Subscriber received: 2
+[elast-2] BaseTestFlux - Subscriber received: 3
+[elast-2] 1 - request(4)
+[elast-2] BaseTestFlux - Subscriber received: 4
+</code></pre>
+<p>Notice how the log show that the request to the source Flux.create(..) is for 5(as requested in <em>publishOn</em>),
+not the Integer.MAX_VALUE(which is the default) and also that overflown events(produced over the 5 requested), were dropped as they were not received by the
+onNext callback in the Subscriber.
+You may think that publishOn was force put there just for the sake of showing an example of overriding number of requests in an operator,
+but it&rsquo;s because we need <em>publishOn</em> to have the producer and consumer use different threads.
+If both of them would have used the same thread, we could not have an overflow scenario where the producer is
+emitting faster(since it has to wait for the subscriber).</p>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/2017/03/31/kafka-streams-for-stream-processing/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Kafka Streams for Stream processing</span>
+    </a>
+    
+    
+</div>
+
+
+  
+
+  
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js" integrity="sha256-vrn14y7WH7zgEElyQqm2uCGSQrX/xjYDjniRUQx3NyU=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function addBlockSwitches() {
+	$('.primary').each(function() {
+		primary = $(this);
+		createSwitchItem(primary, createBlockSwitch(primary)).item.addClass("selected");
+		primary.children('.title').remove();
+	});
+	$('.secondary').each(function(idx, node) {
+		secondary = $(node);
+		primary = findPrimary(secondary);
+		switchItem = createSwitchItem(secondary, primary.children('.switch'));
+		switchItem.content.addClass('hidden');
+		findPrimary(secondary).append(switchItem.content);
+		secondary.remove();
+	});
+}
+
+function createBlockSwitch(primary) {
+	blockSwitch = $('<div class="switch"></div>');
+	primary.prepend(blockSwitch);
+	return blockSwitch;
+}
+
+function findPrimary(secondary) {
+	candidate = secondary.prev();
+	while (!candidate.is('.primary')) {
+		candidate = candidate.prev();
+	}
+	return candidate;
+}
+
+function createSwitchItem(block, blockSwitch) {
+	blockName = block.children('.title').text();
+	content = block.children('.content').first().append(block.next('.colist'));
+	item = $('<div class="switch--item">' + blockName + '</div>');
+	blockSwitch.append(item);
+	return {'item': item, 'content': content};
+}
+
+function globalSwitch() {
+	$('.switch--item').each(function() {
+		var blockId = blockIdForSwitchItem($(this));
+		$(this).off('click');
+		$(this).on('click', function() {
+			selectedText = $(this).text()
+			window.localStorage.setItem(blockId, selectedText);
+			$(".switch--item").filter(function() {
+				return blockIdForSwitchItem($(this)) === blockId;
+			}).filter(function() {
+				return $(this).text() === selectedText;
+			}).each(function() {
+				select($(this))
+			});
+		});
+		if ($(this).text() === window.localStorage.getItem(blockId)) {
+			select($(this))
+		}
+	});
+}
+
+function blockIdForSwitchItem(item) {
+	idComponents = []
+	idComponents.push(item.text().toLowerCase());
+	item.siblings(".switch--item").each(function(index, sibling) {
+		idComponents.push($(sibling).text().toLowerCase());
+	});
+	return idComponents.sort().join("-")
+}
+
+function select(selected) {
+	selected.addClass('selected');
+	selected.siblings().removeClass('selected');
+	selectedContent = selected.parent().siblings(".content").eq(selected.index())
+	selectedContent.removeClass('hidden');
+	selectedContent.siblings().addClass('hidden');
+}
+
+$(addBlockSwitches);
+$(globalSwitch);
+</script>
+
+
+    
+
+
+
+    </body>
+</html>
+

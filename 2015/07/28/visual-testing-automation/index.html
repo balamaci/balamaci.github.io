@@ -1,0 +1,626 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.73.0" />
+
+    
+    
+    
+
+<title>A Solution for Automation of Visual Regression Testing • Serban Balamaci</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Serban Balamaci">
+<meta property="og:title" content="A Solution for Automation of Visual Regression Testing">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://balamaci.ro/2015/07/28/visual-testing-automation/" />
+<meta property="og:description" content="Java mostly, and general tech">
+<meta property="og:image" content="https://balamaci.ro/social-sharing.png">
+<meta property="og:image:type" content="image/png">
+    
+    
+    
+<meta property="og:image:width" content="192">
+<meta property="og:image:height" content="192">
+    
+
+<meta property="og:updated_time" content="2015-07-28T21:10:00Z">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@sbalamaci">
+<meta name="twitter:title" content="A Solution for Automation of Visual Regression Testing">
+
+<meta name="twitter:image" content="https://balamaci.ro/social-sharing.png">
+
+<meta name="twitter:description" content="Java mostly, and general tech">
+<meta name="twitter:creator" content="@sbalamaci">
+    
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/a11y-light.min.css" media="(prefers-color-scheme: light)"><link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/gruvbox-dark.min.css" media="(prefers-color-scheme: dark)">
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.57d57be207f95258b69c5563e34ed2c632000ecb862ce9bd97e7e35f3957094c.css" integrity="sha256-V9V74gf5Uli2nFVj407SxjIADsuGLOm9l&#43;fjXzlXCUw=">
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde-dark.2eddfb769610f72f40f6bc949e62a3acf298eb8504c073739085a417978b18cd.css" integrity="sha256-Lt37dpYQ9y9A9ryUnmKjrPKY64UEwHNzkIWkF5eLGM0=" media="(prefers-color-scheme: dark)">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    
+    <link rel="shortcut icon" sizes="192x192" href="/android-192-favicon.png">
+
+    
+    <link rel="shortcut icon" href="/android-192-favicon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/v4-shims.min.css" integrity="sha256-wN7QJaqAwQ03kgUhyN4EU2phRdDkLrQYbFe0EvpQ60U=" crossorigin="anonymous" />
+
+    
+    
+
+
+    
+</head>
+
+
+    <body class="">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://balamaci.ro">Serban Balamaci</a>
+      </span>
+      
+      
+        <div class="author-image">
+          <img src="https://www.gravatar.com/avatar/309afbf8c2f162060e4fa28d670d2ec8?s=240&d=mp" class="img--circle img--headshot element--center" alt="gravatar">
+        </div>
+      
+      <p class="site__description">
+         Java and JVM related 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">Serban Balamaci</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/"><span class='fa-icon'><i class='fas fa-home'></i></span> Home
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/posts/"><span class='fa-icon'><i class='fas fa-stream'></i></span> Posts
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/series/"><span class='fa-icon'><i class='fas fa-list-alt'></i></span> Series
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/"><span class='fa-icon'><i class='fas fa-tags'></i></span> Tags
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/whoami/"><span class='fa-icon'><i class='fas fa-id-card'></i></span> About
+						<span></span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/@sbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="bird" class="svg-inline--fa fa-bird fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></i></a>
+	
+	
+	
+	<a href="https://github.com/balamaci" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/serbanbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="pro-network" class="svg-inline--fa fa-pro-network fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="container fixed-container">
+    
+<div class="copyright">
+  &copy; 2010 - 2020 Serban Balamaci
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+
+<article>
+  <header>
+    <h1>A Solution for Automation of Visual Regression Testing</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> 2015-07-28
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/webdriver">WEBDRIVER</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/webdriver">webdriver</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 25 min read
+
+    
+    
+    
+
+</div>
+
+
+  </header>
+  
+  
+  
+  <div class="post md">
+    <h3 id="whats-the-problem-with-visual-regression-testing-automation">What&rsquo;s the problem with visual regression testing automation</h3>
+<p>When you need to test a web application and not just an API, you need to check also that the changes in the <strong>DOM</strong> order and / or <strong>.css</strong> files <strong>did not mess something up with the way the page renders for the user</strong>. <strong>Usually this is done manually by a tester</strong> which gives his approval that after the changes <strong>&ldquo;the app still looks ok&rdquo;</strong>.</p>
+<p>Visual testing is something that gets tedious without even considering that there are more browsers to test and whole bunch of resolutions - now with responsive design-.</p>
+<p>To give <strong>an example a small change in the .css style file</strong> might trigger in some place the <strong>&ldquo;Submit&rdquo; button to become very small or even invisible</strong>. Now the button is still in the DOM so <strong>a check that the next page after calling ('#submit&rsquo;).click() will pass</strong>, but <strong>in reality the user will not easily be able to submit the form</strong> and advance in the flow.</p>
+<h3 id="a-possible-solution">A possible solution</h3>
+<p>The first time I stumbled upon a solution was <a href="https://github.com/facebookarchive/huxley">Huxley</a> which was used by Instagram in the early days.</p>
+<p><strong>The idea</strong> is</p>
+<ul>
+<li>
+<p>We can <strong>use Webdriver</strong> to command <strong>a series of browsers</strong> and use it&rsquo;s capabilities to <strong>take printscreens.</strong></p>
+</li>
+<li>
+<p>We <strong>take a series of printscreens before / after</strong> every action that matters(changes the UI) during a Webdriver flow. This we consider the &ldquo;correct / right&rdquo; way of how the application must look to the user and we <strong>use these images as reference</strong></p>
+</li>
+<li>
+<p>When we run the tests, we <strong>take new printscreens and fail on any difference from the above mentioned &ldquo;base&rdquo; printscreens.</strong></p>
+</li>
+</ul>
+<p>We use a <strong>diff tool for images</strong> which will help <strong>outline what has changed</strong>.</p>
+<p>The <strong>Huxley</strong> way involved doing this in python, I&rsquo;m just more comfortable to implement roughly the same idea but in Java to be able to integrate it in our test setup.</p>
+<h3 id="some-drawbacks-and-disclaimers">Some drawbacks and disclaimers</h3>
+<p>I want you to be aware firsthand and not waste time reading on, as you may consider them deal breakers.</p>
+<ul>
+<li>
+<p><strong>If there is dynamic data in your tests they will fail</strong> because the printscreens will be different.
+Example of dynamic data could be the <strong>date / time</strong> so if you display some entries with creation/update date, you&rsquo;d need to adjust your mocks to show the same time.</p>
+</li>
+<li>
+<p><strong>Animations(gifs / carousels)</strong> that are not predictable that could interfere with the printscreens and may trigger false tests fails.</p>
+</li>
+<li>
+<p>After changes that you approve of, you need to recreate the base printscreens from which we judge that this is the way it&rsquo;s supposed to look. Since we can automate this, it&rsquo;s not really a problem I think.</p>
+</li>
+</ul>
+<h4 id="good-news">Good news</h4>
+<ul>
+<li>
+<p>You can still <strong>use this method to test components in isolation</strong> something in the idea of <strong>unit tests</strong> but for visual components, vs doing integration tests for the whole application.</p>
+</li>
+<li>
+<p>You can still <strong>have an automatic way to generate printscreens of all the pages and panels in the application</strong>. It&rsquo;s still quite nice that after running the automation of the printscreen generation you can take a quick glance how the whole app looks.</p>
+</li>
+</ul>
+<h3 id="implementation">Implementation</h3>
+<p>I&rsquo;ve already talked about how to setup Webdriver and possible way of deploying our web app inside a docker container, but how can we determine that two printscreen images are different and once deemed different can we highlight the differences?</p>
+<ol>
+<li>Deeming <strong>two images equal</strong> is the easier part. For example <strong>we can do a fast hash function of the content(say md5)</strong>.</li>
+<li>For <strong>highlighting the differences</strong> well, we can use the all powerful <strong>ImageMagick</strong> program which allows for a command line input of image manipulation.</li>
+</ol>
+<p>Extra praise for <strong>ImageMagick</strong> which you can use as a Swiss army knife of image manipulation and command it quite easily from Java which by itself is not very versatile at . So, little advice to <strong>consider it should you find yourself in need of doing image manipulation from java</strong>.</p>
+<p>One of the many functions available in  <strong>ImageMagick</strong> is <strong>image diff</strong> so we can use this to highlight differences between printscreens.</p>
+<p>And we can use <strong>im4java</strong> library which is just a wrapper through which command line parameters are passed to <strong>ImageMagick</strong>, which means <strong>we must have ImageMagick separately installed on the machine where we run the tests</strong>.
+Luckly this is just very simple for Ubuntu.</p>
+<pre><code>sudo apt-get install imagemagick
+</code></pre>
+<p>and import the dependency in <strong>pom.xml</strong></p>
+<pre><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;org.im4java&lt;/groupId&gt;
+  &lt;artifactId&gt;im4java&lt;/artifactId&gt;
+  &lt;version&gt;1.4.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<p>The end result example
+<img src="https://raw.githubusercontent.com/balamaci/blog-ui-testing/master/printscreens/ContactsPage_800_600.ref.png" alt="Original image">
+after playing around with the css file, can you already spot it?
+<img src="https://raw.githubusercontent.com/balamaci/blog-ui-testing/master/printscreens/ContactsPage_800_600.png" alt="Changed image">
+Tadaaa here is <strong>the diff image</strong>:
+<img src="https://raw.githubusercontent.com/balamaci/blog-ui-testing/master/printscreens/ContactsPage_800_600.diff.png" alt="Diff image"></p>
+<h3 id="the-code">The code</h3>
+<p>Whole example project can be found <a href="https://github.com/balamaci/blog-ui-testing">here</a>
+<strong>Update</strong> In the next article <a href="http://balamaci.ro/docker-container-for-visual-regression-testing/">Docker containers for Visual Regression Testing setup</a> I&rsquo;ve improved on the solution by using <strong>docker</strong> to package the whole setup  (imagemagick with phantomjs) inside a container and with <strong>docker-compose</strong> to start this container along with a separate Tomcat container.</p>
+<p>We start with <strong>CrudNgDemoAppTest</strong> which contains some simple tests for the Login Page.</p>
+<pre><code class="language-java">@RunWith(Parameterized.class)
+public abstract class CrudNgDemoAppTest extends BaseUIWebdriverTest {
+
+    @Parameterized.Parameters
+    public static Collection&lt;Object[]&gt; getDimensions() {
+        return Arrays.asList(new Object[][] {
+                {DIMENSION_800x600}, {DIMENSION_1024x768}});
+    }
+
+    public CrudNgDemoAppTest(Dimension dimension) {
+        super(dimension);
+    }
+
+
+    @Test public void
+    loginPage() throws Exception {
+        navigateTo(&quot;login&quot;);
+        waitForElementWithName(&quot;username&quot;);
+
+        takeScreenshotCompareAndCollectDiff(&quot;LoginPage&quot;);
+    }
+...
+</code></pre>
+<h4 id="passing-parameters-to-junit-tests">Passing parameters to JUnit tests</h4>
+<p><strong>@RunWith(Parameterized.class)</strong> allows us to pass in different screen resolutions which are returned by <em>getDimensions</em> method which is marked as the supplier of values with the <strong>@Parameterized.Parameters</strong> annotation.</p>
+<p>Each <em>Dimension</em> parameter get passed to the <strong>public CrudNgDemoAppTest(Dimension dimension)</strong> constructor.</p>
+<p>The <em>getDimensions</em> method must return a <strong>Collection&lt;Object[]&gt;</strong> because the Test class constructor might take more than one parameter(although in our particular case it&rsquo;s just a single parameter).</p>
+<p>The result is that we&rsquo;ll have <strong>a quick automated way to see  how the application looks for different screen resolutions</strong> which helps with testing the look on different mobile devices / desktop. And we can <strong>add more resolutions at any time</strong>.</p>
+<p><strong>BaseUIWebdriverTest</strong> is our base class from which all our UI tests will inherit. It will contain the logic to take printscreens and helpers method for Webdriver commands(while writing this I stumbled upon <a href="http://www.methodsandtools.com/tools/selenide.php">Selenide</a> which I plan to give it a try in the future).</p>
+<pre><code class="language-java">public abstract class BaseUIWebdriverTest {
+
+    private Browser browser;
+    private Dimension dimension;
+    private static Boolean flagUpdateReferenceScreenshots;
+
+    public static Dimension DIMENSION_800x600 = new Dimension(800, 600);
+    public static Dimension DIMENSION_1024x768 = new Dimension(1024, 768);
+
+    @Rule
+    public ThrowErrorOnDiffScreensRule throwErrorOnDiffScreensRule = new ThrowErrorOnDiffScreensRule();
+
+    public BaseUIWebdriverTest(Dimension dimension) {
+        this.dimension = dimension;
+    }
+
+    protected abstract Browser initBrowser();
+
+    @Before
+    public void before() {
+        browser = initBrowser();
+
+        browser.changeWindowSize(dimension);
+    }
+
+    protected void takeScreenshotCompareAndCollectDiff(String scenarioName) {
+        takeScreenshotAndCompare(scenarioName).ifPresent(throwErrorOnDiffScreensRule::addScreenDiff);
+    }
+
+    private Path takeScreenshot(String scenarioName, boolean isReference) {
+        Path currentScreenshotPath;
+        if (isReference) {
+            currentScreenshotPath = getScreenshotReferencePath(scenarioName);
+        } else {
+            currentScreenshotPath = getCurrentScreenshotPath(scenarioName);
+        }
+
+        Path screen = browser.getDriver().getScreenshotAs(OutputType.FILE).toPath();
+        try {
+            Files.copy(screen, currentScreenshotPath, StandardCopyOption.REPLACE_EXISTING);
+        } catch (IOException e) {
+            throw new RuntimeException(String.format(&quot;Error saving image path=%s&quot;, currentScreenshotPath.toString()), e);
+        }
+        return currentScreenshotPath;
+    }
+</code></pre>
+<p>The idea was to <strong>not throw an immediate Exception whenever a difference in printscreens is encountered</strong>, because for a single <strong>@Test</strong> we may want to take multiple printscreens after different actions that change the UI in the whole flow.</p>
+<p>Therefore the method <strong>takeScreenshotCompareAndCollectDiff</strong> <strong>just adds the possible record of an image diff to a List&lt;ScreenshotDiff&gt;</strong> and does not throw an Exception.
+We use <em>flagUpdateReferenceScreenshots</em>(which we get from maven properties or overriden in the command line) to decide if we need to update the reference screens or do the actual comparison of the new screenshots with the references.</p>
+<p>we can invoke just a rebuild of the reference images by using the</p>
+<pre><code>mvn -DflagUpdateReferenceScreenshots=true clean verify
+</code></pre>
+<p>or the actual screen comparison tests with</p>
+<pre><code>mvn clean verify
+</code></pre>
+<p>So we need a way to <strong>signal a test failure if there are image diffs at the end of the test</strong> to get a hint what screens differ.</p>
+<h3 id="using-junit-rules-to-take-actions-before-and-after-a-test-runs">Using Junit &ldquo;Rules&rdquo; to take actions Before and After a test runs</h3>
+<p>We don&rsquo;t want to add boilerplate code to explicitly check at the end of every test if there were any differences between the printscreens.</p>
+<p>JUnit provides a way through <strong>TestRules</strong> to indicate that it needs some work done before and after a test&rsquo;s execution.</p>
+<p>This is the class <strong>ThrowErrorOnDiffScreensRule</strong> that we injected into our test class through the <strong>@Rule</strong> annotation</p>
+<pre><code class="language-java">public class ThrowErrorOnDiffScreensRule extends TestWatcher {
+
+    private List&lt;ScreenshotDiff&gt; differentScreen = Lists.newArrayList();
+
+    @Override
+    protected void starting(Description description) {
+        differentScreen.clear();
+    }
+
+    @Override
+    protected void finished(Description description) {
+        if(! differentScreen.isEmpty()) {
+            throw new ScreenshotDiffsException(differentScreen);
+        }
+    }
+
+    public void addScreenDiff(ScreenshotDiff screenDif) {
+        differentScreen.add(screenDif);
+    }
+
+}
+</code></pre>
+<p>It&rsquo;s actually simpler to extend JUnit <strong>TestWatcher</strong> abstract class as a way to do something around @Before and @After methods of a test.</p>
+<p>A link better explaining <a href="http://www.alexecollins.com/tutorial-junit-rule/">JUnit TestRules</a> and why you should use them and their roles in setting up and cleaning up after a test.</p>
+<p>BTW you might also be interested this is a good way to have a printscreen taken whenever a Webdriver Test fails to see how the page looked when it failed, you can have a look <a href="https://github.com/balamaci/pippo-demo-webdriver-test/blob/master/src/test/java/ro/fortsoft/pippo/demo/integration/rule/TakeScreenshotOnFailedTaskRule.java">here</a>.</p>
+<p>PS: We could actually have achieved the same by implementing the check for in the <strong>@After</strong> method of <strong>BaseUIWebdriverTest</strong>, but this way it&rsquo;s more decoupled I think and also gave us a chance to advertise the <strong>TestWatcher</strong> class.</p>
+<h4 id="phantomjs-as-webdriver-implementation">PhantomJS as WebDriver implementation</h4>
+<p>So we programmed the tests to run with the generic WebDriver interface. However we need an &ldquo;actual browser&rdquo; implementation to &ldquo;drive&rdquo;. I&rsquo;ve already mentioned <a href="http://balamaci.ro/continous-integration-with-jenkins-docker-ansible-webdriver/#webdriver">here</a> that I like the speed and easy install of the PhantomJs <strong>headless browser</strong>.</p>
+<pre><code>public class PhantomJsCrudNgDemoAppUITest extends CrudNgDemoAppTest {
+
+    public PhantomJsCrudNgDemoAppUITest(Dimension dimension) {
+        super(dimension);
+    }
+
+    @Override
+    protected Browser initBrowser() {
+        return new PhantomJsBrowser();
+    }
+}
+</code></pre>
+<p>While it is not included in the project the idea would be to have more than one browser tested.
+Right now I&rsquo;m  we&rsquo;d simply create some other classes like <strong>FirefoxCrudNgDemoAppUITest</strong>, <strong>ChromeCrudNgDemoAppUITest</strong> which will just all extend the same scenarios defined in  <strong>CrudNgDemoAppTest</strong>, and just have different code for Browser object initialization.
+We&rsquo;ll also probably need to add the name of the browser to the generated image files to know which is which, but all this seems pretty doable at least in theory.</p>
+<p>Finally the <strong>ImageUtil</strong> class just exposes methods for comparing the two image files by hashing the content to determine if same or not
+<strong>public static boolean isEqual(Path img1, Path img2)</strong></p>
+<p>and the one that uses <strong>im4java</strong> to create the diff image.
+<strong>public static void createImageDiff(Path firstImage, Path secondImage, Path diffImage)</strong></p>
+<h4 id="pippo-web-framework">Pippo web framework</h4>
+<p>The web application we tested in the example is the AngularJS <a href="https://github.com/decebals/pippo-demo/tree/master/pippo-demo-crudng">CRUD demo app</a> of the <a href="http://www.pippo.ro/doc/getting-started.html">Pippo web framework</a>.</p>
+<p>I very much like Pippo framework as it&rsquo;s <strong>the most lightweight jee servlet3 web framework</strong>, a perfect fit for the smallest VPS instance or even on RaspberryPi to have it running. I suggest you give it a look.</p>
+<p>While <strong>pippo is very lightweight</strong>(~200kb) itself and being built from the start with the concept of modules you can tailor it to just fit your exact needs(different template engines, codahale metrics, etc), still the inclusion of the <strong>webjars</strong> for angularjs(which accounts for 60% of the size) and bootstrap and font-awesome makes up for almost all the rest of the .war file for the AngularJS CRUD demo.</p>
+<h4 id="final-thoughts">Final thoughts</h4>
+<p>We just might have added another piece in the great puzzle of automatization of the build &amp; testing process.
+At the very least it&rsquo;s an idea for a way to generate all the printscreens of the application along test cases.</p>
+<p>Along the way we also shared some info about <strong>parametization of the Junit testcases</strong> by injecting different screen resolutions.</p>
+<p>We also touched a little on the ways to use <strong>JUnit @Rule</strong> to setup pretest conditions or cleanup after the test.</p>
+<p>PS: In the next article <a href="http://balamaci.ro/docker-container-for-visual-regression-testing/">Docker containers for Visual Regression Testing setup</a> I&rsquo;ve revised the running process to package the dependencies inside a docker container.</p>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/2015/02/01/monitoring-your-java-processes/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Monitoring your Java processes</span>
+    </a>
+    
+    
+    <a href="/2015/08/03/docker-container-for-visual-regression-testing/" class="navigation-next">
+      <span class="navigation-tittle">Docker containers for Visual Regression Testing setup</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js" integrity="sha256-vrn14y7WH7zgEElyQqm2uCGSQrX/xjYDjniRUQx3NyU=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function addBlockSwitches() {
+	$('.primary').each(function() {
+		primary = $(this);
+		createSwitchItem(primary, createBlockSwitch(primary)).item.addClass("selected");
+		primary.children('.title').remove();
+	});
+	$('.secondary').each(function(idx, node) {
+		secondary = $(node);
+		primary = findPrimary(secondary);
+		switchItem = createSwitchItem(secondary, primary.children('.switch'));
+		switchItem.content.addClass('hidden');
+		findPrimary(secondary).append(switchItem.content);
+		secondary.remove();
+	});
+}
+
+function createBlockSwitch(primary) {
+	blockSwitch = $('<div class="switch"></div>');
+	primary.prepend(blockSwitch);
+	return blockSwitch;
+}
+
+function findPrimary(secondary) {
+	candidate = secondary.prev();
+	while (!candidate.is('.primary')) {
+		candidate = candidate.prev();
+	}
+	return candidate;
+}
+
+function createSwitchItem(block, blockSwitch) {
+	blockName = block.children('.title').text();
+	content = block.children('.content').first().append(block.next('.colist'));
+	item = $('<div class="switch--item">' + blockName + '</div>');
+	blockSwitch.append(item);
+	return {'item': item, 'content': content};
+}
+
+function globalSwitch() {
+	$('.switch--item').each(function() {
+		var blockId = blockIdForSwitchItem($(this));
+		$(this).off('click');
+		$(this).on('click', function() {
+			selectedText = $(this).text()
+			window.localStorage.setItem(blockId, selectedText);
+			$(".switch--item").filter(function() {
+				return blockIdForSwitchItem($(this)) === blockId;
+			}).filter(function() {
+				return $(this).text() === selectedText;
+			}).each(function() {
+				select($(this))
+			});
+		});
+		if ($(this).text() === window.localStorage.getItem(blockId)) {
+			select($(this))
+		}
+	});
+}
+
+function blockIdForSwitchItem(item) {
+	idComponents = []
+	idComponents.push(item.text().toLowerCase());
+	item.siblings(".switch--item").each(function(index, sibling) {
+		idComponents.push($(sibling).text().toLowerCase());
+	});
+	return idComponents.sort().join("-")
+}
+
+function select(selected) {
+	selected.addClass('selected');
+	selected.siblings().removeClass('selected');
+	selectedContent = selected.parent().siblings(".content").eq(selected.index())
+	selectedContent.removeClass('hidden');
+	selectedContent.siblings().addClass('hidden');
+}
+
+$(addBlockSwitches);
+$(globalSwitch);
+</script>
+
+
+    
+
+
+
+    </body>
+</html>
+

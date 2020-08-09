@@ -1,0 +1,263 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Posts on Serban Balamaci</title>
+        <link>https://balamaci.ro/posts/</link>
+        <description>Recent content in Posts on Serban Balamaci</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <managingEditor>thespamtrapp@gmail.com (Serban Balamaci)</managingEditor>
+        <webMaster>thespamtrapp@gmail.com (Serban Balamaci)</webMaster>
+        <lastBuildDate>Sun, 21 Jul 2019 01:54:58 +0200</lastBuildDate>
+        
+        <atom:link href="https://balamaci.ro/posts/index.xml" rel="self" type="application/rss+xml" />
+        
+        
+        
+        <item>
+            <title>Reactor Core Explained</title>
+            <link>https://balamaci.ro/2019/07/21/reactor-core-explained/</link>
+            <pubDate>Sun, 21 Jul 2019 01:54:58 +0200</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2019/07/21/reactor-core-explained/</guid>
+            <description>Reactor Core Contents  Flux and Mono Simple Operators Merging Streams FlatMap Operator Schedulers Error Handling Backpressure  Reactive Streams Reactive Streams is a programming concept for handling asynchronous data streams in a non-blocking manner while providing backpressure to stream publishers.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Kafka Streams for Stream processing</title>
+            <link>https://balamaci.ro/2017/03/31/kafka-streams-for-stream-processing/</link>
+            <pubDate>Fri, 31 Mar 2017 13:46:34 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2017/03/31/kafka-streams-for-stream-processing/</guid>
+            <description>A few words about how Kafka works. At it&amp;rsquo;s base, Kafka has the distributed log concept. By log we understand an immutable(append only) data structure. So a Producer(or more) append entries(never overwrite or delete existing data) at the end of the data structure, while any number of Consumers can read from it at their own pace by each keeping track of the offset from where they last read and advance to the next records and so on.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Reactive log stream processing with RxJava - Part II</title>
+            <link>https://balamaci.ro/2016/08/17/reactive-log-stream-processing-with-rxjava-part-2/</link>
+            <pubDate>Wed, 17 Aug 2016 19:41:28 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2016/08/17/reactive-log-stream-processing-with-rxjava-part-2/</guid>
+            <description>In the previous post we saw how we can add a push based solution(RabbitMQ) to our &amp;ldquo;ELK&amp;rdquo; stack and how we can connect from Spring to RabbitMQ and have the log events emitted as a reactive stream.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Reactive log stream processing with RxJava - Part I</title>
+            <link>https://balamaci.ro/2016/08/10/reactive-log-processing/</link>
+            <pubDate>Wed, 10 Aug 2016 14:09:03 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2016/08/10/reactive-log-processing/</guid>
+            <description>Centralized logs as a data source for realtime data analysis In the previous blog entries we saw how we can leverage the power of the ELK stack for log collection and analysis of our Java apps.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Java app monitoring with ELK - Part II- ElasticSearch</title>
+            <link>https://balamaci.ro/2016/03/21/java-app-monitoring-with-elk-elastic-search/</link>
+            <pubDate>Mon, 21 Mar 2016 13:10:26 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2016/03/21/java-app-monitoring-with-elk-elastic-search/</guid>
+            <description>ElasticSearch ElasticSearch is probably the key element in our ELK stack, it acts the part of o a database, where we store the log entries and send our queries for retrieving the logs that match our searches.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Java app monitoring with ELK - Part I - Logstash and Logback</title>
+            <link>https://balamaci.ro/2016/03/10/java-app-monitoring-with-elk-logstash/</link>
+            <pubDate>Thu, 10 Mar 2016 19:53:21 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2016/03/10/java-app-monitoring-with-elk-logstash/</guid>
+            <description>Logs for developers are undeniably the most important source of information available to track down problems and understand what is happening with your applications.
+It makes sense to have a good tool in our toolbox that will enable us to get better insight of this data.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>BDD web testing setup - Docker, Cucumber and Serenity - Part II</title>
+            <link>https://balamaci.ro/2015/11/02/orchestrating-a-reusable-bdd-web-testing-setup-part-ii/</link>
+            <pubDate>Mon, 02 Nov 2015 10:08:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2015/11/02/orchestrating-a-reusable-bdd-web-testing-setup-part-ii/</guid>
+            <description>Overview In Part I we looked at setting up a reusable testing setup by thinking in high level components through the use of docker containers. We added selenium-grid containers and saw how docker-compose makes it easy to play around with more containers and still make it look simple and clear.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Orchestrating a reusable BDD web testing setup with Selenium grid using docker - Part I</title>
+            <link>https://balamaci.ro/2015/10/25/using-docker-and-docker-compose-for-orchestrating-a-full-bdd/</link>
+            <pubDate>Sun, 25 Oct 2015 17:40:02 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2015/10/25/using-docker-and-docker-compose-for-orchestrating-a-full-bdd/</guid>
+            <description>Playing with lego components The plan: Part I - We use docker and docker-compose to build a reusable setup for testing java web applications based upon containers.
+Part II - We introduce Cucumber BDD testing framework along with Serenity framework for providing great tests reports.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Docker containers for Visual Regression Testing setup</title>
+            <link>https://balamaci.ro/2015/08/03/docker-container-for-visual-regression-testing/</link>
+            <pubDate>Mon, 03 Aug 2015 19:47:49 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2015/08/03/docker-container-for-visual-regression-testing/</guid>
+            <description>Packing it all inside docker containers In the previous post we looked at a possible solution for doing Visual Regression Testing. But stepping back and looking at it, I think there was tedious for the reader to actually try it out, because it required him to install some extra dependencies like ImageMagick, phantomjs( which in turn needs nodejs) to be able to run the example himself(also not considering docker installation).</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>A Solution for Automation of Visual Regression Testing</title>
+            <link>https://balamaci.ro/2015/07/28/visual-testing-automation/</link>
+            <pubDate>Tue, 28 Jul 2015 21:10:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2015/07/28/visual-testing-automation/</guid>
+            <description>What&amp;rsquo;s the problem with visual regression testing automation When you need to test a web application and not just an API, you need to check also that the changes in the DOM order and / or .</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Monitoring your Java processes</title>
+            <link>https://balamaci.ro/2015/02/01/monitoring-your-java-processes/</link>
+            <pubDate>Sun, 01 Feb 2015 22:16:18 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2015/02/01/monitoring-your-java-processes/</guid>
+            <description>I was looking for a complete and lightweight monitoring solution for my java processes when I found the perfect match Monit. I prefer many small 512MB memory Digital Ocean hosted instances to host my apps and therefore I was looking for a lightweight free opensource solution that is able to monitor a process, tries to restart it in case it stops, or emails me in case it fails.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Using Vagrant and Ansible to setup Jenkins</title>
+            <link>https://balamaci.ro/2015/01/27/part-2-using-vagrant-and-ansible-to-setup-jenkins/</link>
+            <pubDate>Tue, 27 Jan 2015 15:57:29 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2015/01/27/part-2-using-vagrant-and-ansible-to-setup-jenkins/</guid>
+            <description>Part 2 on setting up a Jenkins machine with plugins.
+Since the previous article, I&amp;rsquo;ve been asked by people what is Vagrant and how they can use it. Somehow I took this for granted and I did not consider it a key subject in our CI journey.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Part 1 - Continous Integration with Jenkins, Docker, WebDriver ...</title>
+            <link>https://balamaci.ro/2015/01/24/continous-integration-with-jenkins-docker-ansible-webdriver/</link>
+            <pubDate>Sat, 24 Jan 2015 20:09:22 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2015/01/24/continous-integration-with-jenkins-docker-ansible-webdriver/</guid>
+            <description>The plan I&amp;rsquo;m going to start the series on Continuos Integration(CI) for java web projects with explaining the part related to integration tests, then in Part 2 talk about how we glue things together in Jenkins.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Maven lifecycles and plugins explained</title>
+            <link>https://balamaci.ro/2015/01/17/maven-lifecycles-explained/</link>
+            <pubDate>Sat, 17 Jan 2015 11:42:14 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2015/01/17/maven-lifecycles-explained/</guid>
+            <description>Maven is much more than just a simple dependency management and packaging tool. Through a set of plugins it becomes a powerful tool for handling the &amp;ldquo;backbone&amp;rdquo; of CI setup that might require generating new source files, compile, package, execute bash scripts that for ex.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Docker Series - Docker part II</title>
+            <link>https://balamaci.ro/2014/02/11/docker-part-ii/</link>
+            <pubDate>Tue, 11 Feb 2014 21:32:27 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2014/02/11/docker-part-ii/</guid>
+            <description>I&amp;rsquo;ll be more explicit about some commands that you may want to use in your Dockerfile and explain how Docker works through them. For introduction to Docker see Part IA docker container will keep running in the background as long as the initial command executed within the container is still running.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Docker Series - Intro to Docker</title>
+            <link>https://balamaci.ro/2014/01/26/docker-series-intro-to-docker/</link>
+            <pubDate>Sun, 26 Jan 2014 19:54:42 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2014/01/26/docker-series-intro-to-docker/</guid>
+            <description>Foreword - How I stumbled upon Docker So all this started when I was impressed after reading about Jepsen. I like that that Kyle(the blogger) seems to have stumbled upon a generic framework for testing distributed systems behavior in cases of node failure and network partitioning etc, and how he was able to use this framework to do some nice analysis of Cassandra, Ryak, etc.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>More Secure than Yesterday - Keeping sessionid in the url - When did that became a Good ideea?</title>
+            <link>https://balamaci.ro/2013/01/27/more-secure-than-yesterday-keeping-sessionid-in-the-url-when-did-that-became-a-good-ideea/</link>
+            <pubDate>Sun, 27 Jan 2013 18:56:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2013/01/27/more-secure-than-yesterday-keeping-sessionid-in-the-url-when-did-that-became-a-good-ideea/</guid>
+            <description>Now you may have heard that keeping the session id in the url is bad practice. Might even have read it in the previous postand I&amp;rsquo;m just going to reassure you it still holds true as long as you don&amp;rsquo;t take other precautions.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>More Secure than Yesterday – Preventing &#34;Session stealing&#34; type of attacks.</title>
+            <link>https://balamaci.ro/2013/01/27/more-secure-than-yesterday-preventing-session-fixation-and-general-session-stealing-type-of-attacks/</link>
+            <pubDate>Sun, 27 Jan 2013 18:11:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2013/01/27/more-secure-than-yesterday-preventing-session-fixation-and-general-session-stealing-type-of-attacks/</guid>
+            <description>Explaining Session Fixation attack The session fixation type of attack is very simple to understand and relies on the fact that the attacker convinces a victim to use a session already fixated(provided) by the attacker to your site.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>More Secure than Yesterday - Storing the Users Passwords</title>
+            <link>https://balamaci.ro/2012/04/03/more-secure-than-yesterday-storing-the-users-passwords/</link>
+            <pubDate>Tue, 03 Apr 2012 21:00:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2012/04/03/more-secure-than-yesterday-storing-the-users-passwords/</guid>
+            <description>Today we&amp;rsquo;re tackling the common problem of keeping our users passwords secure. It&amp;rsquo;s going to be a recap of the best practices and reasons behind them, and I&amp;rsquo;ll be introducing a very useful library for cryptography in Java to have a concrete implementation of how you can store your user&amp;rsquo;s passwords in a safe way.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>More Secure than Yesterday - using ReCaptcha with Wicket</title>
+            <link>https://balamaci.ro/2012/03/29/more-secure-than-yesterday-using-recaptcha-with-wicket/</link>
+            <pubDate>Thu, 29 Mar 2012 14:43:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2012/03/29/more-secure-than-yesterday-using-recaptcha-with-wicket/</guid>
+            <description>We&amp;rsquo;re going for some concrete implementation of a captcha login using ReCaptchausing with the Wicketframework.
+ReCaptcha explained Short Intro The problem with current captcha images is that there is software that can make out with pretty good precision the letters in a pretty obfuscated image of text.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>More Secure than Yesterday - Trying to prevent Brute-force attacks</title>
+            <link>https://balamaci.ro/2012/03/26/more-secure-than-yesterday-trying-to-prevent-brute-force-attacks/</link>
+            <pubDate>Mon, 26 Mar 2012 13:12:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2012/03/26/more-secure-than-yesterday-trying-to-prevent-brute-force-attacks/</guid>
+            <description>Boring intro I&amp;rsquo;m working in my spare time developing a little Wicket Shopping platform and these days I&amp;rsquo;ve been pondering how much of security considerations I&amp;rsquo;ve be letting on for later, such as the topic of today&amp;rsquo;s post of preventing the Brute force attacks for obtaining a login in our web application.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Why I&#39;d choose Apache Wicket as a web application framework</title>
+            <link>https://balamaci.ro/2011/11/02/why-choose-apache-wicket-framework/</link>
+            <pubDate>Wed, 02 Nov 2011 11:40:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2011/11/02/why-choose-apache-wicket-framework/</guid>
+            <description>In a short description Apache Wicketis a great stateful component based framework which cultivates a sound architecture that appeals to Java developers. This is just going to be a general summary of the points of why you might want to have a look at the framework.</description>
+        </item>
+        
+        
+    </channel>
+</rss>

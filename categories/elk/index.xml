@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>elk on Serban Balamaci</title>
+        <link>https://balamaci.ro/categories/elk/</link>
+        <description>Recent content in elk on Serban Balamaci</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <managingEditor>thespamtrapp@gmail.com (Serban Balamaci)</managingEditor>
+        <webMaster>thespamtrapp@gmail.com (Serban Balamaci)</webMaster>
+        <lastBuildDate>Thu, 10 Mar 2016 19:53:21 +0000</lastBuildDate>
+        
+        <atom:link href="https://balamaci.ro/categories/elk/index.xml" rel="self" type="application/rss+xml" />
+        
+        
+        
+        <item>
+            <title>Java app monitoring with ELK - Part I - Logstash and Logback</title>
+            <link>https://balamaci.ro/2016/03/10/java-app-monitoring-with-elk-logstash/</link>
+            <pubDate>Thu, 10 Mar 2016 19:53:21 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2016/03/10/java-app-monitoring-with-elk-logstash/</guid>
+            <description>Logs for developers are undeniably the most important source of information available to track down problems and understand what is happening with your applications.
+It makes sense to have a good tool in our toolbox that will enable us to get better insight of this data.</description>
+        </item>
+        
+        
+    </channel>
+</rss>

@@ -1,0 +1,761 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.73.0" />
+
+    
+    
+    
+
+<title>Reactive log stream processing with RxJava - Part II • Serban Balamaci</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Serban Balamaci">
+<meta property="og:title" content="Reactive log stream processing with RxJava - Part II">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://balamaci.ro/2016/08/17/reactive-log-stream-processing-with-rxjava-part-2/" />
+<meta property="og:description" content="Java mostly, and general tech">
+<meta property="og:image" content="https://balamaci.ro/social-sharing.png">
+<meta property="og:image:type" content="image/png">
+    
+    
+    
+<meta property="og:image:width" content="192">
+<meta property="og:image:height" content="192">
+    
+
+<meta property="og:updated_time" content="2016-08-17T19:41:28Z">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@sbalamaci">
+<meta name="twitter:title" content="Reactive log stream processing with RxJava - Part II">
+
+<meta name="twitter:image" content="https://balamaci.ro/social-sharing.png">
+
+<meta name="twitter:description" content="Java mostly, and general tech">
+<meta name="twitter:creator" content="@sbalamaci">
+    
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/a11y-light.min.css" media="(prefers-color-scheme: light)"><link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/gruvbox-dark.min.css" media="(prefers-color-scheme: dark)">
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.57d57be207f95258b69c5563e34ed2c632000ecb862ce9bd97e7e35f3957094c.css" integrity="sha256-V9V74gf5Uli2nFVj407SxjIADsuGLOm9l&#43;fjXzlXCUw=">
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde-dark.2eddfb769610f72f40f6bc949e62a3acf298eb8504c073739085a417978b18cd.css" integrity="sha256-Lt37dpYQ9y9A9ryUnmKjrPKY64UEwHNzkIWkF5eLGM0=" media="(prefers-color-scheme: dark)">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    
+    <link rel="shortcut icon" sizes="192x192" href="/android-192-favicon.png">
+
+    
+    <link rel="shortcut icon" href="/android-192-favicon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/v4-shims.min.css" integrity="sha256-wN7QJaqAwQ03kgUhyN4EU2phRdDkLrQYbFe0EvpQ60U=" crossorigin="anonymous" />
+
+    
+    
+
+
+    
+</head>
+
+
+    <body class="">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://balamaci.ro">Serban Balamaci</a>
+      </span>
+      
+      
+        <div class="author-image">
+          <img src="https://www.gravatar.com/avatar/309afbf8c2f162060e4fa28d670d2ec8?s=240&d=mp" class="img--circle img--headshot element--center" alt="gravatar">
+        </div>
+      
+      <p class="site__description">
+         Java and JVM related 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">Serban Balamaci</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/"><span class='fa-icon'><i class='fas fa-home'></i></span> Home
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/posts/"><span class='fa-icon'><i class='fas fa-stream'></i></span> Posts
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/series/"><span class='fa-icon'><i class='fas fa-list-alt'></i></span> Series
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/"><span class='fa-icon'><i class='fas fa-tags'></i></span> Tags
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/whoami/"><span class='fa-icon'><i class='fas fa-id-card'></i></span> About
+						<span></span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/@sbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="bird" class="svg-inline--fa fa-bird fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></i></a>
+	
+	
+	
+	<a href="https://github.com/balamaci" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/serbanbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="pro-network" class="svg-inline--fa fa-pro-network fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="container fixed-container">
+    
+<div class="copyright">
+  &copy; 2010 - 2020 Serban Balamaci
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+
+<article>
+  <header>
+    <h1>Reactive log stream processing with RxJava - Part II</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> 2016-08-17
+    
+    
+    
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 35 min read
+
+    
+    
+    
+
+</div>
+
+
+  </header>
+  
+  
+  
+  <div class="post md">
+    <p>In the previous post we saw how we can add a push based solution(RabbitMQ) to our &ldquo;ELK&rdquo; stack and how we can connect from Spring to RabbitMQ and have the log events emitted as a reactive stream.</p>
+<h4 id="json-file-as-the-source-of-log-events">Json file as the source of log events</h4>
+<p>Since our main target is to play around as easily as possible with RxJava operators, we&rsquo;ll simulate receiving the events from RabbitMQ by reading them from a json file instead.
+This helps that we don&rsquo;t need to start the full stack of RabbitMQ+Logstash+Log emitter app(through docker-compose) to test our operator chain setup, and also having the same events being emitted in a deterministic manner helps us track down where we went wrong.</p>
+<p>We&rsquo;ll be using Spring Profiles to switch between how the events are been generated so apart from the <a href="https://github.com/balamaci/blog-rxjava-rabbitmq/blob/master/src/main/java/com/balamaci/rx/configuration/AmqpSourceEmitterConfiguration.java">AmqpSourceEmitterConfiguration</a> we&rsquo;ll have <a href="https://github.com/balamaci/blog-rxjava-rabbitmq/blob/master/src/main/java/com/balamaci/rx/configuration/JsonFileEmitterSourceConfiguration.java">JsonFileEmitterSourceConfiguration</a> which pushes the json entries onto the <strong>PublishSubject</strong>(to be consistent with how the AMQP MessageListenerAdapter does it).</p>
+<pre><code class="language-java">@Configuration
+@Profile(&quot;hardcoded-events&quot;)
+public class JsonFileEmitterSourceConfiguration implements ApplicationListener&lt;ContextRefreshedEvent&gt; {
+
+    @Bean
+    public Receiver receiver() {
+        return new Receiver();
+    }
+
+    @Bean(name = &quot;events&quot;)
+    public Observable&lt;JsonObject&gt; emitEvents(Receiver receiver) {
+        return receiver.getPublishSubject();
+    }
+
+    @Override
+    public void onApplicationEvent(ContextRefreshedEvent event) {
+        Receiver receiver = event.getApplicationContext().getBean(Receiver.class);
+        startEmitting(receiver);
+    }
+
+    private void startEmitting(Receiver receiver) {
+        PublishSubject&lt;JsonObject&gt; publishSubject = receiver.getPublishSubject();
+
+        Supplier&lt;Integer&gt; waitForMillis = () -&gt; 200; //force a little fixed delay between the events emitter.
+        Executors.newSingleThreadExecutor() //we start a single separate thread to simulate the same conditions like  
+            .submit(() -&gt; produceEventsFromJsonFile(publishSubject, waitForMillis));
+    }
+
+
+    private void produceEventsFromJsonFile(Observer&lt;JsonObject&gt; subscriber, Supplier&lt;Integer&gt; waitTimeMillis) {
+        JsonArray events = Json.readJsonArrayFromFile(&quot;events.json&quot;);
+        events.forEach(ev -&gt; {
+            sleepMillis(waitTimeMillis.get());
+
+            JsonObject jsonObject = (JsonObject) ev;
+            log.info(&quot;Emitting {}&quot;, Json.propertyStringValue(&quot;message&quot;).call(jsonObject));
+
+            subscriber.onNext(jsonObject);
+        });
+    }
+}
+</code></pre>
+<p>so now we have a Spring Bean named &ldquo;events&rdquo; which is an Observable<!-- raw HTML omitted --> - the main stream of events -.</p>
+<p>and we can switch between profiles at start time</p>
+<pre><code class="language-java">public static void main(String[] args) throws Exception {
+        AnnotationConfigApplicationContext context = new AnnotationConfigApplicationContext();
+        context.setDisplayName(&quot;RxJava&quot;);
+
+        context.getEnvironment().setActiveProfiles(&quot;hardcoded-events&quot;);
+        //context.getEnvironment().setActiveProfiles(&quot;amqp&quot;);
+
+        context.scan(&quot;com.balamaci.rx.configuration&quot;);
+        context.scan(&quot;com.balamaci.rx.observable&quot;);
+        context.refresh();
+        context.start();
+}
+</code></pre>
+<p>Until this point even if events are being emitted(since we&rsquo;re using a hot observable), nobody is yet subscribed so the events are just lost.</p>
+<p>Let&rsquo;s start by just displaying the failed login events and in the end show how many failed logins there were from each ip.</p>
+<p>The events being emitted are just some simulated Login events that we load from <a href="https://github.com/balamaci/rxjava-rabbitmq/blob/master/events.json">events.json</a> which look like:</p>
+<pre><code>{
+    &quot;appName&quot;: &quot;elk-testdata&quot;,
+    &quot;level&quot;: &quot;INFO&quot;,
+    &quot;logger_name&quot;: &quot;ro.fortsoft.elk.testdata.generator.event.LoginEvent&quot;,
+    &quot;thread_name&quot;: &quot;pool-3-thread-4&quot;,
+    &quot;message&quot;: &quot;SUCCESS login for user\u003d\u0027giannaodom@yahoo.com\u0027&quot;,
+    &quot;remoteIP&quot;: &quot;192.168.0.32&quot;,
+    &quot;userName&quot;:&quot;giannaodom@yahoo.com&quot;,
+    &quot;@timestamp&quot;: &quot;2016-06-30T11:33:40.872Z&quot;,
+    &quot;host&quot;: &quot;172.17.0.4&quot;
+  },
+  {
+    &quot;appName&quot;: &quot;elk-testdata&quot;,
+    &quot;level&quot;: &quot;ERROR&quot;,
+    &quot;logger_name&quot;: &quot;ro.fortsoft.elk.testdata.generator.event.LoginEvent&quot;,
+    &quot;thread_name&quot;: &quot;pool-3-thread-6&quot;,
+    &quot;message&quot;: &quot;FAILED login for user\u003d\u0027perez@yahoo.com\u0027&quot;,
+    &quot;remoteIP&quot;: &quot;192.168.0.105&quot;,
+    &quot;userName&quot;:&quot;perez@yahoo.com&quot;,
+    &quot;@timestamp&quot;: &quot;2016-06-30T11:33:40.874Z&quot;,
+    &quot;host&quot;: &quot;172.17.0.4&quot;,
+  }
+</code></pre>
+<pre><code>@Configuration
+public class LoginObservables {
+
+    @Autowired
+    @Qualifier(&quot;events&quot;)
+    protected Observable&lt;JsonObject&gt; events;
+
+    @Bean
+    Observable&lt;JsonObject&gt; loginEvents() {
+        return events
+                .filter(checkPropertyFunc(&quot;logger_name&quot;, val -&gt; val.contains(&quot;LoginEvent&quot;)));
+    }
+
+    @Bean
+    Observable&lt;JsonObject&gt; failedLogins() {
+        return loginEvents()
+            .filter(Json.checkPropertyFunc(&quot;message&quot;, val -&gt; val.startsWith(&quot;FAILED login&quot;)));
+            .doOnNext((jsonObject) -&gt; log.info(&quot;Debug {}&quot;, Json.propertyStringValue(&quot;messsage&quot;)));
+    }
+
+    @Bean
+    public Subscription displayLogEventsSubscription() {
+        failedLogins()
+            .subscribe((jsonObject) -&gt; log.info(&quot;Got {}&quot;, Json.propertyStringValue(&quot;messsage&quot;)));
+    }    
+}
+</code></pre>
+<p>Remember until we connect the &ldquo;sink&rdquo;(the subscriber) events are not traveling down the operators chain -the operator functions are not executed-.
+We can prove this by adding <strong>&lsquo;onNext()'</strong> - which is just a simple way to interpose an action in the chain, great for debugging purposes.
+We registered the subscriber by annotating @Bean the &lsquo;displayLogEventsSubscription&rsquo; that method is invoked automatically by Spring.
+Without the Subscription bean the &lsquo;Debug&rsquo; message is not seen.</p>
+<h3 id="too-many-failed-logins-from-the-same-ips">Too many failed logins from the same ips</h3>
+<p>Now let&rsquo;s dive right in and try to see the cases where there are too many failed logins from a certain ip.
+First we need a time range to measure the failed logins so we get a result of X failed logins / 10 secs.
+We can use the <strong>window</strong> operator for this.</p>
+<p>Operator <strong>window(long timespan, TimeUnit unit)</strong> splits the events stream into multiple windows of fixed time. It returns a stream of stream(Observable&lt;Observable&lt;T&gt;&gt;) each stream emitting events in it&rsquo;s timerange.</p>
+<pre><code class="language-java">Observable&lt;Observable&lt;JsonObject&gt;&gt; windowStream = failedLogins().window(30, TimeUnit.SECONDS);
+</code></pre>
+<p>Sidenote: You might wonder why not a single continuous stream as return value? Well, because that the window operator needs to signal <strong>onComplete</strong> after it&rsquo;s reached the specified time value, and the reactive streams specs say that you cannot emit new events after <strong>onComplete</strong>.</p>
+<p>There is also an overloaded version of <strong>window(long timespan, long timeshift, TimeUnit unit)</strong> - it&rsquo;s creating a new window with the specific timespan each &lsquo;timeshift&rsquo; period. So in this case there may be overlaping windows.</p>
+<h3 id="flatmap-operator">Flatmap operator</h3>
+<p>Now the tricky part is that we need to register for events on each stream. This is where the <strong>flatMap</strong> operator comes in.
+The <strong>flatMap</strong> operator is like the swiss army knife, it can be used for all sorts of usecases.
+<strong>1. The fork-join</strong>. Consider the common case where for an event we need to make remote calls to other services. Each of those remote calls might return list of objects(but in the reactive streams world you might want to return Observable<!-- raw HTML omitted --> instead of List<!-- raw HTML omitted -->).
+So each event might start other streams and we register the downstream for notifications for each event.</p>
+<p><strong>T &ndash;&gt; Observable&lt;T&gt;</strong></p>
+<p>This looks <strong>similar to a fork-join</strong> operation.</p>
+<p><img src="https://camo.githubusercontent.com/1db5afe0637db37bf24a0476deeb4a6af5f846a1/687474703a2f2f692e696d6775722e636f6d2f5a75364f5034442e706e67%22" alt="flatMap">
+So the <strong>3,2,1</strong> events make remote calls that each return an Observable&lt;Integer&gt; while zs is the internal stream(the flatten operation) that downstreams operators subscribe on.
+We&rsquo;ll see later a concrete example of this(by making a rest call to mock REST services)
+Sidenote: The thing to notice from the image is that it has no longer an order guarantee. The events from the merged streams appear as soon as they are emitted and so you might get &lsquo;mixed&rsquo; events between the streams.
+PS: Should we want to maintain order we can use <strong>concatMap</strong> like bellow:
+<img src="https://camo.githubusercontent.com/2a578ecf4d5c6890f82ef27a5eb5330e3a613d4c/687474703a2f2f692e696d6775722e636f6d2f4b386a5147316e2e706e67" alt="concatMap"></p>
+<p><strong>2.The stream &lsquo;walker&rsquo;</strong> - There is already a stream of streams who emit events, we want the downstream operators to react on events that appears on each stream. This is the usecase we need right now. As a rule of thumb when you have an Observable&lt;Observable&lt;T&gt;&gt; you probably need flatMap next.</p>
+<pre><code>Observable&lt;Observable&lt;JsonObject&gt;&gt; windowStream = failedLogins().window(30, TimeUnit.SECONDS);
+
+Observable&lt;JsonObject&gt; windowEvents = windowStream.flatMap(jsonWindowEventObservable -&gt; jsonWindowEventObservable); //notice we now have a single stream as return value
+</code></pre>
+<p>The statement</p>
+<pre><code>flatMap(jsonWindowEventObservable -&gt; jsonWindowEventObservable)    
+</code></pre>
+<p>looks like it&rsquo;s not doing anything, but we just say that the map function should return our json event unchanged, but we now have the events from all the windows flattened into a single stream.</p>
+<p>Since we want to count the number of failed logins per ip, we need the <strong>groupBy</strong> operator. It takes as parameter a function which gives the grouping key, in our case a function which returns the &lsquo;remoteIP&rsquo; field in the json event for failed logins.
+The <strong>groupBy</strong> operator returns a stream of streams, each new ip starts a new stream, while already &ldquo;seen&rdquo; ips emit events on their stream.</p>
+<pre><code>Observable&lt;GroupedObservable&lt;String, JsonObject&gt;&gt; groupedEventsPerIp = windowEvents.groupBy(Json.propertyStringValueFunc(&quot;remoteIP&quot;));
+</code></pre>
+<p>192.168.0.11 -(#)&mdash;&mdash;&ndash;(#)&mdash;&ndash;&gt;
+192.168.0.68 &mdash;&mdash;&mdash;(#)&mdash;&mdash;&ndash;&gt;
+192.168.0.88 &mdash;&ndash;(#)&mdash;&mdash;&mdash;&ndash;&gt;</p>
+<p>This is another reason why we first chose to use <strong>window</strong> on the initial stream of log events.
+Since the initial stream of potentially infinite, groupBy splits it into potentially infinite number of streams aka a recipe for OutOfMemory.</p>
+<p>Now that we have to count the number of events per each ip-substream. We again use flatMap to be able to register a function for each substream perform some calculation and then &ldquo;flatten&rdquo; the result back to a single stream.</p>
+<pre><code>.flatMap(groupEventForIP -&gt; groupEventForIP
+                                .count()
+                                .map(failedLoginsCount -&gt; {
+                                    final String remoteIp = grouped.getKey();
+                                    return new Pair&lt;&gt;(remoteIp, failedLoginsCount);
+                                }))
+
+</code></pre>
+<p>The flatMap operator has received as a parameter a <em>groupEventForIP</em> which is a GroupedObservable&lt;String, JsonObject&gt; (the string key being the remoteIP value) - so it&rsquo;s still a stream which means we can go ahead and apply stream operators on this substream-.
+Since we need to count how many failed logins there were, we just apply the <strong>count()</strong> operator which returns a number that we use to pass downstream a Pair&lt;remoteIP, failedLoginsCount&gt;.</p>
+<p>All together this looks like:</p>
+<pre><code>    Observable&lt;Pair&lt;String, Integer&gt;&gt; failedLoginsPerWindow(int windowSecs) {
+        return failedLogins()
+                .window(windowSecs, TimeUnit.SECONDS)
+                .flatMap(jsonWindowEventObservable -&gt; jsonWindowEventObservable
+                 .groupBy(Json.propertyStringValueFunc(&quot;remoteIP&quot;))
+                            .flatMap(groupEventForIP -&gt; groupEventForIP
+                                .count()
+                                .map(failedLoginsCount -&gt; {
+                                    final String remoteIp = groupEventForIP.getKey();
+                                    return new Pair&lt;&gt;(remoteIp, failedLoginsCount);
+                                }))
+                );
+    }
+
+    @Bean
+    public Subscription failedLoginsPerIpSubscription() {
+        return failedLoginsPerWindow(10) //10 secs window
+                .filter(failedLoginPair -&gt; failedLoginPair.getValue() &gt; minFailedLoginAttempts)
+                .subscribe((failedLoginPair) -&gt;log.info(&quot;Possible brute force login: {}&quot;, failedLoginPair));
+    }
+</code></pre>
+<h4 id="usecase-for-flatmap-as-the-mentioned-fork-join-operator-to-do-extra-checks">Usecase for flatMap as the mentioned fork-join operator to do extra checks</h4>
+<p>We dealt with the bad guys, however we&rsquo;ve yet to seen how we can deal with a scenario in which we need to run extra checks in remote services for certain events.
+Let&rsquo;s invent some usecase.
+Say that after login it would make sense to start some credit check for our user like verify he payed at least one bill or that he registered a valid mobile phone with us. Since these checks are usually slow(involving some legacy core business components) and change frequently, we don&rsquo;t want to put them in our frontend app to slow down the load time of pages.
+Instead we can do these checks on our log stream processing machines and write the results in some &ldquo;isAllowedToXXX&rdquo; field.
+The frontend app would just check these fields before letting the user use services that have money costs. Since the checks logic is external, we can change it frequently without redeploying the frontend app.
+The user would be free to use his account to look around and just force him to enter extra data whenever he attempts to actually use those money involving services.</p>
+<p>This would look like:</p>
+<pre><code>public class UserService {
+    public Observable&lt;UserScoring&gt; retrieveScoring(String username) {..}
+}
+</code></pre>
+<p>Now we need another check to see how we can trigger them in parallel and still work with the result from both of them.<br>
+Some sites when you travel to another country and see you login from an IP this country you&rsquo;ve never logged from recently ask for some 2Factor authentication(like a sms code they send to your phone).<br>
+This is a good idea since a login from a different country could mean someone else stole your credentials and is accessing your account.
+Now this is normally baked right in the authentication flow and not left to an external log event analysis tool, still it makes a good excuse to imagine it as our second extra check that the IP is from an user&rsquo;s country.</p>
+<pre><code>public class UserService {
+    /** Returns  UserCreditScoring.CREDIT_CARD_STORED, MOBILE_PHONE_STORED, NONE;  */
+    public Observable&lt;UserCreditScoring&gt; retrieveScoring(String username) { }
+    
+    /** Returns UserLocationRating.SAFE, SUSPICIOUS */
+    public Observable&lt;UserLocationRating&gt; retrieveUserLocationBasedOnIp(String username, String ip) { }
+}
+
+</code></pre>
+<p>So for every successful login we want to start these two checks and in the case both of them return something other than SAFE / CREDIT-CARD-STORED we mark the check for the frontend to ask extra info.</p>
+<p>But first we need to modify</p>
+<pre><code>JsonObject(json successful login event) -&gt; Pair&lt;Username, IP&gt;
+</code></pre>
+<p>We need a simple <strong>map</strong> operator. Compared to <strong>flatMap</strong>, the <strong>map</strong> operator just transforms T -&gt; X.</p>
+<pre><code>Observable&lt;Pair&lt;String, String&gt;&gt; successLoginStream = 
+    succesfullLogins()
+                .map(jsonObject -&gt;
+                        new Pair&lt;&gt;(new Json(jsonObject).propertyStringValue(&quot;userName&quot;),
+                                new Json(jsonObject).propertyStringValue(&quot;remoteIP&quot;)))
+
+</code></pre>
+<p>and we got the two checks:</p>
+<pre><code>Observable&lt;UserCreditScoring&gt; scoringObservable = userService.retrieveScoring(username); 
+Observable&lt;UserLocationRating&gt; locationObservable = userService.retrieveUserLocationBasedOnIp(username, ip);
+</code></pre>
+<p>We need to wait for the result of both scoring and location checks stream.
+You might remember the <strong>zip</strong> operator that groups together one by one events but since they are different types of events(UserCreditScoring and UserLocationRating) we need a way to merge them together.</p>
+<p>So we&rsquo;ll create a method that returns a Tuple(from <a href="http://www.javaslang.io/">JavasLang</a> library) of the 3 values <strong>&lt;username, UserCreditScoring, UserLocationRating&gt;</strong></p>
+<pre><code>private Observable&lt;Tuple3&lt;String, UserCreditScoring, UserLocationRating&gt;&gt; checkUserScoringAndLocationRating(String username, String ip) {
+    Observable&lt;UserCreditScoring&gt; scoringObservable = userService.retrieveScoring(username);
+    Observable&lt;UserLocationRating&gt; locationObservable = userService.retrieveUserLocationBasedOnIp(username, ip);
+
+    Observable&lt;Tuple3&lt;String, UserCreditScoring, UserLocationRating&gt;&gt; scoringAndLocationObservable =
+                scoringObservable
+                        .zipWith(locationObservable, (scoring, location) -&gt; new Tuple3&lt;&gt;(username, scoring, location));
+
+    return scoringAndLocationObservable;
+}
+</code></pre>
+<p>we passed to the <strong>zip</strong> operator a merging function to say how we want to combine the scoring and location. This function just creates a new Tuple</p>
+<pre><code>(scoring, location) -&gt; new Tuple3&lt;&gt;(username, scoring, location)
+</code></pre>
+<p>Remember that for <strong>T -&gt; Observable&lt;Y&gt;</strong> we need <strong>flatMap</strong> to do the fork-join logic(to spin off new streams and then rejoining the results)</p>
+<pre><code>succesfullLogins()
+                .map(jsonObject -&gt;
+                        new Pair&lt;&gt;(new Json(jsonObject).propertyStringValue(&quot;userName&quot;),
+                                new Json(jsonObject).propertyStringValue(&quot;remoteIP&quot;)))
+                .flatMap(pair -&gt; checkUserScoringAndLocationRating(pair.getKey(), pair.getValue()))
+
+</code></pre>
+<h3 id="rxjava-schedulers">RxJava Schedulers</h3>
+<p>I&rsquo;m gonna add some debugging statements and show the output to understand something else. Btw we also need to subscribe to the observable first</p>
+<pre><code>    private Observable&lt;Tuple3&lt;String, UserCreditScoring, UserLocationRating&gt;&gt; userScoringAndLocationForSuccessfulLogins() {
+        return succesfullLogins()
+                .map(jsonObject -&gt;
+                        new Pair&lt;&gt;(new Json(jsonObject).propertyStringValue(&quot;userName&quot;),
+                                new Json(jsonObject).propertyStringValue(&quot;remoteIP&quot;)))
+                .doOnNext(userIpPair -&gt; log.info(&quot;After map {}&quot;, userIpPair))
+                .flatMap(pair -&gt;
+                                 checkUserScoringAndLocationRating(pair.getKey(), pair.getValue())
+                                 .doOnNext(tuple3 -&gt; log.info(&quot;Tupple {}&quot;, tuple3)) //--&gt;&gt; the extra debug statement
+                        );
+    }
+
+
+</code></pre>
+<pre><code>[json-hardcoded-file1] INFO JsonFileEmitterSourceConfiguration - Emitting SUCCESS login for user='mendoza@yahoo.com'
+[json-hardcoded-file1] INFO SuccessfulLoginObservable - Tupple (mendoza@yahoo.com, MOBILE_PHONE_STORED, SAFE)
+[json-hardcoded-file1] INFO SuccessfulLoginObservable - Subscriber got (mendoza@yahoo.com, MOBILE_PHONE_STORED, SAFE) ****
+[json-hardcoded-file1] INFO JsonFileEmitterSourceConfiguration - Emitting FAILED login for user='perez@yahoo.com'
+[json-hardcoded-file1] INFO JsonFileEmitterSourceConfiguration - Emitting SUCCESS login for user='powell@yahoo.com'
+[json-hardcoded-file1] INFO SuccessfulLoginObservable - Tupple (powell@yahoo.com, MOBILE_PHONE_STORED, SAFE)
+[json-hardcoded-file1] INFO SuccessfulLoginObservable - Subscriber got (powell@yahoo.com, MOBILE_PHONE_STORED, SAFE) ****
+[json-hardcoded-file1] INFO JsonFileEmitterSourceConfiguration - Emitting SUCCESS login for user='walton@gmail.com'
+[json-hardcoded-file1] INFO SuccessfulLoginObservable - Tupple (walton@gmail.com, NONE, SAFE)
+[json-hardcoded-file1] INFO SuccessfulLoginObservable - Subscriber got (walton@gmail.com, NONE, SAFE) ****
+</code></pre>
+<p>The thing to notice is that all the operations are happening on &lsquo;json-hardcoded-file1&rsquo; which is the same thread on which we read the json events so if we&rsquo;d be doing some slow processing with the events we&rsquo;d keep all this thread blocked and slow down receiving of events.
+Can we maybe make part of the work to run in parallel?</p>
+<p>RxJava provides some high level concepts for concurrent execution, like ExecutorService we&rsquo;re not dealing with the low level constructs like creating the Threads ourselves. Instead we&rsquo;re using <strong>Schedulers</strong> which create Workers who are responsible for scheduling and running code. By default RxJava will not introduce concurrency and will run the operations on the subscription thread.</p>
+<p>There are two methods through which <strong>we can introduce Schedulers</strong> into our chain of operations: <strong>subscribeOn</strong> and <strong>observeOn</strong>.</p>
+<ul>
+<li><strong>subscribeOn</strong> acts upon the creation of events part -&gt; at Observable.create and it will use the changed thread for the downstream operations.</li>
+</ul>
+<pre><code class="language-java">	Observable&lt;Integer&gt; observable = Observable
+                .create(subscriber -&gt; {
+                    /** some possible slow network op**/
+                    log.info(&quot;Started emitting&quot;);
+                    subscriber.onNext(1);
+
+                    subscriber.onCompleted();
+                });
+		
+	observable
+//                .subscribeOn(Schedulers.computation()) //--&gt; changes the thread where create above runs 
+                .map(val -&gt; {
+                    int newValue = val * 2;
+                    log.info(&quot;Mapping new val {}&quot;, newValue);
+                    return newValue;
+                })
+                .subscribe(val -&gt; log.info(&quot;Subscribe received &quot; + val));
+</code></pre>
+<p>Short recap: <strong>Observable are lazy</strong>(the code inside the first line it&rsquo;s not executed) until we call <strong>observable.subscribe()</strong> and then the thread which called <strong>subscribe()</strong> will be used to run the code inside <strong>create</strong> along with the slow network op unless ofcourse we specified another scheduler with <strong>subscribeOn</strong> to execute it.</p>
+<p>with the subscribeOn line commented out we have:</p>
+<pre><code>[main] INFO SchedulerTests - Starting
+[main] INFO SchedulerTests - Started emitting
+[main] INFO SchedulerTests - Mapping new val 2
+[main] INFO SchedulerTests - Subscribe received 2
+</code></pre>
+<p>while with subscribeOn enabled:</p>
+<pre><code>[main] INFO SchedulerTests - Starting
+[RxComputationScheduler-1] INFO SchedulerTests - Started emitting
+[RxComputationScheduler-1] INFO SchedulerTests - Mapping new val 2
+[RxComputationScheduler-1] INFO SchedulerTests - Subscribe received 2
+</code></pre>
+<p>Since subscribeOn is related to which thread the <strong>Observable.create</strong> method is invoked on - and not with the code inside <strong>.subscribe(val -&gt; { &hellip; })</strong> part(which is the last operation in our chain), it doesn&rsquo;t actually matter where we call <strong>subscribeOn</strong> in our method chain, neither does it matter if we call it twice(just the first one will count). And very important in our case <strong>calling subscribeOn for Subjects is pointless</strong> since hot observables are already pushing events on some thread even without an active subscriber registered.</p>
+<ul>
+<li><strong>observeOn</strong> relates to how subsequent operators are being executed.</li>
+</ul>
+<pre><code>	Observable&lt;Integer&gt; observable = Observable
+                .create(subscriber -&gt; {
+                    
+                    log.info(&quot;Started emitting&quot;);
+                    subscriber.onNext(1);
+
+                    subscriber.onCompleted();
+                })
+                .observeOn(Schedulers.computation())  //--&gt; change subsequent operations thread
+                .map(val -&gt; {
+                    int newValue = val * 2;
+                    log.info(&quot;First mapping new val {}&quot;, newValue);
+                    return newValue;
+                })
+                .observeOn(Schedulers.io())          // --&gt; change it again
+                .map(val -&gt; {
+                    String newValue = &quot;*&quot; + val + &quot;*&quot;;
+                    log.info(&quot;Second mapping new val {}&quot;, newValue);
+                    return newValue;
+                })
+                .subscribe(val -&gt; log.info(&quot;Subscribe received &quot; + val));
+
+</code></pre>
+<p>we get</p>
+<pre><code>12:49:31 [main] INFO SchedulerTests - Started emitting
+12:49:31 [RxComputationScheduler-1] INFO SchedulerTests - First mapping new val 2
+12:49:31 [RxIoScheduler-2] INFO SchedulerTests - Second mapping new val *2*
+12:49:31 [RxIoScheduler-2] INFO SchedulerTests - Subscribe received *2*
+</code></pre>
+<p>because the subscription happened on the &lsquo;main&rsquo; thread, while before each operator we changed the Scheduler.</p>
+<p>RxJava provides some <strong>out of the box Schedulers</strong>:</p>
+<ul>
+<li><strong>Schedulers.newThread()</strong> - The scheduler just starts a new thread every time it is requested via subscribeOn() or observeOn(). Not usually a good choice since threads are not reused, and a new one is always created.</li>
+<li><strong>Schedulers.io()</strong> - as the name implies it&rsquo;s supposed to be used for blocking network/disk code. Nothing really magical, it&rsquo;s a threadpool with an unbounded number of threads. Threads are being reused, but since this will be a common pool(just as using the same ForkJoinPool for all calls to Streams.parallel() is a bad idea), it&rsquo;s probably good to be using it sparsely.</li>
+<li><strong>Schedulers.computation()</strong> - should be used on operations that require computational power and have no blocking code. It&rsquo;s limiting the pool size with the number of cores so there are no more concurrent threads running than CPU cores and all other requests are queued up until a thread becomes available.</li>
+<li><strong>Schedulers.from(Executor executor)</strong> -  provides a Scheduler based on an Executor.</li>
+</ul>
+<p>So back to our code, we just need to mention a Scheduler upfront and the subsequent operations will use a worker from it.</p>
+<pre><code>    @Bean
+    Observable&lt;JsonObject&gt; loginEvents() {
+        return events
+                .observeOn(Schedulers.io())
+                .filter(checkPropertyFunc(&quot;logger_name&quot;, val -&gt; val.contains(&quot;LoginEvent&quot;)));
+    }
+</code></pre>
+<p>Next we&rsquo;re going to see how we can call a REST service the reactive way to make good on our promise of less used threads for increased performance of many events handling.</p>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/2016/08/10/reactive-log-processing/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Reactive log stream processing with RxJava - Part I</span>
+    </a>
+    
+    
+    <a href="/2017/03/31/kafka-streams-for-stream-processing/" class="navigation-next">
+      <span class="navigation-tittle">Kafka Streams for Stream processing</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js" integrity="sha256-vrn14y7WH7zgEElyQqm2uCGSQrX/xjYDjniRUQx3NyU=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function addBlockSwitches() {
+	$('.primary').each(function() {
+		primary = $(this);
+		createSwitchItem(primary, createBlockSwitch(primary)).item.addClass("selected");
+		primary.children('.title').remove();
+	});
+	$('.secondary').each(function(idx, node) {
+		secondary = $(node);
+		primary = findPrimary(secondary);
+		switchItem = createSwitchItem(secondary, primary.children('.switch'));
+		switchItem.content.addClass('hidden');
+		findPrimary(secondary).append(switchItem.content);
+		secondary.remove();
+	});
+}
+
+function createBlockSwitch(primary) {
+	blockSwitch = $('<div class="switch"></div>');
+	primary.prepend(blockSwitch);
+	return blockSwitch;
+}
+
+function findPrimary(secondary) {
+	candidate = secondary.prev();
+	while (!candidate.is('.primary')) {
+		candidate = candidate.prev();
+	}
+	return candidate;
+}
+
+function createSwitchItem(block, blockSwitch) {
+	blockName = block.children('.title').text();
+	content = block.children('.content').first().append(block.next('.colist'));
+	item = $('<div class="switch--item">' + blockName + '</div>');
+	blockSwitch.append(item);
+	return {'item': item, 'content': content};
+}
+
+function globalSwitch() {
+	$('.switch--item').each(function() {
+		var blockId = blockIdForSwitchItem($(this));
+		$(this).off('click');
+		$(this).on('click', function() {
+			selectedText = $(this).text()
+			window.localStorage.setItem(blockId, selectedText);
+			$(".switch--item").filter(function() {
+				return blockIdForSwitchItem($(this)) === blockId;
+			}).filter(function() {
+				return $(this).text() === selectedText;
+			}).each(function() {
+				select($(this))
+			});
+		});
+		if ($(this).text() === window.localStorage.getItem(blockId)) {
+			select($(this))
+		}
+	});
+}
+
+function blockIdForSwitchItem(item) {
+	idComponents = []
+	idComponents.push(item.text().toLowerCase());
+	item.siblings(".switch--item").each(function(index, sibling) {
+		idComponents.push($(sibling).text().toLowerCase());
+	});
+	return idComponents.sort().join("-")
+}
+
+function select(selected) {
+	selected.addClass('selected');
+	selected.siblings().removeClass('selected');
+	selectedContent = selected.parent().siblings(".content").eq(selected.index())
+	selectedContent.removeClass('hidden');
+	selectedContent.siblings().addClass('hidden');
+}
+
+$(addBlockSwitches);
+$(globalSwitch);
+</script>
+
+
+    
+
+
+
+    </body>
+</html>
+

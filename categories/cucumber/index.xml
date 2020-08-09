@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>cucumber on Serban Balamaci</title>
+        <link>https://balamaci.ro/categories/cucumber/</link>
+        <description>Recent content in cucumber on Serban Balamaci</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <managingEditor>thespamtrapp@gmail.com (Serban Balamaci)</managingEditor>
+        <webMaster>thespamtrapp@gmail.com (Serban Balamaci)</webMaster>
+        <lastBuildDate>Mon, 02 Nov 2015 10:08:00 +0000</lastBuildDate>
+        
+        <atom:link href="https://balamaci.ro/categories/cucumber/index.xml" rel="self" type="application/rss+xml" />
+        
+        
+        
+        <item>
+            <title>BDD web testing setup - Docker, Cucumber and Serenity - Part II</title>
+            <link>https://balamaci.ro/2015/11/02/orchestrating-a-reusable-bdd-web-testing-setup-part-ii/</link>
+            <pubDate>Mon, 02 Nov 2015 10:08:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2015/11/02/orchestrating-a-reusable-bdd-web-testing-setup-part-ii/</guid>
+            <description>Overview In Part I we looked at setting up a reusable testing setup by thinking in high level components through the use of docker containers. We added selenium-grid containers and saw how docker-compose makes it easy to play around with more containers and still make it look simple and clear.</description>
+        </item>
+        
+        
+    </channel>
+</rss>

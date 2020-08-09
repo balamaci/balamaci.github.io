@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Wicket on Serban Balamaci</title>
+        <link>https://balamaci.ro/categories/wicket/</link>
+        <description>Recent content in Wicket on Serban Balamaci</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <managingEditor>thespamtrapp@gmail.com (Serban Balamaci)</managingEditor>
+        <webMaster>thespamtrapp@gmail.com (Serban Balamaci)</webMaster>
+        <lastBuildDate>Wed, 02 Nov 2011 11:40:00 +0000</lastBuildDate>
+        
+        <atom:link href="https://balamaci.ro/categories/wicket/index.xml" rel="self" type="application/rss+xml" />
+        
+        
+        
+        <item>
+            <title>Why I&#39;d choose Apache Wicket as a web application framework</title>
+            <link>https://balamaci.ro/2011/11/02/why-choose-apache-wicket-framework/</link>
+            <pubDate>Wed, 02 Nov 2011 11:40:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2011/11/02/why-choose-apache-wicket-framework/</guid>
+            <description>In a short description Apache Wicketis a great stateful component based framework which cultivates a sound architecture that appeals to Java developers. This is just going to be a general summary of the points of why you might want to have a look at the framework.</description>
+        </item>
+        
+        
+    </channel>
+</rss>

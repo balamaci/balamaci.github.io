@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.73.0" />
+
+    
+    
+    
+
+<title>Kafka Streams for Stream processing • Serban Balamaci</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Serban Balamaci">
+<meta property="og:title" content="Kafka Streams for Stream processing">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://balamaci.ro/2017/03/31/kafka-streams-for-stream-processing/" />
+<meta property="og:description" content="Using Kafka-Stream for stream processing">
+<meta property="og:image" content="https://balamaci.ro/social-sharing.png">
+<meta property="og:image:type" content="image/png">
+    
+    
+    
+<meta property="og:image:width" content="192">
+<meta property="og:image:height" content="192">
+    
+
+<meta property="og:updated_time" content="2017-03-31T13:46:34Z">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@sbalamaci">
+<meta name="twitter:title" content="Kafka Streams for Stream processing">
+
+<meta name="twitter:image" content="https://balamaci.ro/social-sharing.png">
+
+<meta name="twitter:description" content="Using Kafka-Stream for stream processing">
+<meta name="twitter:creator" content="@sbalamaci">
+    
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/a11y-light.min.css" media="(prefers-color-scheme: light)"><link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/gruvbox-dark.min.css" media="(prefers-color-scheme: dark)">
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.57d57be207f95258b69c5563e34ed2c632000ecb862ce9bd97e7e35f3957094c.css" integrity="sha256-V9V74gf5Uli2nFVj407SxjIADsuGLOm9l&#43;fjXzlXCUw=">
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde-dark.2eddfb769610f72f40f6bc949e62a3acf298eb8504c073739085a417978b18cd.css" integrity="sha256-Lt37dpYQ9y9A9ryUnmKjrPKY64UEwHNzkIWkF5eLGM0=" media="(prefers-color-scheme: dark)">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    
+    <link rel="shortcut icon" sizes="192x192" href="/android-192-favicon.png">
+
+    
+    <link rel="shortcut icon" href="/android-192-favicon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/v4-shims.min.css" integrity="sha256-wN7QJaqAwQ03kgUhyN4EU2phRdDkLrQYbFe0EvpQ60U=" crossorigin="anonymous" />
+
+    
+    
+
+
+    
+</head>
+
+
+    <body class="">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://balamaci.ro">Serban Balamaci</a>
+      </span>
+      
+      
+        <div class="author-image">
+          <img src="https://www.gravatar.com/avatar/309afbf8c2f162060e4fa28d670d2ec8?s=240&d=mp" class="img--circle img--headshot element--center" alt="gravatar">
+        </div>
+      
+      <p class="site__description">
+         Java and JVM related 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">Serban Balamaci</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/"><span class='fa-icon'><i class='fas fa-home'></i></span> Home
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/posts/"><span class='fa-icon'><i class='fas fa-stream'></i></span> Posts
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/series/"><span class='fa-icon'><i class='fas fa-list-alt'></i></span> Series
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/"><span class='fa-icon'><i class='fas fa-tags'></i></span> Tags
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/whoami/"><span class='fa-icon'><i class='fas fa-id-card'></i></span> About
+						<span></span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/@sbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="bird" class="svg-inline--fa fa-bird fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></i></a>
+	
+	
+	
+	<a href="https://github.com/balamaci" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/serbanbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="pro-network" class="svg-inline--fa fa-pro-network fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="container fixed-container">
+    
+<div class="copyright">
+  &copy; 2010 - 2020 Serban Balamaci
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+
+<article>
+  <header>
+    <h1>Kafka Streams for Stream processing</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> 2017-03-31
+    
+    
+    
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 68 min read
+
+    
+    
+    
+
+</div>
+
+
+  </header>
+  
+  
+  
+  <div class="post md">
+    <h3 id="a-few-words-about-how-kafka-works">A few words about how Kafka works.</h3>
+<p>At it&rsquo;s base, Kafka has the distributed log concept. By log we understand an immutable(append only) data structure.
+<img src="https://kafka.apache.org/0102/images/log_consumer.png" alt="Kafka Log"></p>
+<p>So a <strong>Producer</strong>(or more) <strong>append</strong> entries(<strong>never overwrite or delete existing data</strong>) at the end of the data structure, while any number of <strong>Consumers</strong>  can read from it at their own pace by each keeping track of the offset from where they last  read and advance to the next records and so on.</p>
+<p>A <strong>Topic is like a category</strong> &ldquo;/orders&rdquo;, &ldquo;/logins&rdquo;, a feed name to which <strong>Producers</strong> can write to and <strong>Consumers</strong> to read from.</p>
+<p>But <strong>would Kafka be so fast if multiple users would have to synchronize to append after each other to the same Topic?</strong>
+Well sequential writes to the filesystem are fast, but a very big performance boost comes from the fact that <strong>Topics can be split into multiple Partitions which can reside on different machines</strong>.
+So multiple <strong>Producers can write to different Partitions</strong> of the same Topic.</p>
+<p><strong>Partitions can be distributed on different machines in a cluster</strong> in order to achieve high performance with horizontal scalability.</p>
+<p><img src="https://sookocheff.com/post/kafka/kafka-in-a-nutshell/log-anatomy.png" alt="Topic with partitions"></p>
+<p>Notice how in the image above Partition 1 seems to have fewer entries than the others.
+That&rsquo;s because multiple producers can write to different partitions(and maybe different machines) to achieve high throughput.
+<strong>Order is maintained only in a single partition</strong>, producers write at their own pace so <strong>order of events cannot be guaranteed across partitions</strong>(even of the same topic). Luckily there is a way to implement <strong>custom partitioning Strategy</strong> so the messages goes to the same partition based on the data.
+This means we can for example have all the events of a certain &lsquo;userId&rsquo; to be sent to the same partition. Also a &lsquo;Round Robin&rsquo; partition strategy can be chosen so that the data is evenly distributed across partitions.</p>
+<p>On the other hand multiple producers can write to the same topic partition, but there are no guarantees that messages will not be intermixed.<strong>There is no locking concept</strong> like a producer to be blocked waiting for the other producer to finish writing a batch of messages and messages sent to a topic partition will be appended to the commit log in the order they are sent.</p>
+<h4 id="kafka-consistency-and-failover">Kafka consistency and failover</h4>
+<p>Each node in the cluster is called a <strong>Kafka Broker</strong>.</p>
+<p><strong>Each partition can be replicated across multiple Kafka broker nodes to tolerate node failures.</strong>
+One of a partition&rsquo;s replicas is chosen as leader, and <strong>the leader handles all reads and writes of messages in that partition</strong>.
+Writes are serialized by the leader and synchronously replicated to a configurable number of replicas(the number of replicas can be set on a topic-by-topic basis).
+On leader failure, one of the in-sync replicas is chosen as the new leader.</p>
+<p><img src="https://sookocheff.com/post/kafka/kafka-in-a-nutshell/producing-to-partitions.png" alt="Partition leader"></p>
+<p>Another partition can be leader on another broker.
+<img src="https://sookocheff.com/post/kafka/kafka-in-a-nutshell/producing-to-second-partition.png" alt="Another partition is leader"></p>
+<p>More about failover and replication <a href="https://kafka.apache.org/documentation.html#replication">here</a> or <a href="https://www.confluent.io/blog/hands-free-kafka-replication-a-lesson-in-operational-simplicity/">here</a></p>
+<p>A message is considered &ldquo;committed&rdquo; when all in sync replicas for that partition have applied it to their log.
+<strong>Only committed messages are ever given out to the consumer.</strong></p>
+<h3 id="setting-up-a-kafka">Setting up a Kafka</h3>
+<p>We can use a <a href="https://wurstmeister.github.io/kafka-docker/">Kafka docker image</a>. It already has a detailed running guide, so no need to discuss it again.</p>
+<p>So <strong>when creating a Topic we need to specify in how many partitions we want to split it and how many replicas we want</strong>.</p>
+<pre><code>$KAFKA_HOME/bin/kafka-topics.sh --create --topic userLogins --partitions 4 --zookeeper zkEndpoint --replication-factor 2
+</code></pre>
+<p>Zookeper is a key part of the cluster alonside the Kafka brokers it&rsquo;s role being that of leader election for partitions when one of the brokers is failing and keeps track of which brokers are alive.</p>
+<h3 id="writing-application-log-events-to-kafka">Writing application log events to Kafka</h3>
+<p>To write data into Kafka it&rsquo;s pretty simple using the Java Kafka  client api. A record / message consists of a <strong>Key</strong> and <strong>Value</strong>.
+<strong>Keys</strong> play a role into assigning the topic partition(the default Kafka Producer hashes the key and sends the record always to the same partition for the same hash). The <strong>Key</strong> can be null, in this case a round-robin algorithm is used.</p>
+<pre><code>  Properties props = new Properties();
+  props.put(&quot;bootstrap.servers&quot;, &quot;localhost:9092&quot;);
+  props.put(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, LongSerializer.class.getName());
+  props.put(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+
+  Producer&lt;String, String&gt; producer = new KafkaProducer&lt;&gt;(props);
+  for(int i = 0; i &lt; 100; i++) {
+      Future&lt;RecordMetadata&gt; responseFuture = producer.send(new ProducerRecord&lt;String, String&gt;(&quot;my-topic&quot;, &quot;KEY-&quot; + Integer.toString(i), &quot;VALUE-&quot; + Integer.toString(i)));
+  }
+</code></pre>
+<p>the writing is async as the <em>send()</em> method returns a Future. We can do <em>future.get()</em> to turn it into a blocking one where we wait for the response.</p>
+<p>There is another overloaded <em>send()</em> method which takes a callback to be invoked if the message was written to Kafka or if an exception was encountered:</p>
+<pre><code>producer.send(new ProducerRecord&lt;String, String&gt;(&quot;my-topic&quot;, &quot;KEY-&quot; + Integer.toString(i), &quot;VALUE-&quot; + Integer.toString(i)), new Callback() {
+            @Override
+            public void onCompletion(RecordMetadata metadata, Exception exception) {
+                long partition = metadata.partition(); //the partition where the message was written
+            }
+        });
+</code></pre>
+<p>The response object <strong>RecordMetadata</strong> has the &lsquo;partition&rsquo; where the record was written and the &lsquo;offset&rsquo; of the message.</p>
+<p>For high throughput, the Kafka Producer allows to wait and buffer for multiple messages and send them as a batch with fewer network requests.</p>
+<pre><code>//batch.size in bytes of h, set it to 0 to disable batching altogether
+props.put(&quot;batch.size&quot;, 16384);
+
+//how much to wait for other records before flushing the batch for network sending
+props.put(&quot;linger.ms&quot;, 5);
+
+//buffer.memory - the amount of memory
+//important as if network sending cannot keep up(or if the browkers are down), it will block
+props.put(&quot;buffer.memory&quot;, 33554432);
+
+//we can control how much time it will block before sending throws a BufferExhaustedException
+props.put(&quot;max.block.ms&quot;, 10);
+
+try {
+    Future&lt;RecordMetadata&gt; responseFuture = producer.send(new ProducerRecord&lt;String, String&gt;(&quot;my-topic&quot;, ..));
+} catch (BufferExhaustedException e) { ... }
+</code></pre>
+<p>But following on the steps of the blog other entries on  application logs processing we&rsquo;re going to use simple json log entries submitted by a <strong>Logback Appender</strong> directly into Kafka.
+Notice how with &lt;producerConfig&gt; we can pass the producer config we explained above.</p>
+<pre><code>&lt;appender name=&quot;STASH&quot; class=&quot;com.github.danielwegener.logback.kafka.KafkaAppender&quot;&gt;
+
+    &lt;encoder class=&quot;com.github.danielwegener.logback.kafka.encoding.PatternLayoutKafkaMessageEncoder&quot;&gt;
+       &lt;layout class=&quot;net.logstash.logback.layout.LoggingEventCompositeJsonLayout&quot;&gt;
+          &lt;providers&gt;
+             &lt;mdc/&gt;
+             &lt;context/&gt;
+             &lt;version/&gt;
+
+             &lt;logLevel/&gt;
+             &lt;loggerName/&gt;
+
+             &lt;pattern&gt;
+                &lt;pattern&gt;
+                  {
+                    &quot;appName&quot;: &quot;testdata&quot;,
+                    &quot;appVersion&quot;: &quot;1.0&quot;
+                  }
+                 &lt;/pattern&gt;
+             &lt;/pattern&gt;
+             &lt;threadName/&gt;
+
+             &lt;message/&gt;
+
+             &lt;logstashMarkers/&gt;
+             &lt;arguments/&gt;
+
+             &lt;stackTrace/&gt;
+          &lt;/providers&gt;
+       &lt;/layout&gt;
+    &lt;/encoder&gt;
+
+    &lt;!--The Kafka topic to write to --&gt;
+    &lt;topic&gt;logs&lt;/topic&gt;
+
+
+    &lt;!-- delivery strategy that uses the producer.send() method with callback --&gt;
+    &lt;deliveryStrategy class=&quot;com.github.danielwegener.logback.kafka.delivery.AsynchronousDeliveryStrategy&quot; /&gt;
+    &lt;!-- synchronous strategy does a Future&lt;&gt;.get() after the .poll()--&gt;
+
+    &lt;!-- each &lt;producerConfig&gt; translates to regular kafka-client config (format: key=value) --&gt;
+    &lt;!-- producer configs are documented here: https://kafka.apache.org/documentation.html#newproducerconfigs --&gt;
+    &lt;!-- bootstrap.servers is the only mandatory producerConfig --&gt;
+    &lt;producerConfig&gt;bootstrap.servers=${KAFKA_BOOTSTRAP_SERVERS}&lt;/producerConfig&gt;
+
+
+    &lt;!-- RoundRobinKeyingStrategy just returns null for the record KEY, thus RoundRobin--&gt;
+    &lt;keyingStrategy class=&quot;com.github.danielwegener.logback.kafka.keying.RoundRobinKeyingStrategy&quot; /&gt;
+
+&lt;/appender&gt;
+</code></pre>
+<p>We can control explicitly that related events go to the same partition by providing consistent keys for the log events.
+Remember that the <a href="https://github.com/apache/kafka/blob/trunk/clients/src/main/java/org/apache/kafka/clients/producer/internals/DefaultPartitioner.java">Kafka default partitioner</a> uses hash of the keys to choose the partitions, or a round-robin strategy if the key is null.</p>
+<p>For example having the Thread&rsquo;s name hashcode used as the key is already provided by the logback-kafka library. This means that log events produced :</p>
+<pre><code class="language-java">public class ThreadNameKeyingStrategy implements KeyingStrategy&lt;ILoggingEvent&gt; {
+
+    @Override
+    public byte[] createKey(ILoggingEvent e) {
+        return ByteBuffer.allocate(4).putInt(e.getThreadName().hashCode()).array();
+    }
+}
+</code></pre>
+<p>A custom Partitioner can be set in the Producer properties if for some reason you don&rsquo;t want to base on the keys:</p>
+<pre><code>public class KafkaCustomPartionStrategy implements Partitioner {
+
+    @Override
+    public int partition(String topic, Object key, byte[] keyBytes, Object value, byte[] valueBytes, Cluster cluster) {
+        int partitions = cluster.availablePartitionsForTopic(&quot;logs&quot;).size();
+        String json = new String(valueBytes, StandardCharsets.UTF_8);
+        ...
+        return partitionNumber;
+    }
+}
+//and set it on the Producer
+&lt;producerConfig&gt;partitioner.class=ro.fortsoft.kafka.partitioner.KafkaCustomPartionStrategy&lt;/producerConfig&gt;
+</code></pre>
+<h3 id="consumer-groups">Consumer groups</h3>
+<p>Consuming Kafka messages is more interesting as we can start multiple instances of consumers. Now the problem arise <strong>how the topic partitions are to be distributed</strong> so multiple consumers can work in parallel and collaborate to consume messages, scale out or fail over.
+This is solved in Kafka by marking the consumers with a common <strong>group identifier</strong>(a string)  that they belong to the same <strong>Consumer Group</strong> while another <strong>group identifier</strong> would mean another Consumer Group who want to process the messages in the same topic for some other usecase.
+For each consumer group, one of the brokers is selected as the <strong>group coordinator - with the job to assign partitions when new members arrive, or reassign partitions when old members depart or topic metadata changes-</strong>.
+<img src="https://cdn2.hubspot.net/hubfs/540072/New_Consumer_figure_1.png" alt="Consumer group"></p>
+<p>It&rsquo;s irrelevant if by Consumers we mean multiple separate instances(processes) of our consumer app residing on the same machine or on different machines. We can have multiple consumers even in the same process by spawning threads(each consumer in it&rsquo;s own thread and each assigned a different partition).</p>
+<p>Kafka brokers keep tracks of the <strong>offset</strong>(position) of the consumed messages in a topic <strong>partition</strong> for each Consumer Group. <strong>The messages in each partition log are then read sequentially</strong>.
+As the consumer makes progress, it <strong>commits the offsets</strong> of messages it has successfully processed.
+The <strong>commit offset</strong> message from the consumer can come later after a larger batch of messages is processed. This helps with performance.</p>
+<p><img src="https://cdn2.hubspot.net/hubfs/540072/New_Consumer_Figure_2.png" alt="Consumer offset"></p>
+<p>Should the consumer fails before being able to send the <strong>commit offset XXX</strong> to the Kafka broker, on restart(or reallocation ), <strong>the new Consumer instance will continue from the last committed offset that the broker has</strong>, meaning it will reprocess some of the messages(this is &lsquo;at least once&rsquo; behavior).</p>
+<p>For ex. in the image above the Consumer has received messages up to the current position(offset 6). Should it suddenly crash, then the group member taking over the partition would begin consumption from offset 1. In that case, it would have to reprocess the messages up to the crashed consumer’s position of 6.
+The <strong>&ldquo;Log end offset&rdquo;</strong> is the offset of the last message written to the log and where Producers will append next.
+The <strong>&ldquo;High watermark&rdquo;</strong> is the offset of the last message that was successfully copied to all of the log’s replicas. From the perspective of the consumer, it can only read up to the high watermark. This prevents the consumer from reading unreplicated data which could later be lost.</p>
+<p>For this to work though, it means that <strong>we can&rsquo;t have more that a single consumer(from the same group) allocated on the same partition</strong>.
+So we have the following behaviors when starting up Consumers in relation to number of Partitions:</p>
+<ul>
+<li>
+<p><strong>If the number of Consumer Group instances is more than the number of partitions, the excess nodes remain idle</strong>. This might be desirable to handle failover.</p>
+</li>
+<li>
+<p><strong>If there are more partitions than Consumer Group instances, then some nodes will be reading from more than one partition.</strong> Like in Fig. 1 above.</p>
+</li>
+</ul>
+<h3 id="consumer-code">Consumer code</h3>
+<p>The essence of the consumer is that after subscribing to a topic, we start an event loop to get a partition assignment and begin fetching data.</p>
+<pre><code>try {
+  while (running) {
+    ConsumerRecords&lt;String, String&gt; records = consumer.poll(1000);
+    for (ConsumerRecord&lt;String, String&gt; record : records)
+        log.info(&quot;Partition={}, Offset={}, Val={}&quot;, record.partition(), record.offset(), record.value());
+  }
+} finally {
+  consumer.close();
+}
+</code></pre>
+<ul>
+<li>The <strong>poll()</strong> method returns fetched records based on the current offset for the partition. It is a blocking method waiting for the specified time if there are no records available. If there are records available, the method returns immediately.</li>
+<li>We can control the maximum records returned by the <strong>poll()</strong> with a Consumer property.</li>
+<li>When the group is first created, <strong>the read position will be set according to the reset policy</strong> (<strong>&ldquo;earliest&rdquo;</strong> or <strong>&ldquo;latest&rdquo;</strong> offset for each partition)</li>
+<li>The consumer api is designed to be run in it&rsquo;s own thread(we shouldn&rsquo;t call poll() from multiple threads in hope of a performance gain).</li>
+</ul>
+<p>Let&rsquo;s see a full scenario where we start multiple Consumers of the same group and see how the partitions are split and allocated by the partition coordinator and how a standby consumer will take over. We&rsquo;ll also chose to commit the offsets ourselves.</p>
+<p>It might not be evident from above ex., but <strong>we can consume with the same Consumer from multiple Topics</strong>.</p>
+<pre><code class="language-java">public class SimpleConsumer implements Runnable {
+    private final KafkaConsumer&lt;String, String&gt; consumer;
+    private final List&lt;String&gt; topics;
+    private final int id;
+
+    private static final Logger log = LoggerFactory.getLogger(SimpleConsumer.class);
+
+    public SimpleConsumer(int id, List&lt;String&gt; topics, Properties consumerProps) {
+        this.id = id;
+        this.topics = topics;
+        this.consumer = new KafkaConsumer&lt;&gt;(consumerProps);
+    }
+
+    @Override
+    public void run() {
+        try {
+            consumer.subscribe(topics);
+            log.info(&quot;Consumer {} subscribed ...&quot;, id);
+
+            while (true) {
+                log.info(&quot;Consumer {} polling ...&quot;, id);
+                ConsumerRecords&lt;String, String&gt; records = consumer.poll(Long.MAX_VALUE);
+                log.info(&quot;Received {} records&quot;, records.count());
+
+                for (TopicPartition topicPartition : records.partitions()) {
+                    List&lt;ConsumerRecord&lt;String, String&gt;&gt; topicRecords = records.records(topicPartition);
+
+                    for (ConsumerRecord&lt;String, String&gt; record : topicRecords) {
+                        log.info(&quot;ConsumerId:{}-Topic:{} =&gt; Partition={}, Offset={}, EventTime:[{}] Val={}&quot;, id,
+                             topicPartition.topic(), record.partition(), record.offset(), record.timestamp(),
+                             record.value());
+                    }
+
+                    long lastPartitionOffset = topicRecords.get(topicRecords.size() - 1).offset();
+                    consumer.commitSync(Collections.singletonMap(topicPartition,
+                            new OffsetAndMetadata(lastPartitionOffset + 1)));
+                }
+            }
+        } catch (WakeupException ignored) {
+            // ignore for shutdown
+        } catch (Exception e) {
+            log.error(&quot;Consumer encountered error&quot;, e);
+        } finally {
+            consumer.close();
+        }
+    }
+
+    public void shutdown() {
+        //trigger a
+        consumer.wakeup();
+    }
+}
+</code></pre>
+<p>We can wait indefinitely in the <strong>poll(Long.MAX_VALUE)</strong> method, but we can break by calling from another thread <strong>consumer.wakeup()</strong> which <strong>throws WakeupException</strong> if thread was blocked on polling.</p>
+<p>To commit the offset, we don&rsquo;t do it for each message, but instead we commit the whole batch by committing the offset of the last message for each topic we received records.(OffsetAndMetadata - metadata is just a string with which you can enhance the commit)</p>
+<p>Since consumers are single threaded we&rsquo;ll need to create a pool of threads for each one. Let&rsquo;s see how if we use a single topic &lsquo;logs&rsquo; with 2 partitions, how are the partitions assigned:</p>
+<pre><code class="language-java">public static void main(String[] args) {
+    int numConsumers = 3;
+
+    List&lt;String&gt; topics = Arrays.asList(&quot;logs&quot;);
+    ExecutorService executor = Executors.newFixedThreadPool(numConsumers);
+
+    final List&lt;SimpleConsumer&gt; consumers = new ArrayList&lt;&gt;();
+    for (int i = 1; i &lt;= numConsumers; i++) {
+         SimpleConsumer consumer = new SimpleConsumer(i, topics, properties(CONSUMER_GROUP_ID));
+         consumers.add(consumer);
+         executor.submit(consumer);
+    }
+
+    //Register shutdown hook that will signal consumer threads to break from blocking poll()
+    registerShutdownHook(executor, consumers);
+}
+
+private static Properties properties(String groupId) {
+    Properties props = new Properties();
+    props.put(ConsumerConfig.BOOTSTRAP_SERVERS_CONFIG, &quot;host1:9092,host2:9092&quot;);
+    props.put(ConsumerConfig.GROUP_ID_CONFIG, &quot;simple-logs-processing&quot;);
+    props.put(ConsumerConfig.KEY_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+    props.put(ConsumerConfig.VALUE_DESERIALIZER_CLASS_CONFIG, StringDeserializer.class.getName());
+
+    props.put(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, &quot;earliest&quot;);
+    props.put(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, &quot;false&quot;);
+
+    props.put(ConsumerConfig.MAX_POLL_RECORDS_CONFIG, &quot;5&quot;);
+
+    return props;
+}
+</code></pre>
+<ul>
+<li>ConsumerConfig.GROUP_ID_CONFIG sets the group id - &ldquo;simple-logs-processing&rdquo;. This is how Kafka knows to assign the partitions according to Consumers that have identified themselves as part of the same group. It&rsquo;s also how Kafka knows what was the last commit offset for this consumer group. Change the group id and Kafka will tell the consumer to start over with reading records from the beginning or the end according to the AUTO_OFFSET_RESET_CONFIG policy bellow.</li>
+<li>ConsumerConfig.AUTO_OFFSET_RESET_CONFIG - (&ldquo;earliest&rdquo; or &ldquo;latest&rdquo;) initially when the consumer group connects for the first time, there is no commit offset so using this we say whether we want to start consuming from the beginning or from the end and listen for new appended records.</li>
+<li>ConsumerConfig.MAX_POLL_RECORDS_CONFIG - How many records a call to poll() will return in a single call.</li>
+<li>ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG &ldquo;false&rdquo;. By setting it to &ldquo;true&rdquo; instead, we could have chosen to let the consumer commit the records periodically with the value set by ConsumerConfig.AUTO_COMMIT_INTERVAL_MS_CONFIG</li>
+</ul>
+<h4 id="2-partitions-1-consumer">2 partitions, 1 consumer</h4>
+<p>The Kafka broker group coordinator will assign both the 2 partitions(&ldquo;logs-0&rdquo; and &ldquo;logs-1&rdquo;) to the single consumer which will receive one batch of records from &ldquo;logs-0&rdquo; and another batch from &ldquo;logs-1&rdquo;.</p>
+<h4 id="2-partitions-3-consumers">2 partitions, 3 consumers.</h4>
+<p>The Kafka broker group coordinator will assign the 2 partitions of &ldquo;logs&rdquo; topic(&ldquo;logs-0&rdquo; and &ldquo;logs-1&rdquo;) to 2 consumers, while 3rd consumer is blocked waiting on poll() as a standby consumer.
+In <a href="https://github.com/balamaci/blog-kafka-streams/blob/master/src/main/java/com/balamaci/kafka/consumer/SimpleConsumer.java">SimpleConsumer</a> we simulated that Consumer1 crashed with uncommitted records. The Kafka brokers detect the disconnect and reassign the partition to the 3rd consumer which continues processing from the last committed offset.
+Sidenote: Kafka group coordinator listen for a hearbeat from the Consumers that is sent when <strong>.poll()</strong> method is called, but if you busy processing the records received from previous poll, it might take longer. The parameter to set this is ConsumerConfig.SESSION_TIMEOUT_MS_CONFIG(default 30 secs) but setting the value too high will take more time for Kafka to declare the consumer dead and initiate a rebalance.</p>
+<h4 id="start-consuming-from-a-certain-offset">Start consuming from a certain offset</h4>
+<p>It&rsquo;s also possible to go back to previous records and a certain offset by using the <strong>seek()</strong> method of the consumer.</p>
+<p>We can intervene right when the partition is assigned by the Kafka partition owner to the Consumer. This way we also show another useful feature - a Listener for when a partition is assigned to the Consumer-.</p>
+<pre><code>private class CustomOffsetsRebalanceListener implements ConsumerRebalanceListener {
+
+    private long offset;
+
+    public CustomOffsetsRebalanceListener(long offset) {
+         this.offset = offset;
+    }
+
+    public void onPartitionsRevoked(Collection&lt;TopicPartition&gt; partitions) {
+        for(TopicPartition partition: partitions) {
+             log.info(&quot;*** Partitions revoked {}&quot;, partition);
+        }
+    }
+
+    public void onPartitionsAssigned(Collection&lt;TopicPartition&gt; partitions) {
+        for(TopicPartition partition: partitions) {
+              log.info(&quot;*** Partitions assigned {}&quot;, partition);
+
+              consumer.seek(partition, offset);
+        }
+    }
+}
+
+....
+//and register the listener
+consumer.subscribe(topics, new CustomOffsetsRebalanceListener(startOffset));
+
+//now the poll will return
+ConsumerRecords&lt;String, String&gt; records = consumer.poll(Long.MAX_VALUE);
+...
+</code></pre>
+<p>The method <strong>consumer.seekToBeginning()</strong> and <strong>consumer.seekToEnd()</strong>.
+Kafka log have a retention period(which can be set differently per topic) after which the records are purged - this is why seekToBeginning() doesn&rsquo;t necesarely mean offset 0-.</p>
+<p>We can implement <strong>a reset tool</strong> by identifying with the same group.id as your application, using consumer.seek(XXX) and then commit the offset for a certain topic or partition.</p>
+<h3 id="kafka-streams">Kafka Streams</h3>
+<h4 id="why-cant-we-just-use-rxjava-or-spring-reactor">Why can&rsquo;t we just use RxJava or Spring Reactor?</h4>
+<p>Before getting into Kafka Streams I was already a fan of RxJava and Spring Reactor which are great <strong>reactive streams processing</strong> frameworks. So why do we need Kafka Streams(or the other big stream processing frameworks like Samza)?
+We surely can use RxJava / Reactor to process a Kafka partition as a stream of records. But dealing with large amounts of data in streams means we also probably need a storage system(preferably offheap -to not be impacted by GC-) to store partial computation  results and have those results persisted in a way that if one Processor dies another can takeover and continue from the partial result.
+So for fault tolerance there is this need of combining <strong>an operator</strong> with some <strong>state</strong> that keeps what the Processor has parsed till a certain point, <strong>state</strong> that can be persisted and replicated to the failover processor.</p>
+<p>RxJava / Reactor don&rsquo;t have any out-of-the-box solutions for this, they instead have a massive amount of operators like the common <strong>filter</strong>, <strong>map</strong>, <strong>reduce</strong>, <strong>groupBy</strong> and deal with a reactive way of processing the data <strong>in the same java process</strong>(scheduled on multi threads, but in the end inside a single java process).</p>
+<p>On the other hand Kafka Streams knows that it can rely on Kafka brokers so it can use it to redirect the output of Processors(operators) to new &ldquo;intermediate&rdquo; Topics from where they can be picked up by a Processor maybe deployed on another machine, a feature we already saw when we talked about the <strong>Consumer group</strong> and the <strong>group coordinator</strong> inside Kafka broker itself.</p>
+<p>Sidenote: <a href="https://github.com/reactor/reactor-kafka">reactor-kafka</a> is a library which handles the Producer/Consumer scenario in a reactive way, it doesn&rsquo;t do &ldquo;anything else&rdquo; like store local state derived from stream processing.</p>
+<h4 id="other-streaming-frameworks">Other streaming frameworks</h4>
+<p>There are many streaming frameworks that can work with events from Kafka. However most work and rely on YARN(so it requires a Hadoop cluster) or Mesos to assign the jobs, keep state and restart the failed processors.
+<img src="https://www.madewithtea.com/images/streaming.png" alt=""></p>
+<p>Kafka Streams instead is just a library(like rxjava / reactor) that you add to your project, it doesn&rsquo;t need a special runtime other than packing it inside a .jar and start it like a normal java process and distribute and start it on as many machines as needed.
+It&rsquo;s <strong>masterless</strong> - it doesn&rsquo;t rely on a central node to detect failure of the processors and reelect a new master, etc.-, rather it uses Kafka&rsquo;s build in coordination mechanism to assign partitions to available processors to provide scalability, fault-tolerance and failover.
+Looks like a pretty sweet deal on what it can do without being tied to a particular deploy architecture and cluster resources.</p>
+<p>A more in-depth comparison with Flink <a href="https://www.confluent.io/blog/apache-flink-apache-kafka-streams-comparison-guideline-users/">here</a>.</p>
+<h3 id="high-level-dsl-and-low-level-api">High level DSL and low-level API</h3>
+<p>Kafka Streams has two APIs we can use:</p>
+<p>The <strong>High level DSL</strong>(the KStream API) allows us to write stream processing operators similar to what we are familiar with from Java Streams, Reactor, etc.</p>
+<pre><code class="language-java">KStream&lt;Long, String&gt; productViews = builder.stream(&quot;ProductViewsTopic&quot;);
+
+productViews.groupByKey()
+         .count(&quot;ProductViewCounts&quot;)
+         .filter((Long pageId, Long viewCount) -&gt; viewCount == 1000)
+         .process(() -&gt; new PopularProductEmailAlert(&quot;alerts@yourcompany.com&quot;));
+
+KafkaStreams streams = new KafkaStreams(builder, streamsConfiguration);
+</code></pre>
+<p>However this DSL is built on top of the <strong>&lsquo;low level&rsquo; Processor API</strong> which we can also use, although I think makes it clear how Kafka Streams is actually working, we probably use the DSL more frequently.</p>
+<h4 id="low-level-processing-api">Low level processing API</h4>
+<p>We need to define a <strong>processing Topology</strong> - a graph of processors that will describe the processing &ldquo;pipeline&rdquo;-.</p>
+<p>Implementing a Processor looks like :</p>
+<pre><code class="language-java">public class MyProductCountProcessor extends AbstractProcessor&lt;Long, String&gt; {
+    private ProcessorContext context;
+
+    private KeyValueStore&lt;Long, Long&gt; kvStore;
+
+    public void init(ProcessorContext context) {
+        // keep the processor context locally because we need it to forward results downstream and for commit
+        this.context = context;
+
+        // call this processor's punctuate() method every 1000 milliseconds.
+        // as a way to do something periodically
+        this.context.schedule(1000);
+
+        // retrieve the key-value store named &quot;Counts&quot;
+        this.kvStore = (KeyValueStore&lt;Long, Long&gt;) context.getStateStore(&quot;Counts&quot;);
+    }
+
+    @Override
+    public void process(Long productId, String browser) {
+        Long oldValue = this.kvStore.get(word);
+
+        if (oldValue == null) {
+             this.kvStore.put(word, 1L);
+        } else {
+             this.kvStore.put(word, oldValue + 1L);
+        }
+    }
+
+    //This method will be called as a way to do something periodically
+    @Override
+    public void punctuate(long timestamp) {
+        KeyValueIterator&lt;Long, Long&gt; iter = this.kvStore.all();
+
+        while (iter.hasNext()) {
+            KeyValue&lt;String, Long&gt; entry = iter.next();
+
+            //forward the calculated values downstream
+            context.forward(entry.key, entry.value.toString());
+        }
+
+        iter.close();
+        // commit the current processing progress
+        context.commit();
+    }
+}
+</code></pre>
+<p>Considering for now the kvStore as a generic key-value store I think the code is pretty self explanatory. The <strong>punctuate</strong> method will be executed periodically - with the frequency we set in <strong>init()</strong> call to context.schedule(1000) -. We send the data to the next Processor with <strong>context.forward(entry.key, entry.value.toString())</strong>.</p>
+<p>A Topology can be described by adding processing nodes by linking a <strong>Processor</strong> to one or more parent <strong>Processor(s)</strong>, or <strong>Source</strong>(the topics). So you can imagine the Topology like a graph(<a href="https://en.wikipedia.org/wiki/Directed_acyclic_graph">DAG</a>).</p>
+<pre><code class="language-java">TopologyBuilder topologyBuilder = new TopologyBuilder();
+
+StateStoreSupplier countStore = Stores.create(&quot;Counts&quot;)
+         .withKeys(Serdes.Long())
+         .withValues(Serdes.Long())
+         .persistent()
+         .build();
+
+topologyBuilder.addSource(&quot;SOURCE&quot;, &quot;logs&quot;); //specify the source topic(s)
+
+//addProcessor method takes (processor name, processor instance supplier, parent processor(s) name)
+topologyBuilder.addProcessor(&quot;PRODUCT_COUNTER&quot;, MyProductCountProcessor::new, &quot;SOURCE&quot;)
+
+//we link one or more state store to the Processor
+topologyBuilder.addStateStore(countStore, &quot;PRODUCT_COUNTER&quot;);
+
+topologyBuilder.addProcessor(&quot;PRINT&quot;, PrintProcessor::new, &quot;PRODUCT_COUNTER&quot;);
+
+//write to another Kafka topic &quot;counter_topic&quot;
+topologyBuilder.addSink(&quot;SINK_COUNTER&quot;, &quot;counter_topic&quot;,
+                Serdes.Long().serializer(), Serdes.Long().serializer(), &quot;PRODUCT_COUNTER&quot;);
+
+KafkaStreams streams = new KafkaStreams(topologyBuilder, streamsConfiguration);
+</code></pre>
+<p><strong>Sink</strong> is just a destination Kafka topic to where the result of the parent processor can be written.</p>
+<p>while streamsConfiguration is a Properties through you can set different configuration props:</p>
+<pre><code>final Properties streamsConfiguration = new Properties();
+
+streamsConfiguration.put(StreamsConfig.APPLICATION_ID_CONFIG, &quot;streams-example&quot;);
+// Where to find Kafka broker(s).
+streamsConfiguration.put(StreamsConfig.BOOTSTRAP_SERVERS_CONFIG,
+        config.getString(&quot;kafka.bootstrap.servers&quot;));
+
+// Specify default (de)serializers for record keys and for record values.
+streamsConfiguration.put(StreamsConfig.KEY_SERDE_CLASS_CONFIG, Serdes.Long().getClass().getName());
+streamsConfiguration.put(StreamsConfig.VALUE_SERDE_CLASS_CONFIG, Serdes.String().getClass().getName());
+</code></pre>
+<p>Code <a href="https://github.com/balamaci/blog-kafka-streams/blob/master/src/main/java/com/balamaci/kafka/streams/StartLowLevelProcessor.java">here</a></p>
+<h4 id="how-it-works">How it works</h4>
+<p>The <strong>KafkaStreams</strong> object defined above holds the Topology and runs one or more <strong>StreamThread</strong> instances(configurable by StreamsConfig.NUM_STREAM_THREADS_CONFIG param).
+Each <strong>StreamThread</strong> has an embedded Kafka <strong>Consumer</strong> and <strong>Producer</strong> that handles reading writing to Kafka.
+In addition to specifying source topic(s), you also need to provide <strong>Serdes</strong> for the keys and values. A Serdes instance contains the <strong>ser</strong>ializer and <strong>des</strong>erializer needed to convert objects from and to byte arrays.</p>
+<p>Since Kafka Streams through <strong>StreamThread</strong> just use normal <strong>Consumer</strong> with a group, Kafka will assign a topic partition to each running <strong>StreamThread</strong>.
+We can also start different processes and by identifying with the same APPLICATION_ID will get a partition assigned or just have it on standby for failover purpose.</p>
+<p>We introduced in the topology the <strong>state store</strong> &lsquo;Counts&rsquo; to which the Processor has access.
+As we said, it helps with fault tolerance of restarting but being local to the node it also has great performance and can be used to implement aggregations and even joins as we&rsquo;ll see further.</p>
+<p>PS: Doing <strong>streams.toString()</strong> will print the topology and associated stores. Just that it matters when you call it as it takes some time for the partitions to be assigned to the new  consumers and it&rsquo;s dynamic in a sense that they can be reassigned if one goes down.</p>
+<h4 id="fault-tolerant-stream-processing-local-state-stores">Fault-tolerant stream processing, local state stores</h4>
+<p>The persistent local state-store by default is implemented using <a href="https://github.com/facebook/rocksdb">RocksDB</a>. <strong>RocksDB</strong> is a fast and low-latency key-value storage that persists to disk(optimized for fast disks like SSDs) written in C++. It was opensourced by Facebook, based upon LevelDB(created by Google, but which doesn&rsquo;t seem to be maintained). It is &ldquo;embedded&rdquo; in the sense that although it&rsquo;s written in C, the Kafka Streams pom.xml has a dependency on the <strong>rocksdbjni</strong> jar  library which contains inside <strong>.so</strong> and <strong>.dll</strong>(.so for Linux, .dll for Windows) files with the compiled RocksDB and at start time we can configure the directory location where RocksDB will store its data files for each Kafka Streams instance.
+But if the state store are files local to each process / node, how are they fault tolerant, how does a process started on another node communicate with our node to receive the current state?
+This works because Kafka Streams library creates <strong>for each state store a replicated changelog Kafka topic</strong> in which it tracks any state updates that it did locally. <strong>changelog topics</strong> are topics where if we update the information for a certain key, only the last key value is kept. Although it still works like a normal topic with append only records, a Kafka <strong>log compaction</strong> process can run and purge &ldquo;outdated&rdquo; values for keys as to keep storage space and time to replay changes to a minimum.
+So if we put together the state stores backed changelog topics with the committed offset of the records we processed, since Kafka topics can be consumed an arbitrary number of times, every time a processor node fails, a new processor can take over by restoring its local state database by replaying mutation logs from the changelog topic and resume processing from the committed offset.
+There is a command <strong>streams.cleanUp()</strong>. This deletes any local state files and recreates the localstate from the backed changelog topic from Kafka.</p>
+<p>It&rsquo;s worth considering that we don’t need an external distributed storage to have a state store for a Processor. Kafka and Kafka Streams are the only things we need.</p>
+<h4 id="querying-the-state-store">Querying the state store</h4>
+<p>It&rsquo;s also possible to query the state stores so you can expose it maybe as a REST service.</p>
+<pre><code class="language-java">ReadOnlyKeyValueStore&lt;Long, Long&gt; countsStore = streams
+                .store(&quot;Count&quot;,  QueryableStoreTypes.keyValueStore());
+</code></pre>
+<p>Still you need to realize that if a topic is split into more partitions that the local state store will only contain the values each instance of Kafka Streams is working on, not like a distributed global storage that all the processing nodes write to.
+There are multiple partitions of the changelog topic that backs up the local state store and the number of partitions changelog topic is split into the number of partitions in the source topic, so we&rsquo;ll have &ldquo;group-id-Count-changelog-0&rdquo;, &ldquo;group-id-Count-changelog-1&rdquo;, etc.</p>
+<h4 id="available-operations">Available operations</h4>
+<p>Getting back to the <strong>high level</strong> API, besides the usual <strong>map</strong>, <strong>filter</strong> which are stateless, there are stateful operators like <strong>aggregations</strong> that rely on state stores to keep previous process state, for example doing a <strong>count</strong> can be implemented as an aggregation which will rely on the local store to which we add 1 and store the new value. It&rsquo;s interesting that the result of an aggregation is a <strong>KTable</strong> which can be used to directly JOINed with another table by matching on their keys.</p>
+<pre><code class="language-java">KTable&lt;String, Integer&gt; browserActionsCountTable =
+   browserActionsStream
+    .map((key, jsonValue) -&gt; {
+       String browserHash = jsonValue.propertyStringValue(&quot;browserHash&quot;);
+
+       return new KeyValue&lt;String, Integer&gt;(browserHash, 1);
+    })
+    .groupByKey(Serdes.String(), Serdes.Integer())
+    .aggregate(() -&gt; 0, (key, val, agg) -&gt; (agg + 1), Serdes.Integer(), &quot;browserActionsCountStore&quot;);
+    //there is already a .count(&quot;storeName&quot;) method that does the same as above aggregation
+</code></pre>
+<p>Let&rsquo;s see how we can join them with the</p>
+<p>For ex. we had the number of actions(in a real-case scenario we&rsquo;d probably want to do the count in a time-window) from a certain user&rsquo;s browser and we plan to ask the user to solve a captcha if we didn&rsquo;t ask him already.</p>
+<p>To do this we first need to generate a table of browsers that passed the captcha and join the browserActionsTable with it.
+We&rsquo;ll do a <strong>browserActionsTable.leftJoin(captchaVerifiedTable, (valA, valB) -&gt; )</strong> to also return results for which we don&rsquo;t have any matching values in the table with the browsers that solved captcha challenge. These results that don&rsquo;t have a matching key will have a null value.</p>
+<pre><code class="language-java">//We construct the table of browser fingerprints for which the user successfully verified 
+KTable&lt;String, Integer&gt; captchaVerifiedTable = kStream.mapValues(new JsonMapper())
+     .filter((key, jsonValue) -&gt; jsonValue.propertyStringValue(&quot;logger_name&quot;)
+             .contains(&quot;BrowserCaptchaVerified&quot;))
+     .map((key, jsonValue) -&gt; {
+           String browserHash = jsonValue.propertyStringValue(&quot;browserHash&quot;);
+
+           return new KeyValue&lt;String, Integer&gt;(browserHash, 1);
+     })
+    .groupByKey(Serdes.String(), Serdes.Integer())
+    .reduce((val, val2) -&gt; val, &quot;captchaStore&quot;); //we don't care about value,
+    //we just want the browser fingerprint as the key in the KTable
+
+
+KTable&lt;String, Integer&gt; browserActionsCountTable =
+   browserActionsStream
+    .map((key, jsonValue) -&gt; {
+       String browserHash = jsonValue.propertyStringValue(&quot;browserHash&quot;);
+
+       return new KeyValue&lt;String, Integer&gt;(browserHash, 1);
+    })
+    .groupByKey(Serdes.String(), Serdes.Integer())
+    .count(&quot;browserActionsCountStore&quot;);
+
+
+//resulted table after the join
+KTable&lt;String, Long&gt; captchaSolvedBrowserCountsTableJoined =
+       browserActionsCountTable.leftJoin(captchaVerifiedTable, (actionsCount, captchaVal) -&gt; {
+          if(captchaVal == null) { //means we didn't have a matching value
+             return actionsCount;  //in the solvedCaptcha table
+          }
+
+          //if the value was non-null means we have a validated browser
+          //and we can return a small value
+          return 0L;
+       });
+</code></pre>
+<p><img src="http://docs.confluent.io/3.0.0/_images/streams-table-duality-02.jpg" alt="Stream table duality"></p>
+<p><strong>we can turn a KTable back into a Stream</strong>. <strong>Every new entry in the KTable or update means a new record forwarded downstream</strong>.
+So whenever a count is updated, or a new captcha validated browser is inserted, we get a chance to do something with it.</p>
+<pre><code class="language-java">captchaSolvedBrowserCountsTableJoined
+    .toStream()
+    .filter((browser, count) -&gt; count &gt;= 5)
+    .foreach((k, v) -&gt; log.info(&quot;Asking captcha for {}&quot;, k));
+</code></pre>
+<p>Still we need to be aware that each stream member node has just the data in the KTable for its assigned partitions(because the state store is also split into partitions as many as the source).
+To help, a <strong>GlobalKTable</strong> construct was recently added by the Kafka streams team which has it&rsquo;s values replicated across processors, by having each stream member node consume on a separate thread the full changelog topic that backs the GlobalKTable.
+Joining with a GlobalKTable gives you the extra option of providing the function that will produce the key lookup on which the join to the GlobalTable is performed.</p>
+<pre><code class="language-java">GlobalKTable&lt;String, Integer&gt; captchaTable = builder.globalTable(Serdes.String(), Serdes.Integer(),
+                &quot;captchaStream&quot;,
+                &quot;captchaStreamStore&quot;);
+
+browserActionsCountTable
+                .toStream()
+                .leftJoin(captchaTable,
+                        //we need to provide the function that builds the join key,
+                        //in our case we just use return the same key which
+                        (streamKey, streamValue) -&gt; streamKey,
+                        (actionsCount, captchaVal) -&gt; {
+                            if(captchaVal == null) {
+                                return actionsCount;
+                            }
+                            return 0L;
+                        })
+                .filter((browser, count) -&gt; count &gt;= 5)
+                .foreach((k, v) -&gt; log.info(&quot;Asking captcha for {}&quot;, k));
+</code></pre>
+<h4 id="event-time-and-windowing">Event time and Windowing</h4>
+<p>In a Kafka record besides the key-value data it&rsquo;s stored also a <strong>timestamp</strong> which if not specifically set when the record is sent to Kafka. It can be set to a specific value, or it will be the append time to Kafka log.
+Interesting is that Kafka Streams use this record timestamp to provide us with time based calculations based upon the application time like &lsquo;number of events / 5 sec&rsquo;.</p>
+<pre><code class="language-java">KTable&lt;Windowed&lt;String&gt;, Long&gt; browserActionsCountTable =
+   browserActionsStream
+    .map((key, jsonValue) -&gt; {
+       String browserHash = jsonValue.propertyStringValue(&quot;browserHash&quot;);
+
+       return new KeyValue&lt;String, Integer&gt;(browserHash, 1);
+    })
+    .groupByKey(Serdes.String(), Serdes.Integer())
+    .count(TimeWindows.of(5 * 1000L).advanceBy(2 * 1000L), &quot;counterStore&quot;);
+
+browserActions
+   .toStream()
+   .foreach((windowKey, count) -&gt; {
+       long windowStart = windowKey.window().start();
+       long windowEnd = windowKey.window().end();
+
+       log.info(&quot;Window [{}-{}] Browser:{} count={}&quot;, millisFormat(windowStart),
+                          millisFormat(windowEnd), windowKey.key(), count);
+   });
+
+
+#Processing time                   #Kafka append time
+15:50:23 [StreamThread-1] - Window [14:11:52-14:11:57] Browser:XXXYXXXY0 count=1
+15:50:23 [StreamThread-1] - Window [14:11:54-14:11:59] Browser:XXXYXXXY0 count=1
+15:50:23 [StreamThread-1] - Window [14:11:52-14:11:57] Browser:XXXYXXXY4 count=1
+15:50:23 [StreamThread-1] - Window [14:11:54-14:11:59] Browser:XXXYXXXY4 count=1
+15:50:23 [StreamThread-1] - Window [14:11:52-14:11:57] Browser:XXXYXXXY2 count=1
+15:50:23 [StreamThread-1] - Window [14:11:54-14:11:59] Browser:XXXYXXXY2 count=1
+15:50:23 [StreamThread-1] - Window [14:11:52-14:11:57] Browser:XXXYXXXY3 count=2
+15:50:23 [StreamThread-1] - Window [14:11:54-14:11:59] Browser:XXXYXXXY3 count=6
+15:50:23 [StreamThread-1] - Window [14:11:56-14:12:01] Browser:XXXYXXXY3 count=6
+15:50:23 [StreamThread-1] - Window [14:11:58-14:12:03] Browser:XXXYXXXY3 count=3
+15:50:23 [StreamThread-1] - Window [14:11:56-14:12:01] Browser:XXXYXXXY4 count=1
+...
+</code></pre>
+<p>The code above will generate Windows(startTime:endTime) of 5 seconds length in which the count is calculated, every 2 seconds. So these are overlapping windows of 5 secs calculated every 2 seconds.</p>
+<p>Having the timestamp with the record is useful in windowing operations, because if you have already existing data trying to look for suspicious calls / 5 sec, Kafka Streams being fast will maybe be able to crunch through some days of log data in 5 sec and give misleading results.
+Should you want to just ignore the record timestamp and just use the processing time, it&rsquo;s also possible:</p>
+<pre><code class="language-java">streamsConfiguration.put(StreamsConfig.TIMESTAMP_EXTRACTOR_CLASS_CONFIG, WallclockTimestampExtractor.class);
+</code></pre>
+<p>or even implement your own TimestampExtractor.</p>
+<h4 id="intermediate-topics-and-backpressure">Intermediate topics and Backpressure</h4>
+<p>One of the big concepts with reactive stream processing frameworks is <strong>backpressure</strong>, the possibility of the consumers and processors downstream to signal upstream to the producer that it cannot process anymore data and that it should slow the amount of data it sends downstream. This is done in RxJava / Spring Reactor by the subscriber requesting x records from upstream on subscribing and requesting another batch of x or y after it manages to fully or partially process what it received.</p>
+<p>Kafka-Streams being <strong>pull based</strong> (with the poll() method we saw from the Consumer implementation being invoked after the received records are processed) should not have such a problem. Once a record is retrieved from Kafka it will be <strong>forward</strong>ed to all the downstream operators before requesting more. Still, there might be different processing &ldquo;speeds&rdquo; in different stages in processing topology like for example having to lookup some ids in a slower DB might mean. We can isolate the problem by writing the results back to Kafka in another Topic(which we can configure with a higher number of partitions) so they can be assigned to other instances of KafkaStreams.</p>
+<pre><code>...
+stream1.to(&quot;my-topic&quot;);
+stream2 = builder.stream(&quot;my-topic&quot;);
+</code></pre>
+<p>This leads to interesting situations where parts of the Topology will run only on some instances of your application, while &ldquo;on standby&rdquo; on other instances which run other operators of the Topology sent through the intermediate topic.</p>
+<h4 id="conclusion">Conclusion</h4>
+<p>I think Kafka Streams has a strong position because it provides a low barrier entry by being just a Java library and not having to depend on a cluster management solution, however it does come with a cost of having to understand some of its limitations like the local state store only having so it does force you to think about Key-ing strategies so that related entities end up on the same processor.
+If we need to slice &amp; dice and work with some clear key-value joins between data, it can do the job very well. Should we want something like an SQL dialect for our table joins, we should go to the more complex(and complicated) solutions like Spark or Flink.</p>
+<h3 id="sources">Sources</h3>
+<p><a href="https://github.com/balamaci/blog-kafka-streams">https://github.com/balamaci/blog-kafka-streams</a>
+<a href="https://github.com/confluentinc/examples/tree/3.1.x/kafka-streams/src/main/java/io/confluent/examples/streams">https://github.com/confluentinc/examples/tree/3.1.x/kafka-streams/src/main/java/io/confluent/examples/streams</a></p>
+<h3 id="reference">Reference</h3>
+<p><a href="https://www.confluent.io/blog/tutorial-getting-started-with-the-new-apache-kafka-0-9-consumer-client/">https://www.confluent.io/blog/tutorial-getting-started-with-the-new-apache-kafka-0-9-consumer-client/</a></p>
+<p><a href="http://www.javaworld.com/article/3066873/big-data/big-data-messaging-with-kafka-part-2.html">http://www.javaworld.com/article/3066873/big-data/big-data-messaging-with-kafka-part-2.html</a></p>
+<p><a href="http://docs.confluent.io/3.1.2/clients/consumer.html#java-client">http://docs.confluent.io/3.1.2/clients/consumer.html#java-client</a></p>
+<p><a href="http://docs.confluent.io/3.0.0/streams/index.html">http://docs.confluent.io/3.0.0/streams/index.html</a></p>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/2016/08/17/reactive-log-stream-processing-with-rxjava-part-2/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Reactive log stream processing with RxJava - Part II</span>
+    </a>
+    
+    
+    <a href="/2019/07/21/reactor-core-explained/" class="navigation-next">
+      <span class="navigation-tittle">Reactor Core Explained</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js" integrity="sha256-vrn14y7WH7zgEElyQqm2uCGSQrX/xjYDjniRUQx3NyU=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function addBlockSwitches() {
+	$('.primary').each(function() {
+		primary = $(this);
+		createSwitchItem(primary, createBlockSwitch(primary)).item.addClass("selected");
+		primary.children('.title').remove();
+	});
+	$('.secondary').each(function(idx, node) {
+		secondary = $(node);
+		primary = findPrimary(secondary);
+		switchItem = createSwitchItem(secondary, primary.children('.switch'));
+		switchItem.content.addClass('hidden');
+		findPrimary(secondary).append(switchItem.content);
+		secondary.remove();
+	});
+}
+
+function createBlockSwitch(primary) {
+	blockSwitch = $('<div class="switch"></div>');
+	primary.prepend(blockSwitch);
+	return blockSwitch;
+}
+
+function findPrimary(secondary) {
+	candidate = secondary.prev();
+	while (!candidate.is('.primary')) {
+		candidate = candidate.prev();
+	}
+	return candidate;
+}
+
+function createSwitchItem(block, blockSwitch) {
+	blockName = block.children('.title').text();
+	content = block.children('.content').first().append(block.next('.colist'));
+	item = $('<div class="switch--item">' + blockName + '</div>');
+	blockSwitch.append(item);
+	return {'item': item, 'content': content};
+}
+
+function globalSwitch() {
+	$('.switch--item').each(function() {
+		var blockId = blockIdForSwitchItem($(this));
+		$(this).off('click');
+		$(this).on('click', function() {
+			selectedText = $(this).text()
+			window.localStorage.setItem(blockId, selectedText);
+			$(".switch--item").filter(function() {
+				return blockIdForSwitchItem($(this)) === blockId;
+			}).filter(function() {
+				return $(this).text() === selectedText;
+			}).each(function() {
+				select($(this))
+			});
+		});
+		if ($(this).text() === window.localStorage.getItem(blockId)) {
+			select($(this))
+		}
+	});
+}
+
+function blockIdForSwitchItem(item) {
+	idComponents = []
+	idComponents.push(item.text().toLowerCase());
+	item.siblings(".switch--item").each(function(index, sibling) {
+		idComponents.push($(sibling).text().toLowerCase());
+	});
+	return idComponents.sort().join("-")
+}
+
+function select(selected) {
+	selected.addClass('selected');
+	selected.siblings().removeClass('selected');
+	selectedContent = selected.parent().siblings(".content").eq(selected.index())
+	selectedContent.removeClass('hidden');
+	selectedContent.siblings().addClass('hidden');
+}
+
+$(addBlockSwitches);
+$(globalSwitch);
+</script>
+
+
+    
+
+
+
+    </body>
+</html>
+

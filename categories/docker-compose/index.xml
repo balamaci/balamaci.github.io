@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>docker-compose on Serban Balamaci</title>
+        <link>https://balamaci.ro/categories/docker-compose/</link>
+        <description>Recent content in docker-compose on Serban Balamaci</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <managingEditor>thespamtrapp@gmail.com (Serban Balamaci)</managingEditor>
+        <webMaster>thespamtrapp@gmail.com (Serban Balamaci)</webMaster>
+        <lastBuildDate>Sun, 25 Oct 2015 17:40:02 +0000</lastBuildDate>
+        
+        <atom:link href="https://balamaci.ro/categories/docker-compose/index.xml" rel="self" type="application/rss+xml" />
+        
+        
+        
+        <item>
+            <title>Orchestrating a reusable BDD web testing setup with Selenium grid using docker - Part I</title>
+            <link>https://balamaci.ro/2015/10/25/using-docker-and-docker-compose-for-orchestrating-a-full-bdd/</link>
+            <pubDate>Sun, 25 Oct 2015 17:40:02 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2015/10/25/using-docker-and-docker-compose-for-orchestrating-a-full-bdd/</guid>
+            <description>Playing with lego components The plan: Part I - We use docker and docker-compose to build a reusable setup for testing java web applications based upon containers.
+Part II - We introduce Cucumber BDD testing framework along with Serenity framework for providing great tests reports.</description>
+        </item>
+        
+        
+    </channel>
+</rss>

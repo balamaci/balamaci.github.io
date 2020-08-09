@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>docker on Serban Balamaci</title>
+        <link>https://balamaci.ro/tags/docker/</link>
+        <description>Recent content in docker on Serban Balamaci</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <managingEditor>thespamtrapp@gmail.com (Serban Balamaci)</managingEditor>
+        <webMaster>thespamtrapp@gmail.com (Serban Balamaci)</webMaster>
+        <lastBuildDate>Mon, 02 Nov 2015 10:08:00 +0000</lastBuildDate>
+        
+        <atom:link href="https://balamaci.ro/tags/docker/index.xml" rel="self" type="application/rss+xml" />
+        
+        
+        
+        <item>
+            <title>BDD web testing setup - Docker, Cucumber and Serenity - Part II</title>
+            <link>https://balamaci.ro/2015/11/02/orchestrating-a-reusable-bdd-web-testing-setup-part-ii/</link>
+            <pubDate>Mon, 02 Nov 2015 10:08:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2015/11/02/orchestrating-a-reusable-bdd-web-testing-setup-part-ii/</guid>
+            <description>Overview In Part I we looked at setting up a reusable testing setup by thinking in high level components through the use of docker containers. We added selenium-grid containers and saw how docker-compose makes it easy to play around with more containers and still make it look simple and clear.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Orchestrating a reusable BDD web testing setup with Selenium grid using docker - Part I</title>
+            <link>https://balamaci.ro/2015/10/25/using-docker-and-docker-compose-for-orchestrating-a-full-bdd/</link>
+            <pubDate>Sun, 25 Oct 2015 17:40:02 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2015/10/25/using-docker-and-docker-compose-for-orchestrating-a-full-bdd/</guid>
+            <description>Playing with lego components The plan: Part I - We use docker and docker-compose to build a reusable setup for testing java web applications based upon containers.
+Part II - We introduce Cucumber BDD testing framework along with Serenity framework for providing great tests reports.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Docker containers for Visual Regression Testing setup</title>
+            <link>https://balamaci.ro/2015/08/03/docker-container-for-visual-regression-testing/</link>
+            <pubDate>Mon, 03 Aug 2015 19:47:49 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2015/08/03/docker-container-for-visual-regression-testing/</guid>
+            <description>Packing it all inside docker containers In the previous post we looked at a possible solution for doing Visual Regression Testing. But stepping back and looking at it, I think there was tedious for the reader to actually try it out, because it required him to install some extra dependencies like ImageMagick, phantomjs( which in turn needs nodejs) to be able to run the example himself(also not considering docker installation).</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Docker Series - Docker part II</title>
+            <link>https://balamaci.ro/2014/02/11/docker-part-ii/</link>
+            <pubDate>Tue, 11 Feb 2014 21:32:27 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2014/02/11/docker-part-ii/</guid>
+            <description>I&amp;rsquo;ll be more explicit about some commands that you may want to use in your Dockerfile and explain how Docker works through them. For introduction to Docker see Part IA docker container will keep running in the background as long as the initial command executed within the container is still running.</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Docker Series - Intro to Docker</title>
+            <link>https://balamaci.ro/2014/01/26/docker-series-intro-to-docker/</link>
+            <pubDate>Sun, 26 Jan 2014 19:54:42 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2014/01/26/docker-series-intro-to-docker/</guid>
+            <description>Foreword - How I stumbled upon Docker So all this started when I was impressed after reading about Jepsen. I like that that Kyle(the blogger) seems to have stumbled upon a generic framework for testing distributed systems behavior in cases of node failure and network partitioning etc, and how he was able to use this framework to do some nice analysis of Cassandra, Ryak, etc.</description>
+        </item>
+        
+        
+    </channel>
+</rss>

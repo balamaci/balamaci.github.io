@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>maven on Serban Balamaci</title>
+        <link>https://balamaci.ro/categories/maven/</link>
+        <description>Recent content in maven on Serban Balamaci</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <managingEditor>thespamtrapp@gmail.com (Serban Balamaci)</managingEditor>
+        <webMaster>thespamtrapp@gmail.com (Serban Balamaci)</webMaster>
+        <lastBuildDate>Sat, 17 Jan 2015 11:42:14 +0000</lastBuildDate>
+        
+        <atom:link href="https://balamaci.ro/categories/maven/index.xml" rel="self" type="application/rss+xml" />
+        
+        
+        
+        <item>
+            <title>Maven lifecycles and plugins explained</title>
+            <link>https://balamaci.ro/2015/01/17/maven-lifecycles-explained/</link>
+            <pubDate>Sat, 17 Jan 2015 11:42:14 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2015/01/17/maven-lifecycles-explained/</guid>
+            <description>Maven is much more than just a simple dependency management and packaging tool. Through a set of plugins it becomes a powerful tool for handling the &amp;ldquo;backbone&amp;rdquo; of CI setup that might require generating new source files, compile, package, execute bash scripts that for ex.</description>
+        </item>
+        
+        
+    </channel>
+</rss>

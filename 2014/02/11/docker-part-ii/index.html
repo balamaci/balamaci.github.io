@@ -1,0 +1,541 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.73.0" />
+
+    
+    
+    
+
+<title>Docker Series - Docker part II • Serban Balamaci</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Serban Balamaci">
+<meta property="og:title" content="Docker Series - Docker part II">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://balamaci.ro/2014/02/11/docker-part-ii/" />
+<meta property="og:description" content="Java mostly, and general tech">
+<meta property="og:image" content="https://balamaci.ro/social-sharing.png">
+<meta property="og:image:type" content="image/png">
+    
+    
+    
+<meta property="og:image:width" content="192">
+<meta property="og:image:height" content="192">
+    
+
+<meta property="og:updated_time" content="2014-02-11T21:32:27Z">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@sbalamaci">
+<meta name="twitter:title" content="Docker Series - Docker part II">
+
+<meta name="twitter:image" content="https://balamaci.ro/social-sharing.png">
+
+<meta name="twitter:description" content="Java mostly, and general tech">
+<meta name="twitter:creator" content="@sbalamaci">
+    
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/a11y-light.min.css" media="(prefers-color-scheme: light)"><link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/gruvbox-dark.min.css" media="(prefers-color-scheme: dark)">
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.57d57be207f95258b69c5563e34ed2c632000ecb862ce9bd97e7e35f3957094c.css" integrity="sha256-V9V74gf5Uli2nFVj407SxjIADsuGLOm9l&#43;fjXzlXCUw=">
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde-dark.2eddfb769610f72f40f6bc949e62a3acf298eb8504c073739085a417978b18cd.css" integrity="sha256-Lt37dpYQ9y9A9ryUnmKjrPKY64UEwHNzkIWkF5eLGM0=" media="(prefers-color-scheme: dark)">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    
+    <link rel="shortcut icon" sizes="192x192" href="/android-192-favicon.png">
+
+    
+    <link rel="shortcut icon" href="/android-192-favicon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/v4-shims.min.css" integrity="sha256-wN7QJaqAwQ03kgUhyN4EU2phRdDkLrQYbFe0EvpQ60U=" crossorigin="anonymous" />
+
+    
+    
+
+
+    
+</head>
+
+
+    <body class="">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://balamaci.ro">Serban Balamaci</a>
+      </span>
+      
+      
+        <div class="author-image">
+          <img src="https://www.gravatar.com/avatar/309afbf8c2f162060e4fa28d670d2ec8?s=240&d=mp" class="img--circle img--headshot element--center" alt="gravatar">
+        </div>
+      
+      <p class="site__description">
+         Java and JVM related 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">Serban Balamaci</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/"><span class='fa-icon'><i class='fas fa-home'></i></span> Home
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/posts/"><span class='fa-icon'><i class='fas fa-stream'></i></span> Posts
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/series/"><span class='fa-icon'><i class='fas fa-list-alt'></i></span> Series
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/"><span class='fa-icon'><i class='fas fa-tags'></i></span> Tags
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/whoami/"><span class='fa-icon'><i class='fas fa-id-card'></i></span> About
+						<span></span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/@sbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="bird" class="svg-inline--fa fa-bird fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></i></a>
+	
+	
+	
+	<a href="https://github.com/balamaci" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/serbanbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="pro-network" class="svg-inline--fa fa-pro-network fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="container fixed-container">
+    
+<div class="copyright">
+  &copy; 2010 - 2020 Serban Balamaci
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+
+<article>
+  <header>
+    <h1>Docker Series - Docker part II</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> 2014-02-11
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/docker">DOCKER</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/docker">docker</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 20 min read
+
+    
+    
+    
+
+</div>
+
+
+  </header>
+  
+  
+  
+  <div class="post md">
+    <p>I&rsquo;ll be more explicit about some commands that you may want to use in your Dockerfile and explain how Docker works through them.
+For introduction to Docker see <!-- raw HTML omitted -->Part I<!-- raw HTML omitted --></p>
+<p><strong>A docker container will keep running in the background as long as the initial command executed within the container is still running.</strong></p>
+<h4 id="cmd-and-entrypoint">CMD and ENTRYPOINT</h4>
+<p>You can define the command that will be run inside the container.</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>So this setup defines that when we invoke</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>The <strong>ENTRYPOINT</strong> part <strong>cannot be overriden at runtime</strong>, while the <strong>CMD</strong> part supplies a <strong>default value that can be overriden</strong>.</p>
+<p>So to be usefull, this container needs some extra parameters to output something else than the java version inside it.</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>When building the container from the Docker file, the commands inside the Dockerfile are not run in a single(the same) container. After each command docker stops the container, writes the delta from the previous one. It then runs this newly saved container in order to execute the next command in the file.
+<!-- raw HTML omitted -->
+This explains also why you&rsquo;ll see no <strong>cd</strong> command by itself in the Dockerfile since it&rsquo;s efect is not saved. The <strong>cd</strong> commands are inlined with the actual commands.
+<!-- raw HTML omitted -->
+So this raises the issue how can you run multiple processes inside a container(lets say  Tomcat and SSH). You&rsquo;d want Tomcat to serve your app and ssh for you to be able to login and check say the tomcat logs from inside the container.</p>
+<p>One might think can just start SSH as a background service in the container and then start Tomcat something like:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>but this wouldn’t work since when docker will be processing the <em>service tomcat7 start</em> command, it will have shutdown the previous container in which <em>sshd</em> was running.</p>
+<p>So it seems there is a big problem that actually docker can only be running a single process .
+The answer is a tool like <a href="http://supervisord.org/">Supervisor</a> which itself <strong>takes care of starting other processes</strong>, redirecting their output to log files and restarts them when they die.</p>
+<h4 id="example-dockerfile">Example Dockerfile</h4>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>here is a simple <em>supervisord.conf</em> example:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h4 id="expose">EXPOSE</h4>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>So far as the applications running inside the container are concerned, they will be running on the container&rsquo;s private ports.
+You exposes a port from the container to be able to receive connections from other containers or outside. When started with the CLI run option <strong>-p interface:host_port:container_exposed_port</strong> option we can bound that port to an interface of the host.
+For example we can expose Tomcat inside the container to receive connections directly from the internet,but SSH only for internal connections</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>and you can access <strong>http://host_ip:9000</strong> and the Tomcat inside the container will respond.</p>
+<p>If you don&rsquo;t explicitly map the private port, a random port on the default docker interface will be mapped.</p>
+<p><strong>Sidenote</strong>
+Containers when running are assigned an internal ip address something like, and you can find their ip(and a <strong>lot other info</strong>) by running:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>to check all the running containers IPs:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h4 id="add">ADD</h4>
+<p>Copy some files from the HOST FS to the temporary CONTAINER and therefore be saved inside of the container image.</p>
+<p><strong>Example</strong>: copy the user&rsquo;s public key inside the container authorized_keys for easier ssh login through key authentication.</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Doesn&rsquo;t matter if you change the files you <strong>ADD</strong>ed after building the image, they are frozen inside the container image as they were at the time of the creation. For the container to see the new file version you need to rebuild the image.(For handling dynamic changing files see <strong>VOLUME</strong> bellow).</p>
+<p>Remember that when rebuilding an image, Docker did <strong>cache the commands in the Dockerfile</strong>. Since you want the image to contain the new version, it means that the ADD command resets the cache for itself and following commands, therefore it&rsquo;s good practice to place the ADD clause at the foot of the Dockerfile.
+<!-- raw HTML omitted -->
+As of version 0.8 Docker has improved the caching mechanism to not reset the cache for ADD if the added files did not change(cache key is timestamp related).
+<!-- raw HTML omitted --></p>
+<h4 id="volume">VOLUME</h4>
+<p>A volume can be thought like a directory external to the container that can be mounted at runtime</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Volumes are immensely useful because:</p>
+<ul>
+<li>They can be a good way to <strong>&ldquo;configure&rdquo; at runtime</strong> a container. Imagine for example passing different configuration directories for each container</li>
+</ul>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>through the <strong>docker run -v</strong> command <strong>you can actually bind any folder inside the container, the folder doesn&rsquo;t necessarily have to have been defined in the Dockerfile through the VOLUME directive</strong>.
+So does the VOLUME directive has any &ldquo;real&rdquo; use? Yes, it does as it marks that directory with the content inside it as not going inside the image.</p>
+<ul>
+<li>They can be a way to share data / deliverables between containers and also the host.</li>
+<li>More convenient backups of data.</li>
+</ul>
+<p><strong>Mounted volumes are not part of the container image</strong>.
+Changes to a data volume are made directly, without the overhead of a copy-on-write mechanism. This is good for very large files.</p>
+<p>As a realcase <strong>example</strong> I also mapped my project jar / war files from the host as a volume inside the container.
+That way, when I need to change something in the sources and rebuild I only need to do it once on the host and then the containers will have the new package version <strong>without having to rebuild</strong>  them.
+The alternative of writing them(though either git pull or ADD) into the image would mean very tedious process of rebuilding and leftover images for each rebuild. Ofcourse once your files are in a stable releasable state writing them inside the image makes more sense.</p>
+<p>Mapping a <strong>/logs</strong> volume for each container on the host I think it&rsquo;s a good ideea since it makes checking the log files and backup more convinient.</p>
+<h4 id="env">ENV</h4>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Subsequent Dockerfile commands will see this property.</p>
+<p>With docker you can pass different environment properties at runtime and which means added  flexibility because you can read this directly in your program or through bash scripts and for example  generate configuration files for processes.</p>
+<p>Something like:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>This script uses <strong>sed</strong> to replace in the env.properties file constructs like bellow with the ENV value</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>and can run with</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h4 id="storing-the-docker-images-in-a-custom-location">Storing the Docker images in a custom location.</h4>
+<p>I&rsquo;m running a 64GB SSD on my laptop and I&rsquo;d rather keep the images and containers on a 16GB stick.
+By default docker keeps it&rsquo;s data in <strong>/var/lib/docker</strong>.
+We can change that by editing the docker config file <strong>/etc/default/docker</strong> to pass extra parameters to the docker daemon:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>and bind mount the location:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>Restart the docker daemon with</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h4 id="docker-containers-ips">Docker containers IPs:</h4>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>or to show all running container&rsquo;s IPs:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<h4 id="run-docker-command-without-sudo">Run docker command without sudo</h4>
+<p>The <strong>docker client</strong>(the <strong>docker</strong> command) communicates with the <strong>docker daemon</strong> through a . You can change the ownership of the . By default docker will bind the socket to the <strong>docker</strong> group if that group exists.</p>
+<h3 id="docker-gotchas">Docker Gotchas</h3>
+<p><strong>Containers are NOT ephemeral</strong>
+After a container executes it&rsquo;s process or when you&rsquo;ve stoped them explicitly, they still exist(that&rsquo;s why you cannot delete the image they&rsquo;re based on). The log files and state when stopped still exists inside the container, if you restart them, they will <strong>NOT start fresh from the &ldquo;clean state&rdquo;</strong> of the snapshot image. Some (including myself) thought that&rsquo;s the reason.</p>
+<p>Still it can be helpful to keep separate volumes for data and logs dir so I can easily backup or check all of them.</p>
+<p><strong>NOT easy to set a static IP for a container</strong>
+Docker creates a special Linux bridge network called <strong><em>docker0</em></strong> on startup. All containers are automatically connected to this bridge network and the IP subnet for all containers is randomly set by Docker. Currently, it is not possible to directly influence the particular IP address of a Docker container. Restarted containers might get a different IP(0.7 version).</p>
+<p><strong>Files like &ldquo;/etc/hosts&rdquo; and &ldquo;/etc/resolv.conf&rdquo;  are readonly inside container</strong>
+Combined with the issue above it&rsquo;s not very easy to reference other containers by name with an easy setup.</p>
+<p><strong>UPDATE</strong>: you can use **docker &ndash;link ** container_name, or <strong>docker-compose</strong> to link containers and then you can reference a host by name.
+Or use <a href="https://docs.docker.com/engine/userguide/networking/dockernetworks/">docker network</a> to create subnetworks for isolation.</p>
+<p><strong>Layer limitations</strong></p>
+<p>Dockerfile instructions are repeatable, but at present the AUFS limit of 42 layers means you’re encouraged to group similar commands where possible (i.e. combining separate apt-get install lines into one RUN command). The impact of this is that a single change to a long list of required apt-get packages means invalidating Docker’s build cache for that command and all those which follow it.</p>
+<h4 id="docker-and-ansible">Docker and Ansible</h4>
+<p>Sometimes you may require extensive configuration for each container. I&rsquo;ve seen a lot of people which recomend as a provisioning tool <!-- raw HTML omitted -->Ansible<!-- raw HTML omitted -->. It&rsquo;s written in Python and seems easier to grasp than other provisioning tools like Chef or Puppet. Some suggested that you start with a basic container, have it configured through Ansible and in the end commit the result and just forget about the Dockerfile.
+<!-- raw HTML omitted -->Here<!-- raw HTML omitted -->'s as a very good starting point for it.</p>
+<h4 id="references">References</h4>
+<p><!-- raw HTML omitted -->Docker guide<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->Automated deployment with Docker – lessons learnt<!-- raw HTML omitted --></p>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/2014/01/26/docker-series-intro-to-docker/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Docker Series - Intro to Docker</span>
+    </a>
+    
+    
+    <a href="/2015/01/17/maven-lifecycles-explained/" class="navigation-next">
+      <span class="navigation-tittle">Maven lifecycles and plugins explained</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js" integrity="sha256-vrn14y7WH7zgEElyQqm2uCGSQrX/xjYDjniRUQx3NyU=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function addBlockSwitches() {
+	$('.primary').each(function() {
+		primary = $(this);
+		createSwitchItem(primary, createBlockSwitch(primary)).item.addClass("selected");
+		primary.children('.title').remove();
+	});
+	$('.secondary').each(function(idx, node) {
+		secondary = $(node);
+		primary = findPrimary(secondary);
+		switchItem = createSwitchItem(secondary, primary.children('.switch'));
+		switchItem.content.addClass('hidden');
+		findPrimary(secondary).append(switchItem.content);
+		secondary.remove();
+	});
+}
+
+function createBlockSwitch(primary) {
+	blockSwitch = $('<div class="switch"></div>');
+	primary.prepend(blockSwitch);
+	return blockSwitch;
+}
+
+function findPrimary(secondary) {
+	candidate = secondary.prev();
+	while (!candidate.is('.primary')) {
+		candidate = candidate.prev();
+	}
+	return candidate;
+}
+
+function createSwitchItem(block, blockSwitch) {
+	blockName = block.children('.title').text();
+	content = block.children('.content').first().append(block.next('.colist'));
+	item = $('<div class="switch--item">' + blockName + '</div>');
+	blockSwitch.append(item);
+	return {'item': item, 'content': content};
+}
+
+function globalSwitch() {
+	$('.switch--item').each(function() {
+		var blockId = blockIdForSwitchItem($(this));
+		$(this).off('click');
+		$(this).on('click', function() {
+			selectedText = $(this).text()
+			window.localStorage.setItem(blockId, selectedText);
+			$(".switch--item").filter(function() {
+				return blockIdForSwitchItem($(this)) === blockId;
+			}).filter(function() {
+				return $(this).text() === selectedText;
+			}).each(function() {
+				select($(this))
+			});
+		});
+		if ($(this).text() === window.localStorage.getItem(blockId)) {
+			select($(this))
+		}
+	});
+}
+
+function blockIdForSwitchItem(item) {
+	idComponents = []
+	idComponents.push(item.text().toLowerCase());
+	item.siblings(".switch--item").each(function(index, sibling) {
+		idComponents.push($(sibling).text().toLowerCase());
+	});
+	return idComponents.sort().join("-")
+}
+
+function select(selected) {
+	selected.addClass('selected');
+	selected.siblings().removeClass('selected');
+	selectedContent = selected.parent().siblings(".content").eq(selected.index())
+	selectedContent.removeClass('hidden');
+	selectedContent.siblings().addClass('hidden');
+}
+
+$(addBlockSwitches);
+$(globalSwitch);
+</script>
+
+
+    
+
+
+
+    </body>
+</html>
+

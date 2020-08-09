@@ -1,0 +1,398 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
+        xmlns:xhtml="http://www.w3.org/1999/xhtml">
+    
+    
+    <url>
+        <loc>https://balamaci.ro/tags/java/</loc>
+        <lastmod>2019-07-21T01:54:58+02:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/tags/jvm/</loc>
+        <lastmod>2019-07-21T01:54:58+02:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/posts/</loc>
+        <lastmod>2019-07-21T01:54:58+02:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/tags/reactive/</loc>
+        <lastmod>2019-07-21T01:54:58+02:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2019/07/21/reactor-core-explained/</loc>
+        <lastmod>2019-07-21T01:54:58+02:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/</loc>
+        <lastmod>2019-07-21T01:54:58+02:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/tags/</loc>
+        <lastmod>2019-07-21T01:54:58+02:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2017/03/31/kafka-streams-for-stream-processing/</loc>
+        <lastmod>2017-03-31T13:46:34+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2016/08/17/reactive-log-stream-processing-with-rxjava-part-2/</loc>
+        <lastmod>2016-08-17T19:41:28+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2016/08/10/reactive-log-processing/</loc>
+        <lastmod>2016-08-10T14:09:03+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/whoami/</loc>
+        <lastmod>2016-06-16T18:48:54+01:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2016/03/21/java-app-monitoring-with-elk-elastic-search/</loc>
+        <lastmod>2016-03-21T13:10:26+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/categories/</loc>
+        <lastmod>2016-03-10T19:53:21+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/tags/elk/</loc>
+        <lastmod>2016-03-10T19:53:21+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/categories/elk/</loc>
+        <lastmod>2016-03-10T19:53:21+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2016/03/10/java-app-monitoring-with-elk-logstash/</loc>
+        <lastmod>2016-03-10T19:53:21+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/tags/bdd/</loc>
+        <lastmod>2015-11-02T10:08:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/categories/bdd/</loc>
+        <lastmod>2015-11-02T10:08:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2015/11/02/orchestrating-a-reusable-bdd-web-testing-setup-part-ii/</loc>
+        <lastmod>2015-11-02T10:08:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/tags/cucumber/</loc>
+        <lastmod>2015-11-02T10:08:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/categories/cucumber/</loc>
+        <lastmod>2015-11-02T10:08:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/tags/docker/</loc>
+        <lastmod>2015-11-02T10:08:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/categories/docker/</loc>
+        <lastmod>2015-11-02T10:08:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/tags/serenity/</loc>
+        <lastmod>2015-11-02T10:08:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/categories/serenity/</loc>
+        <lastmod>2015-11-02T10:08:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/tags/docker-compose/</loc>
+        <lastmod>2015-10-25T17:40:02+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/categories/docker-compose/</loc>
+        <lastmod>2015-10-25T17:40:02+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2015/10/25/using-docker-and-docker-compose-for-orchestrating-a-full-bdd/</loc>
+        <lastmod>2015-10-25T17:40:02+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/tags/selenium-grid/</loc>
+        <lastmod>2015-10-25T17:40:02+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/categories/selenium-grid/</loc>
+        <lastmod>2015-10-25T17:40:02+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2015/08/03/docker-container-for-visual-regression-testing/</loc>
+        <lastmod>2015-08-03T19:47:49+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/tags/webdriver/</loc>
+        <lastmod>2015-08-03T19:47:49+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/categories/webdriver/</loc>
+        <lastmod>2015-08-03T19:47:49+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2015/07/28/visual-testing-automation/</loc>
+        <lastmod>2015-07-28T21:10:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2015/02/01/monitoring-your-java-processes/</loc>
+        <lastmod>2015-02-01T22:16:18+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/tags/ansible/</loc>
+        <lastmod>2015-01-27T15:57:29+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/categories/ansible/</loc>
+        <lastmod>2015-01-27T15:57:29+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2015/01/27/part-2-using-vagrant-and-ansible-to-setup-jenkins/</loc>
+        <lastmod>2015-01-27T15:57:29+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/categories/vagrant/</loc>
+        <lastmod>2015-01-27T15:57:29+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2015/01/24/continous-integration-with-jenkins-docker-ansible-webdriver/</loc>
+        <lastmod>2015-01-24T20:09:22+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/tags/maven/</loc>
+        <lastmod>2015-01-17T11:42:14+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/categories/maven/</loc>
+        <lastmod>2015-01-17T11:42:14+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2015/01/17/maven-lifecycles-explained/</loc>
+        <lastmod>2015-01-17T11:42:14+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2014/02/11/docker-part-ii/</loc>
+        <lastmod>2014-02-11T21:32:27+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2014/01/26/docker-series-intro-to-docker/</loc>
+        <lastmod>2014-01-26T19:54:42+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2013/01/27/more-secure-than-yesterday-keeping-sessionid-in-the-url-when-did-that-became-a-good-ideea/</loc>
+        <lastmod>2013-01-27T18:56:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2013/01/27/more-secure-than-yesterday-preventing-session-fixation-and-general-session-stealing-type-of-attacks/</loc>
+        <lastmod>2013-01-27T18:11:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/tags/security/</loc>
+        <lastmod>2013-01-27T18:11:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/categories/security/</loc>
+        <lastmod>2013-01-27T18:11:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2012/04/03/more-secure-than-yesterday-storing-the-users-passwords/</loc>
+        <lastmod>2012-04-03T21:00:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2012/03/29/more-secure-than-yesterday-using-recaptcha-with-wicket/</loc>
+        <lastmod>2012-03-29T14:43:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2012/03/26/more-secure-than-yesterday-trying-to-prevent-brute-force-attacks/</loc>
+        <lastmod>2012-03-26T13:12:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/2011/11/02/why-choose-apache-wicket-framework/</loc>
+        <lastmod>2011-11-02T11:40:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/tags/wicket/</loc>
+        <lastmod>2011-11-02T11:40:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/categories/wicket/</loc>
+        <lastmod>2011-11-02T11:40:00+00:00</lastmod>
+    </url>
+    
+    
+    
+    
+    
+    <url>
+        <loc>https://balamaci.ro/series/</loc>
+    </url>
+    
+    
+</urlset>

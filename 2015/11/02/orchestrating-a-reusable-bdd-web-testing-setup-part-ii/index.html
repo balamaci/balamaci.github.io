@@ -1,0 +1,701 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.73.0" />
+
+    
+    
+    
+
+<title>BDD web testing setup - Docker, Cucumber and Serenity - Part II • Serban Balamaci</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Serban Balamaci">
+<meta property="og:title" content="BDD web testing setup - Docker, Cucumber and Serenity - Part II">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://balamaci.ro/2015/11/02/orchestrating-a-reusable-bdd-web-testing-setup-part-ii/" />
+<meta property="og:description" content="Java mostly, and general tech">
+<meta property="og:image" content="https://balamaci.ro/social-sharing.png">
+<meta property="og:image:type" content="image/png">
+    
+    
+    
+<meta property="og:image:width" content="192">
+<meta property="og:image:height" content="192">
+    
+
+<meta property="og:updated_time" content="2015-11-02T10:08:00Z">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@sbalamaci">
+<meta name="twitter:title" content="BDD web testing setup - Docker, Cucumber and Serenity - Part II">
+
+<meta name="twitter:image" content="https://balamaci.ro/social-sharing.png">
+
+<meta name="twitter:description" content="Java mostly, and general tech">
+<meta name="twitter:creator" content="@sbalamaci">
+    
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/a11y-light.min.css" media="(prefers-color-scheme: light)"><link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/gruvbox-dark.min.css" media="(prefers-color-scheme: dark)">
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.57d57be207f95258b69c5563e34ed2c632000ecb862ce9bd97e7e35f3957094c.css" integrity="sha256-V9V74gf5Uli2nFVj407SxjIADsuGLOm9l&#43;fjXzlXCUw=">
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde-dark.2eddfb769610f72f40f6bc949e62a3acf298eb8504c073739085a417978b18cd.css" integrity="sha256-Lt37dpYQ9y9A9ryUnmKjrPKY64UEwHNzkIWkF5eLGM0=" media="(prefers-color-scheme: dark)">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    
+    <link rel="shortcut icon" sizes="192x192" href="/android-192-favicon.png">
+
+    
+    <link rel="shortcut icon" href="/android-192-favicon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/v4-shims.min.css" integrity="sha256-wN7QJaqAwQ03kgUhyN4EU2phRdDkLrQYbFe0EvpQ60U=" crossorigin="anonymous" />
+
+    
+    
+
+
+    
+</head>
+
+
+    <body class="">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://balamaci.ro">Serban Balamaci</a>
+      </span>
+      
+      
+        <div class="author-image">
+          <img src="https://www.gravatar.com/avatar/309afbf8c2f162060e4fa28d670d2ec8?s=240&d=mp" class="img--circle img--headshot element--center" alt="gravatar">
+        </div>
+      
+      <p class="site__description">
+         Java and JVM related 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">Serban Balamaci</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/"><span class='fa-icon'><i class='fas fa-home'></i></span> Home
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/posts/"><span class='fa-icon'><i class='fas fa-stream'></i></span> Posts
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/series/"><span class='fa-icon'><i class='fas fa-list-alt'></i></span> Series
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/"><span class='fa-icon'><i class='fas fa-tags'></i></span> Tags
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/whoami/"><span class='fa-icon'><i class='fas fa-id-card'></i></span> About
+						<span></span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/@sbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="bird" class="svg-inline--fa fa-bird fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></i></a>
+	
+	
+	
+	<a href="https://github.com/balamaci" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/serbanbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="pro-network" class="svg-inline--fa fa-pro-network fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="container fixed-container">
+    
+<div class="copyright">
+  &copy; 2010 - 2020 Serban Balamaci
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+
+<article>
+  <header>
+    <h1>BDD web testing setup - Docker, Cucumber and Serenity - Part II</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> 2015-11-02
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/bdd">BDD</a>
+              •
+          
+              <a class="badge badge-category" href="/categories/cucumber">CUCUMBER</a>
+              •
+          
+              <a class="badge badge-category" href="/categories/docker">DOCKER</a>
+              •
+          
+              <a class="badge badge-category" href="/categories/serenity">SERENITY</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/docker">docker</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/bdd">bdd</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/cucumber">cucumber</a>
+           
+      
+          <a class="badge badge-tag" href="/tags/serenity">serenity</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 33 min read
+
+    
+    
+    
+
+</div>
+
+
+  </header>
+  
+  
+  
+  <div class="post md">
+    <h3 id="overview">Overview</h3>
+<p>In <a href="https://balamaci.ro/using-docker-and-docker-compose-for-orchestrating-a-full-bdd/">Part I</a> we looked at setting up a reusable testing setup by <strong>thinking in high level components through the use of docker containers</strong>. We added <strong>selenium-grid</strong> containers  and saw how <strong>docker-compose</strong> makes it easy to play around with more containers and still make it look simple and clear. This sets the blueprint for adding and swapping around other containers(like db containers, other web containers) that could help with setting up mocked service dependencies, test databases.</p>
+<p>In this part we also talk about writing BDD tests in <strong>Cucumber</strong> and how it&rsquo;s great to pair it with <strong>Serenity</strong> for some great tests reports.</p>
+<h3 id="crash-course-bdd">Crash course BDD</h3>
+<p>I&rsquo;m not going to reiterate what BDD is in detail, as this has been better explained <a href="http://thucydides.info/docs/serenity-staging/">here</a> which I encourage to read anyway.
+In fact we&rsquo;re just going fast over and rather presenting some code of how it all fits together to get you started quickly.</p>
+<h4 id="there-is-a-language-mismatch-between-the-stakeholders-in-a-software-project">There is a language mismatch between the stakeholders in a software project.</h4>
+<p>Usually when working on a software project there might be problems communicating between people involved(some which might use  to get to the same level of understanding to what the application should do exactly and how it should behave.
+Jokingly or not there is this image where developers and business people speak totally different languages and it&rsquo;s very easy to misunderstand one another.</p>
+<h4 id="ambiguity-is-a-problem">Ambiguity is a problem</h4>
+<p>I think we can all agree that it&rsquo;s dangerous to leave things to interpretations. We&rsquo;ve all gone through the pain of having to rework parts of the application after we thought them finished, as it turned out it was something different what the client meant.</p>
+<p>Having some user story that says <strong>&lsquo;Users should not be allowed to enter invalid phone numbers when creating a Contact&rsquo;</strong> might look ok but it&rsquo;s actually damn <strong>vague</strong>.
+What does it mean for a phone number to be valid?</p>
+<ul>
+<li>Should there be a minimum/maximum number of digits?</li>
+<li>Should there be only digits or is &lsquo;+&rsquo; at the beginning also valid?</li>
+<li>Are international phone numbers allowed?</li>
+<li>Are grouping spaces like &lsquo;+49 234 46535465&rsquo; ok?</li>
+</ul>
+<p>I leave to your interpretation what the simpler &lsquo;User should not be allowed&rsquo; could mean.</p>
+<h4 id="concrete-examples-help-solve-ambiguity">Concrete examples help solve ambiguity.</h4>
+<p>One way to fight ambiguity is to give some <strong>concrete examples</strong> on how the system should behave.
+To counter the above ambiguous scenario of <em>&lsquo;Users should not be allowed to enter invalid phone&rsquo;</em> a way to having it written better would be:
+<em>When an user enters as a Contact&rsquo;s phone a number with less than 3 digits and tries to press &lsquo;Save&rsquo; he should remain in the edit form and see a warning message about the length of the number</em></p>
+<p>One good way to express the behavior, is to structure the test case into a formal <strong>&lsquo;Given&rsquo;, &lsquo;When&rsquo;, &lsquo;Then&rsquo;</strong> setup.
+<strong>&lsquo;Given&rsquo;</strong> to provide some context of the state the system is in, <strong>&lsquo;When&rsquo;</strong> to describe an action or event and <strong>&lsquo;Then&rsquo;</strong> to verify the outcome.</p>
+<p>Let&rsquo;s see an example of how we could describe the &ldquo;Editing a contact&rsquo;s phone feature&rdquo;:
+Now we can better describe how exactly the application should behave as we write more and more scenarios:</p>
+<p><strong>Scenario</strong>: Contact phone cannot have less than 4 digits<br>
+<strong>Given</strong> I edit a Contact&rsquo;s Phone Number<br>
+<strong>When</strong> I enter a Phone Number &lsquo;+493&rsquo;<br>
+<strong>Then</strong> I should see &lsquo;Phone number too small&rsquo; warning</p>
+<p><strong>Scenario</strong>: Contact phone should only contain digits or whitespaces.<br>
+<strong>Given</strong> I edit a Contact&rsquo;s Phone Number<br>
+<strong>When</strong> I enter a Phone Number &lsquo;+49a5657878&rsquo;<br>
+<strong>Then</strong> I should see &lsquo;Invalid phone number(only +,digits or  spaces allowed)&rsquo; warning.</p>
+<p><strong>Scenario</strong>: Contact phone containing spaces is valid, and the spaces are removed.<br>
+<strong>Given</strong> I edit a Contact&rsquo;s Phone Number<br>
+<strong>When</strong> I enter a Phone Number &lsquo;+49 7722 533 280&rsquo;<br>
+<strong>Then</strong> I should see &lsquo;Saved contact successfull&rsquo; message<br>
+<strong>And</strong> I should see the &lsquo;+497722533280&rsquo;</p>
+<p>Structuring the requirements under this for is better because:</p>
+<ul>
+<li>There is a smaller chance for misunderstanding between all parties when developing the requirements also when testings them.</li>
+<li><strong>Better overview of and regression testing reports</strong>. By implementing automated tests for each step in the scenarios and by generating tests reports everyone can have the broad picture to know exactly what has been tested, what is working and what is not with any release.</li>
+<li><strong>Living documentation</strong> - instead of having separate documentation to how the system should behave we can use the scenarios with the concrete examples as documentation.
+It&rsquo;s called <strong>living</strong> since we have the scenario steps related to actual automated tests that are continuously being maintained and added and do not get out of sync from the application as people forget to also update the documentation.</li>
+</ul>
+<h3 id="cucumber-and-gherkin-language">Cucumber and gherkin &ldquo;language&rdquo;</h3>
+<p>Cucumber is the framework that relates this natural language description to running actual automated testing code.</p>
+<p>In Cucumber each test case is called a <strong>&lsquo;Scenario&rsquo;</strong>.
+Multiple <strong>Scenarios</strong> can be grouped together into a <strong>&lsquo;Feature&rsquo;</strong> and stored into files with the <em>.feature</em> extension.
+You write the <strong>'.feature&rsquo;</strong> files with natural language in what they actually call <strong>gherkin</strong> language.</p>
+<p>Every scenario consists of a list of <strong>steps</strong>, which must start with one of the keywords <strong>Given, When, Then, But</strong> or <strong>And</strong></p>
+<p>For ex:
+<strong>Feature</strong>: Login functionality<br>
+Users should be able to login into the application.</p>
+<p><strong>Scenario</strong>: Entering valid credentials I am able to login and see &lsquo;Contacts&rsquo; page<br>
+<strong>Given</strong> I open the application<br>
+<strong>And</strong> I see the Login page<br>
+<strong>When</strong> I login with user &lsquo;admin&rsquo; and with password &lsquo;admin&rsquo;<br>
+<strong>Then</strong> I should see the &lsquo;Contacts&rsquo; page</p>
+<p><strong>Scenario</strong>: Entering empty password triggers a warning message<br>
+<strong>Given</strong> I open the application<br>
+<strong>And</strong> I see the Login page<br>
+<strong>When</strong> I login with user &lsquo;admin&rsquo; and with password '&rsquo;<br>
+<strong>Then</strong> I should see the warning message with &lsquo;password-cannot-be-null&rsquo; key</p>
+<p>Notice the words in bold, they are actual gherkin &lsquo;keywords&rsquo;.</p>
+<p>Until now we&rsquo;ve just covered the documentation part of the steps in the gherkin language. We now need to relate them to actual code so that whenever Cucumber parses a step in the gherkin text, code that performs the action gets executed.</p>
+<p><strong>The actual code associated with a Step is called the &ldquo;Step definition&rdquo;.</strong></p>
+<p>Using something similar to regular expression we can associate a gherkin Step with a Step Definition.</p>
+<p>Let&rsquo;s look at an example to see how this would look like:</p>
+<pre><code>public class LoginStepDefs {
+
+    @Given(&quot;^I open the application$&quot;)
+    public void open_application() {
+        throw new PendingException();
+    }
+
+    @When(&quot;^I login with user '(.*)' and with password '(.*)'$&quot;)
+    public void login(String username, String password) {
+        throw new PendingException();
+    }
+....
+}
+</code></pre>
+<p>So we associate a java method through an annotation like <strong>@Given, @When, @Then, @And, @But</strong> with a Step in gherkin Scenario through the regex like expression.</p>
+<p>We grouped the methods inside a single java class <em>LoginStepDefs</em> but we could organize them however we&rsquo;d like(cucumber is looking for the method annotations), still it probably makes sense to have a separate class for each domain entity.
+We just need to tell Cucumber the package where to look for the step definitions methods.</p>
+<p>Talking about regex patterns, do not be confused by <strong>^</strong> and <strong>$</strong>. They only mark the beginning and the end as to match exactly with the gherkin text.
+For example omitting the <strong>$</strong> at the end</p>
+<pre><code> @Given(&quot;^I open the application&quot;)
+ public void open_application() {
+</code></pre>
+<p>would make the java <em>open_application()</em> match also text like &ldquo;I open the application under test&rdquo;.</p>
+<p>We also have an example of a simple regular expression to indicate dynamic parameters that can be passed into the methods.</p>
+<pre><code>@When(&quot;^I login with user '(.*)' and with password '(.*)'$&quot;)
+public void login(String username, String password)
+</code></pre>
+<h3 id="serenity-framework">Serenity framework</h3>
+<p>Right now Cucumber helped with relating the business scenarios to actual generic code, but since we&rsquo;re doing testing ui testing for a web application we can pair it with <strong>Serenity</strong> which <strong>provides a higher level wrapper for WebDriver to remove parts of the boilerplate associated with it</strong>.</p>
+<p>Apart from that <strong>Serenity helps with providing great tests reports</strong> that helps seeing the bigger picture of the status of each scenario and how they fit in the overall set of product requirements, what parts of the requirements have been covered by tests and if those tests have passed or not.</p>
+<p><img src="/assets/2015/serenity-aggregate-report.png" alt=""></p>
+<p>But what I particularly like is the <strong>possibility to have also printscreens taken for each step executed in the test reports</strong>.
+<img src="/assets/2015/printscreen_test_report.png" alt=""></p>
+<h3 id="page-objects-with-serenity">Page Objects with Serenity</h3>
+<p>The concept of <strong>Page Objects</strong> is a <strong>Software Pattern</strong>, not something limited to using Serenity. It goes to say that for doing actions on a certain page it&rsquo;s better to encapsulate the Webdriver workings inside a class, hide the actual the low level details of Webdriver interactions with the  components on the page, and instead expose higher level natural language concepts that the user could do on the page.</p>
+<p>For example in a <strong>LoginPage</strong> we could have components for a password text field and username. Instead of having methods like <em>public WebElement getPasswordTextfield()</em>, it makes more sense to just expose a <em>login(String username, String password)</em>  or <em>typeUsername()</em> or <em>typePassword()</em>.</p>
+<p>The idea would be that should the components of the web page would change, we could limit the need for refactor just to the inside of the Page Object class.</p>
+<p>Serenity provides it&rsquo;s own helper class <strong>PageObject</strong> and we should extend it. We get the benefits of automatic creation and injection of Webdriver inside the PageObject and also access to a range of helper methods: <strong>find(By.name(..))</strong>, <strong>typeInto</strong>, <strong>clickOn</strong>, <strong>waitFor</strong>, etc.</p>
+<pre><code>@DefaultUrl(&quot;http://localhost/login&quot;) 
+public class LoginPage extends PageObject {
+
+    public void enterUsernameAndPassword(String username, String password) {
+        WebElement txtUsername = find(By.name(Locators.getValue(&quot;login.txtUsername.name&quot;)));
+        WebElement txtPassword = find(By.name(Locators.getValue(&quot;login.txtPassword.name&quot;)));
+
+        typeInto(txtUsername, username);
+        typeInto(txtPassword, password);
+    }
+}
+</code></pre>
+<p><em>@DefaultUrl(&ldquo;http://localhost/login&rdquo;)</em> is useful when doing loginPage.open() to get directly to that url. We&rsquo;ll see further on how this is passed dynamically through serenity.properties .</p>
+<h3 id="serenity-step-class">Serenity Step class</h3>
+<p>While we looked at the fact that in Cucumber through <strong>@Given, @When, @Then</strong> we supply Step definition, Serenity also offers <strong>ScenarioSteps</strong> class for extension.
+This extra layer of indirection helps with keeping the &ldquo;what&rdquo; separate from the &ldquo;how&rdquo;, it acts as an adapter from the business language in Cucumber to the more technical low level of implementation. Without it step definitions would tend to become rather technical, which limits reuse and makes them harder to understand and maintain.
+For ex. a Cucumber step would say &ldquo;I login with &lsquo;user&rsquo; and &lsquo;password&rsquo;&rdquo; =&gt; Serenity Steps: &ldquo;User types &lsquo;admin&rsquo; in &lsquo;username&rsquo; textfield&rdquo; and &ldquo;User types &lsquo;123456&rsquo; in &lsquo;password&rsquo;  field&rdquo; and &ldquo;User clicks &lsquo;Submit&rsquo;&rdquo;</p>
+<pre><code>public class LoginSteps extends ScenarioSteps {
+
+    private LoginPage loginPage; //automatically instantiated
+
+    @Step
+    public void enterUsernameAndPassword(String username, String password) {
+        loginPage.enterUsernameAndPassword(username, password);
+    }
+
+    @Step
+    public void clickOnSubmit() {
+        loginPage.clickOnSubmit();
+    }
+}
+</code></pre>
+<p>Each <strong>@Step</strong> annotation method that gets called inside the Cucumber step definition method, makes the method appear inside the test report under the Cucumber step.</p>
+<p>The <strong>LoginPage</strong> object gets automatically instantiated and the Webdriver preconfigured instance injected inside.</p>
+<p>&ldquo;Both <strong>scenario step libraries</strong> (annotated with the @Steps annotation) and <strong>Page Objects</strong> that are declared inside the Cucumber step definition classes will be automatically instantiated.&rdquo;</p>
+<pre><code>public class LoginStepDefs { //Cucumber Step definitions
+
+    @Steps
+    private LoginSteps loginSteps; //Serenity Steps
+
+    //private LoginPage loginPage; - could have used the PageObject directly
+
+    @When(&quot;^I login with user '(.*)' with password '(.*)'$&quot;)
+    public void login_user(String username, String password) throws Exception {
+        loginSteps.enterUsernameAndPassword(username, password);
+        loginSteps.clickOnSubmit();
+    }
+
+    @Given(&quot;^I am logged in as admin$&quot;)
+    public void login_admin_user() {
+        loginSteps.openLoginPage();
+        loginSteps.enterUsernameAndPassword(&quot;admin&quot;, &quot;admin&quot;);
+        loginSteps.clickOnSubmit();
+    }
+}
+</code></pre>
+<p>Notice we could have used the directly the <strong>LoginPage</strong> PageObject, and not have to bother with the extra layer of indirection in the Serenity <strong>LoginSteps</strong>, but that would have meant that we would not have those @Step method in the final Serenity test report along with the printscreens.</p>
+<h3 id="the-code">The code</h3>
+<p>Let&rsquo;s now look at what you need to setup to start with your own Cucumber Serenity tests.
+The source code can be downloaded from <a href="https://github.com/balamaci/blog-ui-bdd-testing">here</a>.</p>
+<p>First of we&rsquo;ll need a special test runner <strong>CucumberWithSerenity</strong></p>
+<pre><code>@RunWith(CucumberWithSerenity.class)
+@CucumberOptions(
+        format = { &quot;pretty&quot;, &quot;html:target/pippo&quot;, &quot;json:target/cucumber.json&quot; },
+        features = {&quot;src/main/resources/features/&quot;},
+        glue = &quot;ro.fortsoft.pippo.demo.bdd.cucumber&quot;)
+public class PippoCrudDemoRunner {
+}
+</code></pre>
+<p>through which we specify where the <em>.feature</em> files are located and the package under which the Cucumber step definition classes are.<br>
+There is also <strong>serenity.properties</strong> that allows customization of Webdriver, and the generated test reports.</p>
+<pre><code>webdriver.remote.driver = firefox
+
+webdriver.base.url=http://tomcat:8080/pippo/
+webdriver.remote.url = http://hub:4444/wd/hub
+
+serenity.use.unique.browser = true
+serenity.take.screenshots = BEFORE_AND_AFTER_EACH_STEP
+</code></pre>
+<p>Notice in the above props with url-s we reference the containers by the name we configured them in <strong>docker-compose.yml</strong>(<strong>&lsquo;tomcat&rsquo;</strong> container and <strong>&lsquo;hub&rsquo;</strong> container of the selenium-grid).</p>
+<ul>
+<li>webdriver.remote.url = http://hub:4444/wd/hub - the address of the selenium grid hub</li>
+<li>webdriver.base.url=http://tomcat:8080/pippo/ - this replaces the &lsquo;host&rsquo; part in
+<code>@DefaultUrl(&quot;http://localhost/login&quot;) public class LoginPage extends PageObject {</code>
+we mentioned before, and which would mean &lsquo;http://tomcat:8080/pippo/login&rsquo;</li>
+</ul>
+<h3 id="running-the-tests-with-maven">Running the tests with maven</h3>
+<p>We&rsquo;re references the <strong>CucumberWithSerenity</strong> by including the package where it resides from the <strong>maven-failsafe-plugin</strong> which performs integration tests.</p>
+<pre><code>&lt;plugin&gt;
+		&lt;artifactId&gt;maven-failsafe-plugin&lt;/artifactId&gt;
+		&lt;version&gt;2.18&lt;/version&gt;
+		&lt;configuration&gt;
+				&lt;includes&gt;
+						&lt;include&gt;**/runner/*.java&lt;/include&gt;
+					&lt;/includes&gt;
+					&lt;reuseForks&gt;true&lt;/reuseForks&gt;
+		&lt;/configuration&gt;
+		&lt;executions&gt;
+			&lt;execution&gt;
+				&lt;goals&gt;
+					&lt;goal&gt;integration-test&lt;/goal&gt;
+					&lt;goal&gt;verify&lt;/goal&gt;
+				&lt;/goals&gt;
+			&lt;/execution&gt;
+		&lt;/executions&gt;
+&lt;/plugin&gt;
+</code></pre>
+<h3 id="the-application-to-run-the-ui-tests-against">The application to run the ui tests against</h3>
+<p>We&rsquo;re using as example in our BDD testing setup the demo app <a href="https://github.com/decebals/pippo-demo/tree/master/pippo-demo-crudng">pippo-crud-ng</a> of the <a href="http://www.pippo.ro/">pippo</a> web framework.
+I always take opportunity to present other interesting frameworks and such is <strong><a href="https://github.com/decebals/pippo">pippo</a> java web framework</strong> which I like as it&rsquo;s very lightweight and build with the concept of modularity and the small footprint makes it ideal for IoT applications. If you have not already, please take a look and maybe consider it as a possible <strong>alternative to other frameworks like spark, dropwizzard, ninja</strong>.</p>
+<p>I also have pushed <strong>pippo-demo.war</strong> in the blog repo just to make it easier for the reader to run the whole setup.</p>
+<pre><code>git clone git@github.com:balamaci/blog-ui-bdd-testing.git
+
+./build.sh
+
+./start.sh
+</code></pre>
+<p>the Serenity report gets generated and can be found and opened at <strong>./target/site/serenity/index.html</strong></p>
+<p>This is the result
+<a href="https://balamaci.ro/static/serenity/index.html"><img src="/assets/2015/bdd_preview.png" alt="BDD preview"></a></p>
+<h3 id="extra-tips-and-tricks">Extra tips and tricks</h3>
+<h4 id="cucumber-tags">Cucumber tags</h4>
+<p>Sometimes there may be long running tests we might want to just run once per night not with every build. Or we&rsquo;d like to separate ui tests from batch tests. This is where <strong>cucumber tags</strong> come into play: we can add one or more <strong>@tagname</strong> at each Scenario or Feature in the .feature files to mark them.</p>
+<p>For example:</p>
+<pre><code>@ui
+Feature: Login functionality
+
+  @security
+  Scenario: Entering valid credentials I am able to login and see 'Contacts' page
+    When I login ...
+</code></pre>
+<p>We can tell then Serenity to just run scenarios with a certain tag(s)</p>
+<pre><code>mvn clean verify -Dcucumber.options=&quot;--tags @long-running,security&quot;
+</code></pre>
+<h4 id="cucumber-hooks">Cucumber hooks</h4>
+<p>Cucumber hooks help with pre-setting test conditions.</p>
+<p>For example we usually want to make sure to have a clean state when firing up the browser to clear any set cookies - like user&rsquo;s session-.</p>
+<p>We can do this through the <strong>@Before</strong> or <strong>@After</strong> annotations from Cucumber. These annotations can also take a tags as parameters: <strong>@Before(&quot;@security, @ui&rdquo;)</strong></p>
+<pre><code>public class CucumberHooks {
+
+    @ManagedPages
+    private Pages pages;
+
+    @Before //@Before(&quot;@ui&quot;)
+    public void openBrowser() {
+        pages.getDriver().manage().deleteAllCookies();
+        pages.getDriver().manage().window().maximize();
+/*
+        pages.getConfiguration().getEnvironmentVariables()
+            .setProperty(ThucydidesSystemProperty.WEBDRIVER_BASE_URL.getPropertyName(), &quot;http://tomcat:8080/pippo/&quot;);
+*/
+    }
+</code></pre>
+<h3 id="conclusion">Conclusion</h3>
+<p><strong>Cucumber combined with Serenity are two great tools</strong> that go well hand in hand. I just got to say I love the test reports Serenity generates, especially the print screens seem very useful.
+They can be used in any Java project. It may not bear mentioning but <strong>they are not dependent in anyway to run with docker</strong>, it was just an example to do some complex setup, you are free to start using them right now in your projects.</p>
+<p>Through this blog post I hope to have made you aware and curios to read further on about them.</p>
+<p>Thank you!</p>
+<h3 id="references">References</h3>
+<ol>
+<li><a href="http://thucydides.info/docs/serenity-staging/">Serenity Documentation</a> - good general BDD information</li>
+<li><a href="https://pragprog.com/book/srjcuc/the-cucumber-for-java-book">Cucumber for Java Book</a></li>
+<li><a href="https://cucumber.io/docs/reference">Cucumber Docs</a></li>
+<li><a href="https://dzone.com/refcardz/getting-started-with-docker-1">Docker - getting started</a></li>
+</ol>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/2015/10/25/using-docker-and-docker-compose-for-orchestrating-a-full-bdd/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Orchestrating a reusable BDD web testing setup with Selenium grid using docker - Part I</span>
+    </a>
+    
+    
+    <a href="/2016/03/10/java-app-monitoring-with-elk-logstash/" class="navigation-next">
+      <span class="navigation-tittle">Java app monitoring with ELK - Part I - Logstash and Logback</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js" integrity="sha256-vrn14y7WH7zgEElyQqm2uCGSQrX/xjYDjniRUQx3NyU=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function addBlockSwitches() {
+	$('.primary').each(function() {
+		primary = $(this);
+		createSwitchItem(primary, createBlockSwitch(primary)).item.addClass("selected");
+		primary.children('.title').remove();
+	});
+	$('.secondary').each(function(idx, node) {
+		secondary = $(node);
+		primary = findPrimary(secondary);
+		switchItem = createSwitchItem(secondary, primary.children('.switch'));
+		switchItem.content.addClass('hidden');
+		findPrimary(secondary).append(switchItem.content);
+		secondary.remove();
+	});
+}
+
+function createBlockSwitch(primary) {
+	blockSwitch = $('<div class="switch"></div>');
+	primary.prepend(blockSwitch);
+	return blockSwitch;
+}
+
+function findPrimary(secondary) {
+	candidate = secondary.prev();
+	while (!candidate.is('.primary')) {
+		candidate = candidate.prev();
+	}
+	return candidate;
+}
+
+function createSwitchItem(block, blockSwitch) {
+	blockName = block.children('.title').text();
+	content = block.children('.content').first().append(block.next('.colist'));
+	item = $('<div class="switch--item">' + blockName + '</div>');
+	blockSwitch.append(item);
+	return {'item': item, 'content': content};
+}
+
+function globalSwitch() {
+	$('.switch--item').each(function() {
+		var blockId = blockIdForSwitchItem($(this));
+		$(this).off('click');
+		$(this).on('click', function() {
+			selectedText = $(this).text()
+			window.localStorage.setItem(blockId, selectedText);
+			$(".switch--item").filter(function() {
+				return blockIdForSwitchItem($(this)) === blockId;
+			}).filter(function() {
+				return $(this).text() === selectedText;
+			}).each(function() {
+				select($(this))
+			});
+		});
+		if ($(this).text() === window.localStorage.getItem(blockId)) {
+			select($(this))
+		}
+	});
+}
+
+function blockIdForSwitchItem(item) {
+	idComponents = []
+	idComponents.push(item.text().toLowerCase());
+	item.siblings(".switch--item").each(function(index, sibling) {
+		idComponents.push($(sibling).text().toLowerCase());
+	});
+	return idComponents.sort().join("-")
+}
+
+function select(selected) {
+	selected.addClass('selected');
+	selected.siblings().removeClass('selected');
+	selectedContent = selected.parent().siblings(".content").eq(selected.index())
+	selectedContent.removeClass('hidden');
+	selectedContent.siblings().addClass('hidden');
+}
+
+$(addBlockSwitches);
+$(globalSwitch);
+</script>
+
+
+    
+
+
+
+    </body>
+</html>
+

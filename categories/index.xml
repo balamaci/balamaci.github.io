@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Categories on Serban Balamaci</title>
+        <link>https://balamaci.ro/categories/</link>
+        <description>Recent content in Categories on Serban Balamaci</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <managingEditor>thespamtrapp@gmail.com (Serban Balamaci)</managingEditor>
+        <webMaster>thespamtrapp@gmail.com (Serban Balamaci)</webMaster>
+        <lastBuildDate>Thu, 10 Mar 2016 19:53:21 +0000</lastBuildDate>
+        
+        <atom:link href="https://balamaci.ro/categories/index.xml" rel="self" type="application/rss+xml" />
+        
+        
+        
+        <item>
+            <title>elk</title>
+            <link>https://balamaci.ro/categories/elk/</link>
+            <pubDate>Thu, 10 Mar 2016 19:53:21 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/categories/elk/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>bdd</title>
+            <link>https://balamaci.ro/categories/bdd/</link>
+            <pubDate>Mon, 02 Nov 2015 10:08:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/categories/bdd/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>cucumber</title>
+            <link>https://balamaci.ro/categories/cucumber/</link>
+            <pubDate>Mon, 02 Nov 2015 10:08:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/categories/cucumber/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>docker</title>
+            <link>https://balamaci.ro/categories/docker/</link>
+            <pubDate>Mon, 02 Nov 2015 10:08:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/categories/docker/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>serenity</title>
+            <link>https://balamaci.ro/categories/serenity/</link>
+            <pubDate>Mon, 02 Nov 2015 10:08:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/categories/serenity/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>docker-compose</title>
+            <link>https://balamaci.ro/categories/docker-compose/</link>
+            <pubDate>Sun, 25 Oct 2015 17:40:02 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/categories/docker-compose/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>selenium-grid</title>
+            <link>https://balamaci.ro/categories/selenium-grid/</link>
+            <pubDate>Sun, 25 Oct 2015 17:40:02 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/categories/selenium-grid/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>webdriver</title>
+            <link>https://balamaci.ro/categories/webdriver/</link>
+            <pubDate>Mon, 03 Aug 2015 19:47:49 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/categories/webdriver/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>ansible</title>
+            <link>https://balamaci.ro/categories/ansible/</link>
+            <pubDate>Tue, 27 Jan 2015 15:57:29 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/categories/ansible/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>vagrant</title>
+            <link>https://balamaci.ro/categories/vagrant/</link>
+            <pubDate>Tue, 27 Jan 2015 15:57:29 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/categories/vagrant/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>maven</title>
+            <link>https://balamaci.ro/categories/maven/</link>
+            <pubDate>Sat, 17 Jan 2015 11:42:14 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/categories/maven/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>security</title>
+            <link>https://balamaci.ro/categories/security/</link>
+            <pubDate>Sun, 27 Jan 2013 18:11:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/categories/security/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Wicket</title>
+            <link>https://balamaci.ro/categories/wicket/</link>
+            <pubDate>Wed, 02 Nov 2011 11:40:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/categories/wicket/</guid>
+            <description></description>
+        </item>
+        
+        
+    </channel>
+</rss>

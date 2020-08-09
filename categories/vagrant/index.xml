@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>vagrant on Serban Balamaci</title>
+        <link>https://balamaci.ro/categories/vagrant/</link>
+        <description>Recent content in vagrant on Serban Balamaci</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <managingEditor>thespamtrapp@gmail.com (Serban Balamaci)</managingEditor>
+        <webMaster>thespamtrapp@gmail.com (Serban Balamaci)</webMaster>
+        <lastBuildDate>Tue, 27 Jan 2015 15:57:29 +0000</lastBuildDate>
+        
+        <atom:link href="https://balamaci.ro/categories/vagrant/index.xml" rel="self" type="application/rss+xml" />
+        
+        
+        
+        <item>
+            <title>Using Vagrant and Ansible to setup Jenkins</title>
+            <link>https://balamaci.ro/2015/01/27/part-2-using-vagrant-and-ansible-to-setup-jenkins/</link>
+            <pubDate>Tue, 27 Jan 2015 15:57:29 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2015/01/27/part-2-using-vagrant-and-ansible-to-setup-jenkins/</guid>
+            <description>Part 2 on setting up a Jenkins machine with plugins.
+Since the previous article, I&amp;rsquo;ve been asked by people what is Vagrant and how they can use it. Somehow I took this for granted and I did not consider it a key subject in our CI journey.</description>
+        </item>
+        
+        
+    </channel>
+</rss>

@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>webdriver on Serban Balamaci</title>
+        <link>https://balamaci.ro/categories/webdriver/</link>
+        <description>Recent content in webdriver on Serban Balamaci</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <managingEditor>thespamtrapp@gmail.com (Serban Balamaci)</managingEditor>
+        <webMaster>thespamtrapp@gmail.com (Serban Balamaci)</webMaster>
+        <lastBuildDate>Mon, 03 Aug 2015 19:47:49 +0000</lastBuildDate>
+        
+        <atom:link href="https://balamaci.ro/categories/webdriver/index.xml" rel="self" type="application/rss+xml" />
+        
+        
+        
+        <item>
+            <title>Docker containers for Visual Regression Testing setup</title>
+            <link>https://balamaci.ro/2015/08/03/docker-container-for-visual-regression-testing/</link>
+            <pubDate>Mon, 03 Aug 2015 19:47:49 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2015/08/03/docker-container-for-visual-regression-testing/</guid>
+            <description>Packing it all inside docker containers In the previous post we looked at a possible solution for doing Visual Regression Testing. But stepping back and looking at it, I think there was tedious for the reader to actually try it out, because it required him to install some extra dependencies like ImageMagick, phantomjs( which in turn needs nodejs) to be able to run the example himself(also not considering docker installation).</description>
+        </item>
+        
+        
+        
+        <item>
+            <title>A Solution for Automation of Visual Regression Testing</title>
+            <link>https://balamaci.ro/2015/07/28/visual-testing-automation/</link>
+            <pubDate>Tue, 28 Jul 2015 21:10:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2015/07/28/visual-testing-automation/</guid>
+            <description>What&amp;rsquo;s the problem with visual regression testing automation When you need to test a web application and not just an API, you need to check also that the changes in the DOM order and / or .</description>
+        </item>
+        
+        
+    </channel>
+</rss>

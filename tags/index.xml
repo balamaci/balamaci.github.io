@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>Tags on Serban Balamaci</title>
+        <link>https://balamaci.ro/tags/</link>
+        <description>Recent content in Tags on Serban Balamaci</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <managingEditor>thespamtrapp@gmail.com (Serban Balamaci)</managingEditor>
+        <webMaster>thespamtrapp@gmail.com (Serban Balamaci)</webMaster>
+        <lastBuildDate>Sun, 21 Jul 2019 01:54:58 +0200</lastBuildDate>
+        
+        <atom:link href="https://balamaci.ro/tags/index.xml" rel="self" type="application/rss+xml" />
+        
+        
+        
+        <item>
+            <title>java</title>
+            <link>https://balamaci.ro/tags/java/</link>
+            <pubDate>Sun, 21 Jul 2019 01:54:58 +0200</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/tags/java/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>jvm</title>
+            <link>https://balamaci.ro/tags/jvm/</link>
+            <pubDate>Sun, 21 Jul 2019 01:54:58 +0200</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/tags/jvm/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>reactive</title>
+            <link>https://balamaci.ro/tags/reactive/</link>
+            <pubDate>Sun, 21 Jul 2019 01:54:58 +0200</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/tags/reactive/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>elk</title>
+            <link>https://balamaci.ro/tags/elk/</link>
+            <pubDate>Thu, 10 Mar 2016 19:53:21 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/tags/elk/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>bdd</title>
+            <link>https://balamaci.ro/tags/bdd/</link>
+            <pubDate>Mon, 02 Nov 2015 10:08:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/tags/bdd/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>cucumber</title>
+            <link>https://balamaci.ro/tags/cucumber/</link>
+            <pubDate>Mon, 02 Nov 2015 10:08:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/tags/cucumber/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>docker</title>
+            <link>https://balamaci.ro/tags/docker/</link>
+            <pubDate>Mon, 02 Nov 2015 10:08:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/tags/docker/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>serenity</title>
+            <link>https://balamaci.ro/tags/serenity/</link>
+            <pubDate>Mon, 02 Nov 2015 10:08:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/tags/serenity/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>docker-compose</title>
+            <link>https://balamaci.ro/tags/docker-compose/</link>
+            <pubDate>Sun, 25 Oct 2015 17:40:02 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/tags/docker-compose/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>selenium-grid</title>
+            <link>https://balamaci.ro/tags/selenium-grid/</link>
+            <pubDate>Sun, 25 Oct 2015 17:40:02 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/tags/selenium-grid/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>webdriver</title>
+            <link>https://balamaci.ro/tags/webdriver/</link>
+            <pubDate>Mon, 03 Aug 2015 19:47:49 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/tags/webdriver/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>ansible</title>
+            <link>https://balamaci.ro/tags/ansible/</link>
+            <pubDate>Tue, 27 Jan 2015 15:57:29 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/tags/ansible/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>maven</title>
+            <link>https://balamaci.ro/tags/maven/</link>
+            <pubDate>Sat, 17 Jan 2015 11:42:14 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/tags/maven/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>security</title>
+            <link>https://balamaci.ro/tags/security/</link>
+            <pubDate>Sun, 27 Jan 2013 18:11:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/tags/security/</guid>
+            <description></description>
+        </item>
+        
+        
+        
+        <item>
+            <title>Wicket</title>
+            <link>https://balamaci.ro/tags/wicket/</link>
+            <pubDate>Wed, 02 Nov 2011 11:40:00 +0000</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/tags/wicket/</guid>
+            <description></description>
+        </item>
+        
+        
+    </channel>
+</rss>

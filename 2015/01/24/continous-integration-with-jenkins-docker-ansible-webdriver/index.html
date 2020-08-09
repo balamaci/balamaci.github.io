@@ -1,0 +1,740 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.73.0" />
+
+    
+    
+    
+
+<title>Part 1 - Continous Integration with Jenkins, Docker, WebDriver ... • Serban Balamaci</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Serban Balamaci">
+<meta property="og:title" content="Part 1 - Continous Integration with Jenkins, Docker, WebDriver &amp;hellip;">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://balamaci.ro/2015/01/24/continous-integration-with-jenkins-docker-ansible-webdriver/" />
+<meta property="og:description" content="Java mostly, and general tech">
+<meta property="og:image" content="https://balamaci.ro/social-sharing.png">
+<meta property="og:image:type" content="image/png">
+    
+    
+    
+<meta property="og:image:width" content="192">
+<meta property="og:image:height" content="192">
+    
+
+<meta property="og:updated_time" content="2015-01-24T20:09:22Z">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@sbalamaci">
+<meta name="twitter:title" content="Part 1 - Continous Integration with Jenkins, Docker, WebDriver …">
+
+<meta name="twitter:image" content="https://balamaci.ro/social-sharing.png">
+
+<meta name="twitter:description" content="Java mostly, and general tech">
+<meta name="twitter:creator" content="@sbalamaci">
+    
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/a11y-light.min.css" media="(prefers-color-scheme: light)"><link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/gruvbox-dark.min.css" media="(prefers-color-scheme: dark)">
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.57d57be207f95258b69c5563e34ed2c632000ecb862ce9bd97e7e35f3957094c.css" integrity="sha256-V9V74gf5Uli2nFVj407SxjIADsuGLOm9l&#43;fjXzlXCUw=">
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde-dark.2eddfb769610f72f40f6bc949e62a3acf298eb8504c073739085a417978b18cd.css" integrity="sha256-Lt37dpYQ9y9A9ryUnmKjrPKY64UEwHNzkIWkF5eLGM0=" media="(prefers-color-scheme: dark)">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    
+    <link rel="shortcut icon" sizes="192x192" href="/android-192-favicon.png">
+
+    
+    <link rel="shortcut icon" href="/android-192-favicon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/v4-shims.min.css" integrity="sha256-wN7QJaqAwQ03kgUhyN4EU2phRdDkLrQYbFe0EvpQ60U=" crossorigin="anonymous" />
+
+    
+    
+
+
+    
+</head>
+
+
+    <body class="">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://balamaci.ro">Serban Balamaci</a>
+      </span>
+      
+      
+        <div class="author-image">
+          <img src="https://www.gravatar.com/avatar/309afbf8c2f162060e4fa28d670d2ec8?s=240&d=mp" class="img--circle img--headshot element--center" alt="gravatar">
+        </div>
+      
+      <p class="site__description">
+         Java and JVM related 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">Serban Balamaci</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/"><span class='fa-icon'><i class='fas fa-home'></i></span> Home
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/posts/"><span class='fa-icon'><i class='fas fa-stream'></i></span> Posts
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/series/"><span class='fa-icon'><i class='fas fa-list-alt'></i></span> Series
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/"><span class='fa-icon'><i class='fas fa-tags'></i></span> Tags
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/whoami/"><span class='fa-icon'><i class='fas fa-id-card'></i></span> About
+						<span></span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/@sbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="bird" class="svg-inline--fa fa-bird fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></i></a>
+	
+	
+	
+	<a href="https://github.com/balamaci" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/serbanbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="pro-network" class="svg-inline--fa fa-pro-network fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="container fixed-container">
+    
+<div class="copyright">
+  &copy; 2010 - 2020 Serban Balamaci
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+
+<article>
+  <header>
+    <h1>Part 1 - Continous Integration with Jenkins, Docker, WebDriver ...</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> 2015-01-24
+    
+    
+    
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 30 min read
+
+    
+    
+    
+
+</div>
+
+
+  </header>
+  
+  
+  
+  <div class="post md">
+    <h3 id="the-plan">The plan</h3>
+<p>I&rsquo;m going to start the series on Continuos Integration(CI) for <strong>java</strong> web projects with explaining the part related to <strong>integration tests</strong>, then in Part 2 talk about how we glue things together in <strong>Jenkins</strong>.</p>
+<ul>
+<li>
+<p>Use <strong>Jenkins</strong> jobs for running unit tests and coverage report. Building our artifacts.</p>
+</li>
+<li>
+<p>Start up a standard <strong>Tomcat7</strong>(Jetty or whatever) webserver in an isolated <strong>docker container</strong> with limited/guarded memory and cpu power with the same base image(or the same setup of our production env).</p>
+</li>
+<li>
+<p><strong>Deploy</strong> the <strong>war</strong> artifact in the dockerized Tomcat container.</p>
+</li>
+<li>
+<p>Run <strong>integration tests</strong> using <strong>Selenium WebDriver</strong> tests against this Tomcat instance.</p>
+</li>
+<li>
+<p>If all tests pass, have a manual trigger to deploy on a XXXXX env.</p>
+</li>
+<li>
+<p>Use <strong>Ansible</strong> to deploy to the XXXX env.</p>
+</li>
+</ul>
+<h3 id="part-1---integration-tests">Part 1 - Integration Tests</h3>
+<p>Following the github workflow with submitted <strong>Pull Requests</strong> that the developer needs to review before merging to a long lived branch like the master or develop branch(depending what git flow you adhere to). I think it&rsquo;s a good thing that before we merge the PR to one of the main  branches and risk poluting the project with a failing feature, we need to automatically run the tests against that PR.
+In order to reach a higher level of confidence in your builds, deploying and testing the build as a whole and not solely rely on unit test is certainly something we can do.
+Luckly automatically directing a Jenkins build and test job against a github PR is also something which can be achieved and described <a href="http://www.dereuromark.de/2014/03/04/continuous-integration-with-jenkins/">here</a>.</p>
+<h3 id="the-code-first">The code first</h3>
+<p>If you first want to see the code, you can find it <a href="https://github.com/balamaci/pippo-demo-webdriver-test">here</a></p>
+<h3 id="starting-with-docker">Starting with Docker</h3>
+<p>I&rsquo;m not going to reiterate what docker is because I already did it <a href="http://balamaci.ro/docker-series-intro-to-docker/">here</a>, but just a summary on what it&rsquo;s about:</p>
+<p>You can think of Docker as a very lightweight VM which doesn&rsquo;t bring much added overhead. Or you can relate to <strong>a sandboxing environment</strong> on your phone in which the phone apps don&rsquo;t know / see each other, can&rsquo;t mess with each others data. Besides the sandbox isolation you get excelent <strong>portability</strong>.
+Once you build say for ex, a custom Tomcat7 docker image(and you can use my supplied build file to generate one) you can reuse it anywhere to start as much containers as you&rsquo;d like without much more performance overhead than say just starting the 2,3,n separate instances of Tomcat.</p>
+<p>The container will be fully customized to have whatever is needed to run your application. You can have java, maven, git, tomcat already configured with all the required dependencies and baked into the container image, <strong>frozen</strong> in place with your application and ready to be run on any other machine. By deploying and running in production the same setup you use to run the tests on, it makes sense to think there should be a lower chance of surprises happening.</p>
+<p>One other thing in favor of portability is that you can use through <strong>docker push</strong>(like a <strong>git push</strong>) the <strong>imutable</strong> image to a docker repository and <strong>docker pull</strong> from the repository when you want to build a new container from that image. This gives us the option to think of using the docker image as the deliverable itself and deploy them on different cluster nodes through a managing platform like <a href="http://www.infoq.com/articles/scaling-docker-with-kubernetes">Kubernetes</a> or <a href="http://codefutures.com/mesos-docker-tutorial-how-to-build-your-own-framework/">Messos</a> dynamicaly starting/stoping more instances on the fly while the load grows or shrinks. While this sounds cool but I&rsquo;ve yet to work with them. Still <strong>this approach could  provide a different view on whole microservice ecosystem</strong>.</p>
+<p>You can share data between the host and the containers through <strong>volumes</strong> which could be used for passing configuration files to an otherwise &ldquo;generic&rdquo; container. Volumes are also used to map the log files directory for log files created inside the container.</p>
+<p>You can <strong>link</strong> containers between themselves, like having your application inside Tomcat containers talking to Mysql/Postresql containers, sort of a DependencyInjection in which the DB container would be injected by an orchestration service at runtime, linking to QA or PRELIVE databases.</p>
+<h4 id="jenkins-and-docker-inside-a-vm---vagrant">Jenkins and Docker inside a VM - Vagrant</h4>
+<p>Now because docker containers are much lighter than a VM, because it does not bother with hardware virtualization, and it does away with the hypervisor and instead is sharing the kernel with the host system. But if you are running Windows or MacOs that would be a problem(There is an solution to this: <strong>boot2docker</strong> a minimal vm that allows to run docker on Windows and MacOS), so it could be a good choice to just package a configured Jenkins along with the Docker setup inside as a Vagrant machine.</p>
+<p>Since we also want to run the integration tests using webdriver, &ldquo;driving&rdquo; a <strong>phantomjs</strong> browser, which will allow for faster runs(I&rsquo;ll explain a little about webdriver later). <strong>Phantomjs</strong> in turn requires <strong>nodejs</strong> to be installed so this piles up into quite a custom setup.</p>
+<h3 id="the-setup-in-more-detail">The setup in more detail</h3>
+<p>Again, the final setup can be found <a href="https://github.com/balamaci/pippo-demo-webdriver-test">here</a>
+I like to set up a different project for the integration test, because they usually have different dependencies(like webdriver, nodejs, phantomjs) and are running on Jenkins, not on the developer machine because most likely they will take considerable longer time to execute than the unit tests. There is no problem to organize and keep integration tests inside the project along with the unit test as shown <a href="http://www.petrikainulainen.net/programming/maven/integration-testing-with-maven/">here</a></p>
+<p>I also have <strong>a separate job on Jenkis running the integration tests</strong>. This also might help if we want to run them less frequently than the unit tests.
+We asume a Jenkins upstream job took care of the war packaging and we&rsquo;ll just <strong>&ldquo;Copy artifacts&rdquo;</strong> from the build job to bring them in our  integration job.</p>
+<p>We&rsquo;re using Maven which has 3 phases in the default build scenario dedicated to integrationg tests and we&rsquo;ll use them according:</p>
+<ul>
+<li><strong>pre-integration-test</strong> phase we look for the Tomcat docker image, pull it from the repository if it&rsquo;s not already localy stored. We start a new docker container based upon this image. Deploy our app inside the Tomcat webserver.</li>
+<li><strong>integration-test</strong> we use <strong>Webdriver</strong>(to &ldquo;drive&rdquo; a headless browser) to <strong>run JUnit tests</strong> against the application deployed inside the Tomcat container.</li>
+<li><strong>post-integration-test</strong> phase we <strong>stop the docker container</strong>, clean up.</li>
+</ul>
+<h3 id="creating-a-docker-container">Creating a docker container.</h3>
+<p>So we want to start a Tomcat webserver in an docker container to deploy our web app.
+First you need to have Docker installed. <a href="https://docs.docker.com/installation/ubuntulinux/">Install docker</a></p>
+<p>To pull the Tomcat docker image and start the Tomcat docker container <strong>I chose to use a bash script</strong>.
+The base script uses my <a href="https://registry.hub.docker.com/u/balamaci/tomcat7_jdk7/dockerfile/">Jdk7 + Tomcat7</a> image.
+You can use the <strong>Dockerfile</strong> as reference if you want to build your own and publish it to the docker repository. To build an image from a Dockerfile in the current directory:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>There are lots of maven plugins(this <a href="https://github.com/rhuss/docker-maven-plugin">one</a> looks most promissing to me) for retrieving images and starting containers. You may want to check the maven plugin approach for a more portable solution (the maven plugins use the a rest endpoint also exposed by docker, instead of the local linux socket file so it should also work with a Windows/MacOS host with boot2docker). I just want to show a more &ldquo;bare metal&rdquo; solution to understand there is no hidden magic happening.</p>
+<pre><code class="language-bash">docker_output_dir=&quot;${DOCKER_OUTPUT_DIR}&quot;
+docker_image_name=&quot;${DOCKER_IMAGE_NAME}&quot;
+
+# the directory where the Tomcat container will output it's log files
+docker_tomcat_log_dir=${docker_output_dir}/log
+
+# file where we'll store container info after we start it
+docker_container_property_file=${docker_output_dir}/container.properties
+
+## pull image from repository if not already localy available
+docker images | grep $docker_image_name
+if [[ $? != 0 ]]; then
+   docker pull $docker_image_name
+fi
+
+mkdir -p ${docker_output_dir}
+mkdir -p ${docker_tomcat_log_dir}
+
+## start a container from the image with the log files from tomcat mapped to the host
+container_id=$(docker run ${docker_run_args} -v ${docker_tomcat_log_dir}:/opt/tomcat/logs -d ${docker_image_name})
+container_ip=$(docker inspect --format '{{.NetworkSettings.IPAddress}}' ${container_id})
+
+# writing the container properties in java properties format to be read and exposed to next maven phase
+echo &quot;CONTAINER_ID=${container_id}&quot;$'\r' &gt; ${docker_container_property_file}
+echo &quot;CONTAINER_IP=${container_ip}&quot; &gt;&gt; ${docker_container_property_file}
+</code></pre>
+<p>For Jenkins to be able to invoke docker commands, the user under which jenkins runs, needs to be added to the <strong>docker</strong> group, but also setting another owner for the docker socket file should work:</p>
+<pre><code class="language-bash">sudo nano /etc/default/docker
+</code></pre>
+<p>and set
+<strong>DOCKER_OPTS=&rdquo;&ndash;host=unix:///var/run/docker.sock -G jenkins&rdquo;</strong></p>
+<p>The <a href="https://github.com/balamaci/pippo-demo-webdriver-test/blob/master/scripts/start-docker-tomcat.sh">start-docker-tomcat.sh</a> script first checks that we have the docker image locally available, otherwise it will pull it from the docker registry.</p>
+<p>Since we are invoking a script file, we&rsquo;ll be using the <strong>maven-exec-plugin</strong> bound to the <strong>pre-integration-test</strong> build phase</p>
+<pre><code class="language-xml">&lt;plugin&gt;
+   &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+   &lt;artifactId&gt;exec-maven-plugin&lt;/artifactId&gt;
+   &lt;version&gt;1.2.1&lt;/version&gt;
+       &lt;executions&gt;
+          &lt;execution&gt;
+             &lt;id&gt;start-tomcat-docker&lt;/id&gt;
+             &lt;goals&gt;
+               &lt;goal&gt;exec&lt;/goal&gt;
+             &lt;/goals&gt;
+             &lt;phase&gt;pre-integration-test&lt;/phase&gt;
+               &lt;configuration&gt;
+                   &lt;environmentVariables&gt;
+                     &lt;DOCKER_IMAGE_NAME&gt;balamaci/tomcat7&lt;/DOCKER_IMAGE_NAME&gt;
+                     &lt;DOCKER_OUTPUT_DIR&gt;${project.build.directory}/docker_output_dir&lt;/DOCKER_OUTPUT_DIR&gt;
+                   &lt;/environmentVariables&gt;
+                   &lt;executable&gt;${project.basedir}/scripts/start-docker-tomcat.sh&lt;/executable&gt;
+              &lt;/configuration&gt;
+         &lt;/execution&gt;
+       &lt;/executions&gt;
+&lt;/plugin&gt;
+</code></pre>
+<p>I&rsquo;m passing as a property from maven the Tomcat7 image named <strong>balamaci/tomcat7_jdk7</strong> available from the docker repository, ofcourse you can use your own.</p>
+<h3 id="deploying-the-war-file">Deploying the war file</h3>
+<p>Right now we started the container, however docker assigned it a dynamic IP. But we&rsquo;ve dumped them in a <strong>container.properties</strong> where they look like:</p>
+<p>CONTAINER_ID=583dba4b8f2102d040433e8133da86651ac638f2b5edfa8a72f70e55e42be291
+CONTAINER_IP=172.17.0.10</p>
+<p>We&rsquo;re using another helpful maven plugin the <strong>properties-maven-plugin</strong> to read these values and expose them to the next build phases
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->org.codehaus.mojo<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->properties-maven-plugin<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->1.0-alpha-2<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->read-container-properties<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->pre-integration-test<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->read-project-properties<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->${docker.output.dir}/container.properties<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted --></p>
+<p>So these properties will be available down the build phases and <strong>we can also inject/read them in our tests</strong>, so we can reference the tomcat IP where the application will be deployed.</p>
+<p>Now we proceed to deploy the war file(which is already provided by an upstream Jenkins job) through the <a href="http://cargo.codehaus.org/Maven2+plugin">cargo maven plugin</a> plugin.</p>
+<pre><code class="language-xml">&lt;plugin&gt;
+    &lt;groupId&gt;org.codehaus.cargo&lt;/groupId&gt;
+    &lt;artifactId&gt;cargo-maven2-plugin&lt;/artifactId&gt;
+    &lt;version&gt;1.4.11&lt;/version&gt;
+    &lt;configuration&gt;
+       &lt;container&gt;
+         &lt;containerId&gt;tomcat7x&lt;/containerId&gt;
+         &lt;type&gt;remote&lt;/type&gt;
+       &lt;/container&gt;
+       &lt;configuration&gt;
+           &lt;type&gt;runtime&lt;/type&gt;
+           &lt;properties&gt;
+              &lt;cargo.hostname&gt;${CONTAINER_IP}&lt;/cargo.hostname&gt;
+              &lt;cargo.servlet.port&gt;8080&lt;/cargo.servlet.port&gt;
+	      &lt;!-- We've added the so we are guaranteed to have active the following admin user--&gt;
+              &lt;cargo.remote.username&gt;admin&lt;/cargo.remote.username&gt;
+              &lt;cargo.remote.password&gt;admin&lt;/cargo.remote.password&gt;
+           &lt;/properties&gt;
+       &lt;/configuration&gt;
+       &lt;deployer&gt;
+          &lt;type&gt;remote&lt;/type&gt;
+       &lt;/deployer&gt;
+       &lt;deployables&gt;
+          &lt;deployable&gt;
+             &lt;type&gt;war&lt;/type&gt;
+             &lt;location&gt;${war.file.location}&lt;/location&gt;
+                &lt;properties&gt;
+                    &lt;context&gt;${webapp.deploy.context}&lt;/context&gt;
+                &lt;/properties&gt;
+         &lt;/deployable&gt;
+       &lt;/deployables&gt;
+     &lt;/configuration&gt;
+     &lt;executions&gt;
+        &lt;execution&gt;
+          &lt;id&gt;war-deploy&lt;/id&gt;
+          &lt;phase&gt;pre-integration-test&lt;/phase&gt;
+          &lt;goals&gt;
+             &lt;goal&gt;deploy&lt;/goal&gt;
+          &lt;/goals&gt;
+        &lt;/execution&gt;
+     &lt;/executions&gt;
+&lt;/plugin&gt;
+</code></pre>
+<p>Worth mentioning that we also had the option of adding the .war to the base Tomcat docker image through the <strong>ADD</strong> command and create a new image from which we can start a container. This is how the maven docker plugins work, but I just wanted to simulate a closer approach to how I and most developers deploy web apps(as war files instead of docker images).</p>
+<h3 id="pippo-framework">Pippo Framework</h3>
+<p>The web app I&rsquo;m using as example is the demo for  <a href="https://github.com/decebals/pippo">Pippo</a> a web framework designed from the begining to be highly modular(and so very light size) <strong>jee servlet3</strong> web framework which is great for serving template files and a REST enpoint.</p>
+<pre><code class="language-java">POST(&quot;/contact&quot;, (request, response, chain) -&gt; {
+    String action = request.getParameter(&quot;action&quot;).toString();
+    if (&quot;save&quot;.equals(action)) {
+        Contact contact = request.getEntityFromParameters(Contact.class);
+        contactService.save(contact);
+        response.redirect(&quot;/contacts&quot;);
+    }
+});
+
+GET(&quot;/template&quot;, (request, response, chain) -&gt; {
+        Map&lt;String, Object&gt; model = new HashMap&lt;&gt;();
+  model.put(&quot;greeting&quot;, &quot;Hello my friend&quot;);
+  response.render(&quot;hello&quot;, model);
+});
+</code></pre>
+<h3 id="running-the-webdriverwebdriver-tests">Running the <a href="#webdriver">Webdriver</a> tests</h3>
+<p>Because we also have Javascript in our web application, it&rsquo;s not enough for the tests to just run GET/POST request against the endpoints.
+We&rsquo;d rather use a real browser(or browser engine) that executes the javascript.</p>
+<p><strong>Selenium Webdriver</strong> through it&rsquo;s API allows us to control real browsers to perform automation. There are more concrete implementations of Webdriver destined for different browsers. <strong>FirefoxDriver</strong> which drives a real firefox browser is quite slow so I&rsquo;ve used instead <strong>Phantomjs</strong> which is a webkit implementation of a <strong>headless browser</strong> faster and lower on resources. Even if it&rsquo;s a headless browser, phantomjs is still able to take screenshots of the web pages, and we&rsquo;ll use this feature when our tests fail to understand quicker where the problem was.</p>
+<p>We first need to bring the webdriver and phantomjsdriver dependencies into our testing project.</p>
+<pre><code class="language-xml">&lt;dependency&gt;
+  &lt;groupId&gt;com.github.detro&lt;/groupId&gt;
+  &lt;artifactId&gt;phantomjsdriver&lt;/artifactId&gt;
+  &lt;version&gt;1.2.0&lt;/version&gt;
+&lt;/dependency&gt;
+</code></pre>
+<h3 id="phantomjs">Phantomjs</h3>
+<p>The <strong>PhantomJsDriver</strong> expects a property to where the <strong>phantomjs binary</strong> is located, so we need to install phantomjs first. But phantomjs also requires <a href="http://nodejs.org/">nodejs</a> to be installed. Luckly once <strong>node</strong> is installed and we have created a <strong>./node-modules</strong> directory in our project a simple,
+<strong>npm install phantomjs</strong> should be enough to install phantomjs under the <strong>./node-modules</strong> of the current directory and we can can inject the by configuring <strong>maven-failsafe-plugin</strong> like below:</p>
+<pre><code class="language-xml">&lt;plugin&gt;
+    &lt;groupId&gt;org.apache.maven.plugins&lt;/groupId&gt;
+    &lt;artifactId&gt;maven-failsafe-plugin&lt;/artifactId&gt;
+    &lt;version&gt;2.18.1&lt;/version&gt;
+    &lt;configuration&gt;
+        &lt;systemPropertyVariables&gt;
+            &lt;phantomjs.binary.path&gt;${phantomjs.binary.path}&lt;/phantomjs.binary.path&gt;
+            &lt;container.host&gt;${CONTAINER_IP}:8080&lt;/container.host&gt;
+            &lt;webapp.deploy.context&gt;${webapp.deploy.context}&lt;/webapp.deploy.context&gt;
+            &lt;webdriver.screenshot.path&gt;${build.directory}/screenshot&lt;/webdriver.screenshot.path&gt;
+        &lt;/systemPropertyVariables&gt;
+        &lt;includes&gt;
+            &lt;include&gt;**/Test*.java&lt;/include&gt; 
+        &lt;/includes&gt;
+    &lt;/configuration&gt;
+    &lt;executions&gt;
+        &lt;execution&gt;
+            &lt;id&gt;failsafe-integration-tests&lt;/id&gt;
+            &lt;phase&gt;integration-test&lt;/phase&gt;
+            &lt;goals&gt;
+                &lt;goal&gt;integration-test&lt;/goal&gt;
+            &lt;/goals&gt;
+        &lt;/execution&gt;
+    &lt;/executions&gt;
+&lt;/plugin&gt;
+</code></pre>
+<h3 id="the-tests">The Tests</h3>
+<p>Finally we get to talk about our integration tests. I created a <strong>BaseWebdriverTest</strong> class shown bellow, in where we reference the properties injected from maven to create the <strong>WebDriver</strong> object through which we control the phantomjs driver. All our tests will extends this class and have access to the <strong>WebDriver</strong> object. To be noted that we are working with an interface. It will be easy to switch the driver implementation to another implementation like the Firefox driver.</p>
+<pre><code class="language-java">public abstract class BaseWebdriverTest {
+
+    @Rule
+    public TakeScreenshotOnFailedTaskRule screenShootRule =
+            new TakeScreenshotOnFailedTaskRule();
+
+    private WebDriver driver;
+
+    private static PhantomJSDriverService phantomJSDriverService;
+
+    protected static String serverUrl;
+    protected static String appContext;
+
+    @BeforeClass
+    public static void init() throws Exception {
+        serverUrl = &quot;http://&quot; + System.getProperty(&quot;container.host&quot;);
+        appContext = System.getProperty(&quot;webapp.deploy.context&quot;);
+
+        phantomJSDriverService = PhantomJSDriverService.createDefaultService();
+        phantomJSDriverService.start();
+    }
+
+    @Before
+    public void before() {
+        DesiredCapabilities capabilities = DesiredCapabilities.phantomjs();
+        capabilities.setJavascriptEnabled(true);
+        capabilities.setCapability(CapabilityType.TAKES_SCREENSHOT, Boolean.TRUE);
+
+        LoggingPreferences prefs = new LoggingPreferences();
+        prefs.enable(LogType.BROWSER, Level.WARNING);
+        prefs.enable(LogType.DRIVER, Level.INFO);
+        capabilities.setCapability(CapabilityType.LOGGING_PREFS, prefs);
+
+        driver = new PhantomJSDriver(phantomJSDriverService, capabilities);
+
+        screenShootRule.setDriver(getDriver());
+    }
+
+    @After
+    public void after() {
+        driver.close();
+    }
+
+    protected WebDriver getDriver() {
+        return driver;
+    }
+
+    @AfterClass
+    public static void globalTearDown() {
+        if (phantomJSDriverService != null) {
+            phantomJSDriverService.stop();
+        }
+    }
+
+    public String getBaseUrl() {
+        String baseUrl = appendSlashOnRightSide(serverUrl) + appContext;
+        return appendSlashOnRightSide(baseUrl);
+    }
+}
+</code></pre>
+<p>the <strong>TakeScreenshotOnFailedTaskRule</strong> is used to save screenshots whenever a test fails to better help us see what went wrong.</p>
+<pre><code class="language-java">public class TestCrudNgDemoApp extends BaseWebdriverTest {
+
+    @Test public void
+    forAuthorizedUserLoginSuccessful() {
+        WebDriver driver = getDriver();
+        driver.get(getBaseUrl() + &quot;login&quot;);
+
+        fillUserLoginData(driver);
+
+        WebDriverWait wait = new WebDriverWait(driver, 5);
+        wait.until(new Function&lt;WebDriver, Boolean&gt;() {
+            @Override
+            public Boolean apply(WebDriver webDriver) {
+                return webDriver.getTitle().equals(&quot;Contacts&quot;);
+            }
+        });
+    }
+
+    private void fillUserLoginData(WebDriver driver) {
+        String username = &quot;admin&quot;;
+        WebElement txtUsername = driver.findElement(By.name(&quot;username&quot;));
+        txtUsername.sendKeys(username);
+
+        String password = &quot;password&quot;;
+        WebElement txtPassword = driver.findElement(By.name(&quot;password&quot;));
+        txtPassword.sendKeys(password);
+
+        WebElement btnLogin = driver.findElement(By.name(&quot;login&quot;));
+        btnLogin.click();
+    }
+}
+</code></pre>
+<h3 id="running">Running</h3>
+<p>The whole setup can be simply run with
+<strong>mvn verify</strong> which will</p>
+<ul>
+<li>start the docker Tomcat container through the <strong>start-docker-tomcat.sh</strong> script through <strong>exec</strong> plugin.</li>
+<li>read the container info(IP, CONTAINER_ID)</li>
+<li>deploy the war through the <strong>cargo</strong> maven plugin</li>
+<li>run the tests</li>
+<li>teardown and cleanup through <strong>stop-docker-tomcat.sh</strong>.</li>
+</ul>
+<h3 id="conclusion">Conclusion</h3>
+<p>We have mixed different technologies into a working setup that allows us to write integration tests quickly and without being too dificult and so we added another tool to improve the quality of our builds.</p>
+<h3 id="last-minute-thoughts">Last minute thoughts</h3>
+<p>I also mentioned  about <strong>being able to limit the cpu and memory resources of docker containers</strong>. You can read <a href="https://goldmann.pl/blog/2014/09/11/resource-management-in-docker/">here</a> about it. Could be useful if we need to run multiple integration jobs on the same instance. It might been an interesting idea to research if we can package the webdriver setup as a separate container and have it also cpu/memory bound in case the webapp, webdriver or  phantomjs browser have memory leaks.</p>
+<p>Hope you found it usefull and maybe look forward for Part II into which I discuss about setting up a Jenkins Pipeline.</p>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/2015/01/17/maven-lifecycles-explained/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Maven lifecycles and plugins explained</span>
+    </a>
+    
+    
+    <a href="/2015/01/27/part-2-using-vagrant-and-ansible-to-setup-jenkins/" class="navigation-next">
+      <span class="navigation-tittle">Using Vagrant and Ansible to setup Jenkins</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js" integrity="sha256-vrn14y7WH7zgEElyQqm2uCGSQrX/xjYDjniRUQx3NyU=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function addBlockSwitches() {
+	$('.primary').each(function() {
+		primary = $(this);
+		createSwitchItem(primary, createBlockSwitch(primary)).item.addClass("selected");
+		primary.children('.title').remove();
+	});
+	$('.secondary').each(function(idx, node) {
+		secondary = $(node);
+		primary = findPrimary(secondary);
+		switchItem = createSwitchItem(secondary, primary.children('.switch'));
+		switchItem.content.addClass('hidden');
+		findPrimary(secondary).append(switchItem.content);
+		secondary.remove();
+	});
+}
+
+function createBlockSwitch(primary) {
+	blockSwitch = $('<div class="switch"></div>');
+	primary.prepend(blockSwitch);
+	return blockSwitch;
+}
+
+function findPrimary(secondary) {
+	candidate = secondary.prev();
+	while (!candidate.is('.primary')) {
+		candidate = candidate.prev();
+	}
+	return candidate;
+}
+
+function createSwitchItem(block, blockSwitch) {
+	blockName = block.children('.title').text();
+	content = block.children('.content').first().append(block.next('.colist'));
+	item = $('<div class="switch--item">' + blockName + '</div>');
+	blockSwitch.append(item);
+	return {'item': item, 'content': content};
+}
+
+function globalSwitch() {
+	$('.switch--item').each(function() {
+		var blockId = blockIdForSwitchItem($(this));
+		$(this).off('click');
+		$(this).on('click', function() {
+			selectedText = $(this).text()
+			window.localStorage.setItem(blockId, selectedText);
+			$(".switch--item").filter(function() {
+				return blockIdForSwitchItem($(this)) === blockId;
+			}).filter(function() {
+				return $(this).text() === selectedText;
+			}).each(function() {
+				select($(this))
+			});
+		});
+		if ($(this).text() === window.localStorage.getItem(blockId)) {
+			select($(this))
+		}
+	});
+}
+
+function blockIdForSwitchItem(item) {
+	idComponents = []
+	idComponents.push(item.text().toLowerCase());
+	item.siblings(".switch--item").each(function(index, sibling) {
+		idComponents.push($(sibling).text().toLowerCase());
+	});
+	return idComponents.sort().join("-")
+}
+
+function select(selected) {
+	selected.addClass('selected');
+	selected.siblings().removeClass('selected');
+	selectedContent = selected.parent().siblings(".content").eq(selected.index())
+	selectedContent.removeClass('hidden');
+	selectedContent.siblings().addClass('hidden');
+}
+
+$(addBlockSwitches);
+$(globalSwitch);
+</script>
+
+
+    
+
+
+
+    </body>
+</html>
+

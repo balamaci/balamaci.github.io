@@ -1,0 +1,597 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.73.0" />
+
+    
+    
+    
+
+<title>Using Vagrant and Ansible to setup Jenkins • Serban Balamaci</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Serban Balamaci">
+<meta property="og:title" content="Using Vagrant and Ansible to setup Jenkins">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://balamaci.ro/2015/01/27/part-2-using-vagrant-and-ansible-to-setup-jenkins/" />
+<meta property="og:description" content="Using Vagrant and Ansible to setup Jenkins">
+<meta property="og:image" content="https://balamaci.ro/social-sharing.png">
+<meta property="og:image:type" content="image/png">
+    
+    
+    
+<meta property="og:image:width" content="192">
+<meta property="og:image:height" content="192">
+    
+
+<meta property="og:updated_time" content="2015-01-27T15:57:29Z">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@sbalamaci">
+<meta name="twitter:title" content="Using Vagrant and Ansible to setup Jenkins">
+
+<meta name="twitter:image" content="https://balamaci.ro/social-sharing.png">
+
+<meta name="twitter:description" content="Using Vagrant and Ansible to setup Jenkins">
+<meta name="twitter:creator" content="@sbalamaci">
+    
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/a11y-light.min.css" media="(prefers-color-scheme: light)"><link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/gruvbox-dark.min.css" media="(prefers-color-scheme: dark)">
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.57d57be207f95258b69c5563e34ed2c632000ecb862ce9bd97e7e35f3957094c.css" integrity="sha256-V9V74gf5Uli2nFVj407SxjIADsuGLOm9l&#43;fjXzlXCUw=">
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde-dark.2eddfb769610f72f40f6bc949e62a3acf298eb8504c073739085a417978b18cd.css" integrity="sha256-Lt37dpYQ9y9A9ryUnmKjrPKY64UEwHNzkIWkF5eLGM0=" media="(prefers-color-scheme: dark)">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    
+    <link rel="shortcut icon" sizes="192x192" href="/android-192-favicon.png">
+
+    
+    <link rel="shortcut icon" href="/android-192-favicon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/v4-shims.min.css" integrity="sha256-wN7QJaqAwQ03kgUhyN4EU2phRdDkLrQYbFe0EvpQ60U=" crossorigin="anonymous" />
+
+    
+    
+
+
+    
+</head>
+
+
+    <body class="">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://balamaci.ro">Serban Balamaci</a>
+      </span>
+      
+      
+        <div class="author-image">
+          <img src="https://www.gravatar.com/avatar/309afbf8c2f162060e4fa28d670d2ec8?s=240&d=mp" class="img--circle img--headshot element--center" alt="gravatar">
+        </div>
+      
+      <p class="site__description">
+         Java and JVM related 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">Serban Balamaci</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/"><span class='fa-icon'><i class='fas fa-home'></i></span> Home
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/posts/"><span class='fa-icon'><i class='fas fa-stream'></i></span> Posts
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/series/"><span class='fa-icon'><i class='fas fa-list-alt'></i></span> Series
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/"><span class='fa-icon'><i class='fas fa-tags'></i></span> Tags
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/whoami/"><span class='fa-icon'><i class='fas fa-id-card'></i></span> About
+						<span></span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/@sbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="bird" class="svg-inline--fa fa-bird fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></i></a>
+	
+	
+	
+	<a href="https://github.com/balamaci" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/serbanbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="pro-network" class="svg-inline--fa fa-pro-network fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="container fixed-container">
+    
+<div class="copyright">
+  &copy; 2010 - 2020 Serban Balamaci
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+
+<article>
+  <header>
+    <h1>Using Vagrant and Ansible to setup Jenkins</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> 2015-01-27
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/ansible">ANSIBLE</a>
+              •
+          
+              <a class="badge badge-category" href="/categories/vagrant">VAGRANT</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/ansible">ansible</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 25 min read
+
+    
+    
+    
+
+</div>
+
+
+  </header>
+  
+  
+  
+  <div class="post md">
+    <p><strong>Part 2</strong> on setting up a Jenkins machine with plugins.</p>
+<p>Since the previous article, I&rsquo;ve been asked by people what is Vagrant and how they can use it. Somehow I took this for granted and I did not consider it a key subject in our CI journey. However when trying to gather my list of jenkins plugins, I found it easier to explain by presenting the jenkins plugins that I use starting from a clean instalation, so the whole setup can be reused by anyone and comments posted if not working.</p>
+<h3 id="the-code">The code</h3>
+<p>The whole code for the vagrant machine and ansible playbook can be found in this <a href="https://github.com/balamaci/jenkins-ansible">repo</a></p>
+<h3 id="vagrant">Vagrant</h3>
+<p>Vagrant project is useful for having a generic way to build/start VMs from the command line, because while there can be more than one <strong>&ldquo;providers&rdquo;</strong> of VMs there are certainly common characteristics when describing a VM like memory size, network setup, shared folders, forwarded ports, etc. What do we mean by a <strong>provider</strong> for a Vagrant VM? Well you are probably familiar with <strong>Virtualbox</strong>(which happens to be the default provider in Vagrant) or <strong>VmWare</strong>. Those are just two of the possible providers for Vagrant VMs and you can pass into the <strong>Vagrant</strong> file custom configuration properties for each provider.
+Things has be evolving though and a Vagrant &ldquo;template&rdquo; for a VM can even be used to build and deploy instances on cloud providers like Digital Ocean.</p>
+<p>I&rsquo;m planning to use Vagrant to start a VM with a bare Ubuntu image, and then use Ansible on this fresh image to install and configure jenkins along with the plugins and dependencies(jdk).</p>
+<p>Download and install <a href="">Virtualbox</a> and <a href="https://www.vagrantup.com/downloads.html">Vagrant</a>.
+The <strong>Vagrantfile</strong> describing my config looks like:</p>
+<pre><code>box      = 'ubuntu/trusty64'
+url      = 'https://atlas.hashicorp.com/ubuntu/boxes/trusty64'
+hostname = 'jenkins'
+ip       = '192.168.5.99'
+ram      = '512'
+
+Vagrant::Config.run do |config|
+  config.vm.box = box
+  config.vm.box_url = url
+  config.vm.host_name = hostname
+  config.vm.network :hostonly, ip 
+
+  # Set the Timezone to something useful
+  config.vm.provision :shell, :inline =&gt; &quot;echo \&quot;Europe/Bucharest\&quot; | sudo tee /etc/timezone &amp;&amp; dpkg-reconfigure --frontend noninteractive tzdata&quot;
+
+  config.vm.customize [
+    'modifyvm', :id,
+    '--name', hostname,
+    '--memory', ram
+  ]
+end
+
+Vagrant.configure(&quot;2&quot;) do |config|
+  config.vm.network &quot;forwarded_port&quot;, guest: 8080, host: 9090
+end
+</code></pre>
+<p>You can save it, and we can start the machine with <strong>vagrant up</strong> in the same directory.</p>
+<p>It will take some time first as Vagrant pulls the image from the repository. Other runs will take less time.
+To get into the instance you can run <strong>vagrant ssh</strong></p>
+<h3 id="ansible">Ansible</h3>
+<p>Ansible is a great tool for provisioning - meaning the automation of installing/configuring stuff through scripts-. Some other provisioning tools you might have heard of: <strong>Puppet</strong>, <strong>Chef</strong>, <strong>Salt</strong>.
+But I rather like Ansible because it can perform the installation without the need to have something particular(like a specific agent running) other than a working ssh connection to the target fleet of machines which we want to set up.
+Also the syntax is quite simple with a low learning curve (which apparently puppet and chef do not have).</p>
+<p>Ansible is written in python so you need to have it instaled along with pip(the python package manager). After that it’s as simple as running <strong>sudo pip install ansible</strong>.</p>
+<h3 id="playbooks">Playbooks</h3>
+<p>Simplistically put, Ansible through a <strong>playbook</strong> file defines a series of tasks to be run on specific hosts or a defined group of hosts. For ex given the [db servers], [tomcat servers] group you could build your playbook as to execute first some tasks on [db] servers then continue with tasks destined for [tomcat] group,then other tasks back to [db], etc.</p>
+<p>Ansible helps with <strong>idempotent operations</strong> on hosts. This is a fancy way to say it could rerun your tasks(installation scripts) again on the target hosts(useful if for some reason parts of the scripts have failed) and Ansible will know to skip the parts that were executed succesfully.</p>
+<p>This is possible because Ansible can check back to see if a linux package is installed, a service is already running, file exists, etc. (Ofcourse  Ansible cannot always know by itself if it should consider an action succesfull or not so that it should not be run again - think of an execution of a .sh file that does a whole bunch of stuff-, you need to place a hint like &ldquo;creates: /path/to/database&rdquo; for ansible to check and not run them again.</p>
+<p>Playbooks are run with an <strong>inventory</strong> which is simply a file into which a set of hosts and groups are defined something like:</p>
+<pre><code>machine1 ansible_ssh_port=2222 ansible_ssh_host=192.168.1.10
+machine2 ansible_ssh_port=2222 ansible_ssh_host=192.168.1.11
+
+[db]
+machine1
+
+[tomcat]
+machine2
+</code></pre>
+<p>We need to let ansible connect to the guest machine through ssh, our built vagrant machine already has the &ldquo;vagrant&rdquo; user with sudo rights created by default and vagrant has saved the ssh private key on the host. We just need to define our single machine in the inventory file we&rsquo;re going to call &lsquo;ansible.hosts&rsquo; and run our playbook &lsquo;jenkins.yml&rsquo; through the <strong>ansible-playbook</strong> command:</p>
+<pre><code class="language-bash">ansible-playbook -i ansible.hosts --private-key=./.vagrant/machines/default/virtualbox/private_key -u vagrant jenkins.yml
+</code></pre>
+<h3 id="roles">Roles</h3>
+<p>It&rsquo;s a good ideea to introduce the concept of <strong>Roles</strong> because they are a good way to organize things as you can define and combine roles together: something like role &ldquo;common&rdquo;, &ldquo;tomcat&rdquo;, &ldquo;mysql&rdquo; and combine them &lsquo;common + mysql&rsquo; to run on the [db] servers group of host and &lsquo;common + tomcat&rsquo; on [tomcat].</p>
+<p>Roles use a standard file structure, the file <strong>main.yml</strong> being the entrypoint for each folder.Not all forders are required to exist.</p>
+<pre><code>├── ansible.host &lt;-- inventory file- the hosts/groups are defined
+├── host_vars
+│   └── jenkins &lt;-- variables specific to each host
+├── jenkins.yml
+├── roles
+│   ├── jdk8
+│   │   ├── files
+│   │   │   └── webupd8.key.asc
+│   │   ├── tasks
+│   │   │   ├── main.yml     #&lt;-- this is executed 
+│   │   │   └── webupd8.yml  #&lt;-- this can be reference with 'include' command
+│   │   └── vars
+│   │       └── main.yml
+│   └── jenkins
+│       ├── defaults        #&lt;-- lowest priority for variables shadowing
+│       │   └── main.yml 
+│       ├── files #&lt;-- files referenced in for use with the copy resource
+│       │   └── jenkins-ci.org.key 
+│       ├── handlers	    #&lt;--handlers are triggered on events
+│       │   └── main.yml 
+│       ├── tasks
+│       │   ├── dependencies_deb.yml
+│       │   ├── main.yml    #&lt;-- this one gets executed
+│       │   ├── plugins.yml #&lt;-- this can be reference with 'import' command
+│       │   └── repo.yml
+│       ├── templates
+│       │   └── hudson.tasks.Mailer.xml.j2 #&lt;-- templates end in .j2
+│       └── vars
+│           └── main.yml    #&lt;-- variables associated with this role
+</code></pre>
+<h3 id="tasks">Tasks</h3>
+<p>The <strong>/tasks</strong> directory is the directory where the actions are defined. Some examples of tasks</p>
+<pre><code class="language-yaml"># Add Jenkins repository
+- name: Add Jenkins repository
+  sudo: yes
+  apt_repository: repo='{{ jenkins.deb.repo }}' state=present update_cache=yes
+  
+# Get latest Jenkins update file
+- name: Get Jenkins updates
+  sudo: yes
+  get_url: url=http://updates.jenkins-ci.org/update-center.json dest={{ jenkins.updates_dest }} thirsty=yes mode=0440
+  register: jenkins_updates
+  
+# Jenkins Update-center
+- name: Update-center Jenkins
+  sudo: yes
+  action: &quot;shell cat {{ jenkins.updates_dest }} | sed '1d;$d' | curl -X POST -H 'Accept: application/json' -d @- http://localhost:8080/updateCenter/byId/default/postBack&quot;
+  when: jenkins_updates.changed
+  notify:
+    - 'Restart Jenkins'  
+</code></pre>
+<p>Task are executed in order they appear. You can specify also the user under which the tasks will run with <strong>remote_user: yourname</strong>.
+In the example the tasks required sudo rights.</p>
+<p>There is also the <strong>&lsquo;include&rsquo;</strong> directive to better organize and import other .yml files.</p>
+<h3 id="variables">Variables</h3>
+<p>The <strong>{{ jenkins.deb.repo }}</strong> construct means a placeholder for the <strong>jenkins.deb.repo</strong> variable.
+Variables are of course defined in the <strong>/vars</strong> folder inside the role. The <strong>main.yml</strong> looks like:</p>
+<pre><code>---
+plugins:
+   - 'ldap'
+   - 'github'
+   - 'translation'
+jenkins_dest: /opt/jenkins
+jenkins:
+  deb:
+    repo: 'deb http://pkg.jenkins-ci.org/debian binary/' # Jenkins repository
+    dependencies: # Jenkins dependencies
+      - 'git'
+      - 'curl'
+  cli_dest: '{{ jenkins_dest }}/jenkins-cli.jar' # Jenkins CLI destination
+</code></pre>
+<p>Indentations is important this is how the variable &lsquo;jenkins.deb.repo&rsquo; is defined.</p>
+<p>Variable values <strong>can be overridden per specific host or groups of hosts</strong> when the script runs against that host. This is done by creating a file with the name of the host in the <strong>host_vars/</strong>(or <strong>group_vars/</strong> if you plan on defining for groups) directory.</p>
+<p>Variables passed into the command line have highest precedence. It&rsquo;s usefull if you plan to use Jenkins with ansible so we can pass into the installation scripts reference build id.</p>
+<h4 id="conditional-execution-of-tasks">Conditional execution of tasks</h4>
+<p>Tasks can be skipped if the <strong>when</strong> condition is false. The condition can simply be a variable to be defined like &lsquo;when: email is defined&rsquo; or a condition on the result of a previous command which can be stored for reference down the line through the <strong>register</strong> keyword.
+Lets look at an example where the registered variable &lsquo;plugins_installed&rsquo; is evaluated through
+<strong>plugins_installed.stdout.find('{{ item }}') == -1</strong> - here the <strong>&lsquo;item&rsquo; variable is injected as part of a loop iteration</strong>-.</p>
+<pre><code class="language-yml">- name: List plugins
+  shell: java -jar {{ jenkins.cli_dest }} -s http://localhost:8080 list-plugins | cut -f 1 -d ' '
+  when: plugins is defined ##plugins is a variable defined in the upper example
+  register: plugins_installed
+
+# Install/update Jenkins plugins
+- name: Install/update plugins
+  command: java -jar {{ jenkins.cli_dest }} -s http://localhost:8080 install-plugin {{ item }}
+  when: plugins_installed.changed and plugins_installed.stdout.find('{{ item }}') == -1
+  with_items: plugins
+  notify:
+    - 'Restart Jenkins'
+</code></pre>
+<h3 id="ansible-loops">Ansible Loops</h3>
+<p>In the above example I&rsquo;ve also introduced <strong>a loop</strong> in ansible considering the fact that the &lsquo;plugins&rsquo; variable is a list(defined in the variables ex).
+Notice the injection of the current iteration value through the <strong>'{{item}}'</strong> value and the conditional <strong>when plugins_installed.stdout.find('{{ item }}') == -1</strong> that will make the task execute only when the plugin item is not found in the output of the command that listed the plugins.</p>
+<p>Also of note is the <strong>notify</strong> directive, which is like an emitter of events for which you can bind a set of actions whenever that event is triggered. That is the role of the <strong>handlers</strong></p>
+<h3 id="handlers">Handlers</h3>
+<p>Handlers are listening for events whenever one is triggered(notified) it executes. The following command will restart jenkins whenever the &lsquo;Restart Jenkins&rsquo; is emitted.</p>
+<pre><code>- name: Restart Jenkins
+  command: java -jar {{ jenkins.cli_dest }} -s http://localhost:8080 safe-restart
+</code></pre>
+<h3 id="templates">Templates</h3>
+<p>Templates are great for generating and customization of configuration files. They use the jinja2 templating language for python. Needless to say that they are stored into the <strong>/templates</strong> directory inside the role.</p>
+<pre><code>- name: Configure Jenkins E-mail
+  sudo: yes
+  when: email is defined
+  template: src=hudson.tasks.Mailer.xml.j2 dest={{ jenkins_lib }}/hudson.tasks.Mailer.xml owner=jenkins group=jenkins mode=0644
+</code></pre>
+<h3 id="jenkins">Jenkins</h3>
+<p>Let&rsquo;s review the whole steps:</p>
+<p>If you&rsquo;ve checked out my github <a href="https://github.com/balamaci/jenkins-ansible">repo</a> you can <strong>check what plugins it will install</strong> in the <strong>/host_vars</strong> folder in the <strong>&lsquo;jenkins&rsquo;</strong> file.</p>
+<p>Running <strong>vagrant up</strong> will use the provided <strong>Vagrant</strong> file.</p>
+<p>After the machine is up, it&rsquo;s just a matter of invoking ansible playbook command to do the jenkins installation using the inventory file and providing as user the &lsquo;vagrant&rsquo; user(which is automatically created and added to the list of SUDOERS by vagrant when it built the image).</p>
+<p>The playbook file jenkins.yml just combines the jdk + jenkins role</p>
+<pre><code class="language-bash">ansible-playbook -i ansible.hosts --private-key=./.vagrant/machines/default/virtualbox/private_key -u vagrant jenkins.yml
+</code></pre>
+<p>To install the plugins, the ansible script is using the <a href="https://wiki.jenkins-ci.org/display/JENKINS/Jenkins+CLI">jenkins cli</a> which is supplied into the jenkins installation.</p>
+<p>Hopefully after, will have a working Jenkins servers with the plugins of your choice available at http://localhost:9090(9090 port forwarding setup in the Vagrant file)</p>
+<p>If you just need to cleanup the instance and start again from the begining, just use <strong>vagrant destroy</strong> which will destroy the VM.
+You can now restart the whole steps.</p>
+<p>Now on to Part3 where we can discuss some usefull Jenkins plugins and build pipeline to setup Continous Integration.</p>
+<h3 id="conclusion">Conclusion</h3>
+<p>Even if not planned the short headon incursion into the realm of ITOPS provisioning and deployment is certainly a sharp tool to have in our arsenal to build testing env and even speed our everyday tasks. Ansible is certanly capable to deal with more complicated setups than described here so give it a thought when you need an automation tool. Now that we have the basics, you can improve further by looking at other playbook examples.</p>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/2015/01/24/continous-integration-with-jenkins-docker-ansible-webdriver/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Part 1 - Continous Integration with Jenkins, Docker, WebDriver ...</span>
+    </a>
+    
+    
+    <a href="/2015/02/01/monitoring-your-java-processes/" class="navigation-next">
+      <span class="navigation-tittle">Monitoring your Java processes</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js" integrity="sha256-vrn14y7WH7zgEElyQqm2uCGSQrX/xjYDjniRUQx3NyU=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function addBlockSwitches() {
+	$('.primary').each(function() {
+		primary = $(this);
+		createSwitchItem(primary, createBlockSwitch(primary)).item.addClass("selected");
+		primary.children('.title').remove();
+	});
+	$('.secondary').each(function(idx, node) {
+		secondary = $(node);
+		primary = findPrimary(secondary);
+		switchItem = createSwitchItem(secondary, primary.children('.switch'));
+		switchItem.content.addClass('hidden');
+		findPrimary(secondary).append(switchItem.content);
+		secondary.remove();
+	});
+}
+
+function createBlockSwitch(primary) {
+	blockSwitch = $('<div class="switch"></div>');
+	primary.prepend(blockSwitch);
+	return blockSwitch;
+}
+
+function findPrimary(secondary) {
+	candidate = secondary.prev();
+	while (!candidate.is('.primary')) {
+		candidate = candidate.prev();
+	}
+	return candidate;
+}
+
+function createSwitchItem(block, blockSwitch) {
+	blockName = block.children('.title').text();
+	content = block.children('.content').first().append(block.next('.colist'));
+	item = $('<div class="switch--item">' + blockName + '</div>');
+	blockSwitch.append(item);
+	return {'item': item, 'content': content};
+}
+
+function globalSwitch() {
+	$('.switch--item').each(function() {
+		var blockId = blockIdForSwitchItem($(this));
+		$(this).off('click');
+		$(this).on('click', function() {
+			selectedText = $(this).text()
+			window.localStorage.setItem(blockId, selectedText);
+			$(".switch--item").filter(function() {
+				return blockIdForSwitchItem($(this)) === blockId;
+			}).filter(function() {
+				return $(this).text() === selectedText;
+			}).each(function() {
+				select($(this))
+			});
+		});
+		if ($(this).text() === window.localStorage.getItem(blockId)) {
+			select($(this))
+		}
+	});
+}
+
+function blockIdForSwitchItem(item) {
+	idComponents = []
+	idComponents.push(item.text().toLowerCase());
+	item.siblings(".switch--item").each(function(index, sibling) {
+		idComponents.push($(sibling).text().toLowerCase());
+	});
+	return idComponents.sort().join("-")
+}
+
+function select(selected) {
+	selected.addClass('selected');
+	selected.siblings().removeClass('selected');
+	selectedContent = selected.parent().siblings(".content").eq(selected.index())
+	selectedContent.removeClass('hidden');
+	selectedContent.siblings().addClass('hidden');
+}
+
+$(addBlockSwitches);
+$(globalSwitch);
+</script>
+
+
+    
+
+
+
+    </body>
+</html>
+

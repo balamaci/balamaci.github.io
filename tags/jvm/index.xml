@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="utf-8" standalone="yes"?>
+<rss version="2.0" xmlns:atom="http://www.w3.org/2005/Atom">
+    <channel>
+        <title>jvm on Serban Balamaci</title>
+        <link>https://balamaci.ro/tags/jvm/</link>
+        <description>Recent content in jvm on Serban Balamaci</description>
+        <generator>Hugo -- gohugo.io</generator>
+        <language>en</language>
+        <managingEditor>thespamtrapp@gmail.com (Serban Balamaci)</managingEditor>
+        <webMaster>thespamtrapp@gmail.com (Serban Balamaci)</webMaster>
+        <lastBuildDate>Sun, 21 Jul 2019 01:54:58 +0200</lastBuildDate>
+        
+        <atom:link href="https://balamaci.ro/tags/jvm/index.xml" rel="self" type="application/rss+xml" />
+        
+        
+        
+        <item>
+            <title>Reactor Core Explained</title>
+            <link>https://balamaci.ro/2019/07/21/reactor-core-explained/</link>
+            <pubDate>Sun, 21 Jul 2019 01:54:58 +0200</pubDate>
+            <author>thespamtrapp@gmail.com (Serban Balamaci)</author>
+            <guid>https://balamaci.ro/2019/07/21/reactor-core-explained/</guid>
+            <description>Reactor Core Contents  Flux and Mono Simple Operators Merging Streams FlatMap Operator Schedulers Error Handling Backpressure  Reactive Streams Reactive Streams is a programming concept for handling asynchronous data streams in a non-blocking manner while providing backpressure to stream publishers.</description>
+        </item>
+        
+        
+    </channel>
+</rss>

@@ -1,0 +1,638 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.73.0" />
+
+    
+    
+    
+
+<title>Java app monitoring with ELK - Part I - Logstash and Logback • Serban Balamaci</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Serban Balamaci">
+<meta property="og:title" content="Java app monitoring with ELK - Part I - Logstash and Logback">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://balamaci.ro/2016/03/10/java-app-monitoring-with-elk-logstash/" />
+<meta property="og:description" content="Java mostly, and general tech">
+<meta property="og:image" content="https://balamaci.ro/social-sharing.png">
+<meta property="og:image:type" content="image/png">
+    
+    
+    
+<meta property="og:image:width" content="192">
+<meta property="og:image:height" content="192">
+    
+
+<meta property="og:updated_time" content="2016-03-10T19:53:21Z">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@sbalamaci">
+<meta name="twitter:title" content="Java app monitoring with ELK - Part I - Logstash and Logback">
+
+<meta name="twitter:image" content="https://balamaci.ro/social-sharing.png">
+
+<meta name="twitter:description" content="Java mostly, and general tech">
+<meta name="twitter:creator" content="@sbalamaci">
+    
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/a11y-light.min.css" media="(prefers-color-scheme: light)"><link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/gruvbox-dark.min.css" media="(prefers-color-scheme: dark)">
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.57d57be207f95258b69c5563e34ed2c632000ecb862ce9bd97e7e35f3957094c.css" integrity="sha256-V9V74gf5Uli2nFVj407SxjIADsuGLOm9l&#43;fjXzlXCUw=">
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde-dark.2eddfb769610f72f40f6bc949e62a3acf298eb8504c073739085a417978b18cd.css" integrity="sha256-Lt37dpYQ9y9A9ryUnmKjrPKY64UEwHNzkIWkF5eLGM0=" media="(prefers-color-scheme: dark)">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    
+    <link rel="shortcut icon" sizes="192x192" href="/android-192-favicon.png">
+
+    
+    <link rel="shortcut icon" href="/android-192-favicon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/v4-shims.min.css" integrity="sha256-wN7QJaqAwQ03kgUhyN4EU2phRdDkLrQYbFe0EvpQ60U=" crossorigin="anonymous" />
+
+    
+    
+
+
+    
+</head>
+
+
+    <body class="">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://balamaci.ro">Serban Balamaci</a>
+      </span>
+      
+      
+        <div class="author-image">
+          <img src="https://www.gravatar.com/avatar/309afbf8c2f162060e4fa28d670d2ec8?s=240&d=mp" class="img--circle img--headshot element--center" alt="gravatar">
+        </div>
+      
+      <p class="site__description">
+         Java and JVM related 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">Serban Balamaci</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/"><span class='fa-icon'><i class='fas fa-home'></i></span> Home
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/posts/"><span class='fa-icon'><i class='fas fa-stream'></i></span> Posts
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/series/"><span class='fa-icon'><i class='fas fa-list-alt'></i></span> Series
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/"><span class='fa-icon'><i class='fas fa-tags'></i></span> Tags
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/whoami/"><span class='fa-icon'><i class='fas fa-id-card'></i></span> About
+						<span></span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/@sbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="bird" class="svg-inline--fa fa-bird fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></i></a>
+	
+	
+	
+	<a href="https://github.com/balamaci" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/serbanbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="pro-network" class="svg-inline--fa fa-pro-network fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="container fixed-container">
+    
+<div class="copyright">
+  &copy; 2010 - 2020 Serban Balamaci
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+
+<article>
+  <header>
+    <h1>Java app monitoring with ELK - Part I - Logstash and Logback</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> 2016-03-10
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/elk">ELK</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/elk">elk</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 25 min read
+
+    
+    
+    
+
+</div>
+
+
+  </header>
+  
+  
+  
+  <div class="post md">
+    <p><strong>Logs for developers are undeniably the most important source of information</strong> available to track down problems and understand what is happening with your applications.</p>
+<p>It makes sense to have a good tool in our toolbox that will enable us to get better insight of this data.</p>
+<h3 id="there-is-gold-in-them-logs">There is gold in them logs!</h3>
+<p>People mainly start using the ELK stack as a way to be able to store and search distributed logs through a web interface. This is reason enough to add the ELK stack to your projects, but you might not have known <strong>there is also an analytics side to the ELK stack that can be used for processing the data in your logs and this is very useful for monitoring or investigations</strong>. Take for example:</p>
+<ul>
+<li><strong>We could count the numbers of errors of a certain type but grouped by unique users</strong>. Is it the same user that tries and gets the same error over and over or it&rsquo;s a more general error that other users also encounter?</li>
+<li>Count the number of events of a certain type to determine the numbers of user that were affected by an issue or if the application is exploited by a spammer.</li>
+<li>Measure the impact after you made a change in your system.</li>
+</ul>
+<p>Basically the examples of how useful ELK stack can be are limitless.</p>
+<p>The good part is this can actually be obtained without any or minimal change in your business code.</p>
+<p>We first discuss what the ELK stack is about and what exactly each of it&rsquo;s components does. We&rsquo;re taking advantages of using available Docker images to get around doing the sysadmin work of and rather focus on how we can use it.</p>
+<p>We will then generate and feed random log entries of failed login attempts to the ELK stack and using <a href="https://github.com/Yelp/elastalert">ElastAlert</a> to get notifications when we detect too many login attempts.</p>
+<h3 id="elk-stack">ELK stack</h3>
+<p><img src="/assets/2016/elkstack.png" alt="ELK">
+The ELK stack consist of</p>
+<ul>
+<li><strong>L</strong>ogstash which serves as a data ingestion engine and can receive(through different plugins) data from lots of custom data sources, manipulate it and sending out to either storage in ElasticSearch or to any other system.</li>
+<li><strong>E</strong>lasticSearch is where the data gets stored and queried. ES provides full text search technology built on top of Lucene and also analytics.
+It is distributed by default and easy to scale.</li>
+<li><strong>K</strong>ibana is a visualisation platform for running searches in ElasticSearch. It also allows to run analytics and charting the data and organize the charts into dashboards.</li>
+</ul>
+<p>The ELK stack is pretty famous by now, and you may have encountered lots of variations to it. Don&rsquo;t let that discourage you, once you understand what each component is supposed to do you can find the alternatives that best suit you setup. For ex. replacing Logstash in favor of FluentD and you now have <a href="https://geowarin.github.io/spring-boot-logs-in-elastic-search.html">EFK stack</a></p>
+<h3 id="logstash">Logstash</h3>
+<p>Logstash can play the part of a central controller and router for log data.
+It can collect logs from a variety of sources (using various <strong><a href="https://www.elastic.co/guide/en/logstash/current/input-plugins.html">input plugins</a></strong>), process the data into a common format by using <strong>filters</strong> and stream that data to a variety of endpoints (using <strong>output plugins</strong>). These make up the <a href="https://www.elastic.co/guide/en/logstash/current/pipeline.html">Logstash Processing Pipeline</a>.</p>
+<p><img src="https://www.elastic.co/guide/en/logstash/current/static/images/logstash.png" alt="LogStash"></p>
+<p>Logstash allows the configuration of each of the parts of the pipeline <strong>input</strong> - <strong>filter</strong> - <strong>output</strong> by writing the <strong>logstash.conf</strong> file.</p>
+<h4 id="input">input</h4>
+<p>Logstash can receive the data through external plugins from a multitude of sources, some common like &lsquo;file&rsquo;, &lsquo;tcp/udp&rsquo; but also some more special like Kafka topics or ZeroMQ. This is an example config for the &ldquo;input&rdquo; phase where we configure the port where we are listening on and also that we expect to receive the log lines already in a json key:value format</p>
+<pre><code>input {
+  tcp {
+   port =&gt; 5000
+   codec =&gt; &quot;json&quot;
+  }
+}
+</code></pre>
+<h4 id="filter">filter</h4>
+<p>Filters are the real processors of log lines. They can parse log entries taking a meaningless stream of text and turn it into structured entries with separate fields. For ex. say we have the following log entry :</p>
+<pre><code>&quot;55.3.244.1 GET /index.html 15824 0.043&quot;
+</code></pre>
+<p>with the logstash filter</p>
+<pre><code>filter {
+  mutate {
+    remove_field =&gt; [ &quot;@version&quot; ]
+  }
+  
+  if [type] == &quot;nginx-access&quot; {
+    grok {
+      match =&gt; { &quot;message&quot; =&gt; &quot;%{IP:clientip} %{WORD:method} %{URIPATHPARAM:request}
+                 %{NUMBER:bytes} %{NUMBER:duration}&quot; }
+    }
+    geoip {
+      source =&gt; &quot;clientip&quot;
+      target =&gt; &quot;geoip&quot;
+      database =&gt; &quot;/etc/logstash/GeoLiteCity.dat&quot;
+      add_field =&gt; [ &quot;[geoip][coordinates]&quot;, &quot;%{[geoip][longitude]}&quot; ]
+      add_field =&gt; [ &quot;[geoip][coordinates]&quot;, &quot;%{[geoip][latitude]}&quot;  ]
+    }
+    mutate {
+      convert =&gt; [ &quot;[geoip][coordinates]&quot;, &quot;float&quot;]
+    }
+  }
+}
+</code></pre>
+<p>Through <strong><a href="https://www.elastic.co/guide/en/logstash/current/plugins-filters-grok.html">grok patterns</a></strong> -a Logstash proprietary &ldquo;regex like&rdquo; concept- we extracted separate fields from the initial &ldquo;meaningless&rdquo; text line.</p>
+<p>The syntax for a grok pattern is %{SYNTAX:SEMANTIC}</p>
+<ul>
+<li>SYNTAX is the name of the pattern
+<ul>
+<li><strong>IP</strong> will match an IP like pattern like &ldquo;192.168.1.10&rdquo;</li>
+<li><strong>NUMBER</strong> will match a number like &ldquo;1234&rdquo;, etc.</li>
+</ul>
+</li>
+<li>SEMANTIC
+Is the identifier we give the matched piece of text.</li>
+</ul>
+<p>so applying the above GROK we&rsquo;ll get the fields</p>
+<ul>
+<li>clientip: 55.3.244.1</li>
+<li>method: GET</li>
+<li>request: /index.html</li>
+<li>bytes: 15824</li>
+<li>duration: 0.043</li>
+</ul>
+<p>through the <strong>geoip</strong> plugin there is also the possibility to lookup the previous extracted <strong>clientip</strong> field to add extra &lsquo;geoip&rsquo; fields.</p>
+<p>There are lots of <strong>grok</strong> patterns already available in logstash and you can also build your own and also a multitude of <a href="https://www.elastic.co/guide/en/logstash/current/filter-plugins.html">filter plugins</a>.<br>
+While certainly a powerful mechanism, I&rsquo;m not going to insist on it, because we plan on sending json logs (so {key:value} already provided) into Logstash.</p>
+<h4 id="output">output</h4>
+<p>Specifies where Logstash will be delivering the processed data. Again there are more than one output options available through the use of different plugins. We&rsquo;ll be using the &lsquo;elasticsearch&rsquo; plugin, but there is also the possibility to configure the output to plain stdout (great for local debug) or even HadoopFS hdfs, or throw it back into a Kafka queue for some realtime analytics. Most likely scenario you&rsquo;d want to separate to which index in ElasticSearch you want to store the logs based upon which services are sending the logs.</p>
+<pre><code>output {
+    if ([environment] == &quot;qa&quot; {
+        stdout {}
+    } else {
+        elasticsearch {
+            host =&gt; &quot;elasticsearch_host&quot;
+            index =&gt; &quot;elk-%{+YYYY.MM.dd}&quot;
+            document_type =&gt; &quot;log&quot;
+        }
+    }
+}
+</code></pre>
+<p>For a more detailed look on what you can configure you can read <a href="https://www.elastic.co/guide/en/logstash/current/plugins-outputs-elasticsearch.html">logstash-output-elasticsearch</a></p>
+<h3 id="pushing-the-log-data-to-logstash">Pushing the log data to Logstash</h3>
+<p>There are more than one way to get the log data into Logstash.</p>
+<ul>
+<li>
+<p>One way to go about this is to <strong>use an external log shipper</strong>, some external agent that would periodically read and forward the data to logstash and knows about the rolling file concept of the logs. One such option is to do it with <a href="https://github.com/elastic/beats">Beats</a>.</p>
+</li>
+<li>
+<p>People using Docker containers to run their apps suggest  leveraging the feature of docker &lsquo;log drivers&rsquo; ( <a href="http://www.fluentd.org/guides/recipes/docker-logging">FluentD Docker Logging</a>) to capture the stdout output - <a href="https://geowarin.github.io/spring-boot-logs-in-elastic-search.html">EFK stack</a>. And also you might want to take a look at <a href="https://github.com/gliderlabs/logspout">Logspout</a></p>
+</li>
+<li>
+<p><strong>Ship logs directly from your application using a <a href="https://github.com/logstash/logstash-logback-encoder">custom Logback Appender</a></strong>. Since I&rsquo;m already using <strong><a href="http://logback.qos.ch/">Logback</a></strong> as the logging implementation of the popular SLF4J logging interface, my chosen solution is to use the  <a href="https://github.com/logstash/logstash-logback-encoder">logstash-logback-encoder</a> open source project which provides a custom <a href="https://www.loggly.com/ultimate-guide/java-logging-basics/">Logback Appender</a> that we can use to <strong>send our log events directly as JSON to Logstash</strong>.
+This makes it <strong>easy to integrate in your existing java projects by just changing the logging configuration</strong>(and importing the  ofc).</p>
+</li>
+</ul>
+<h3 id="using-logstash-logback-encoderhttpsgithubcomlogstashlogstash-logback-encoder">Using <a href="https://github.com/logstash/logstash-logback-encoder">logstash-logback-encoder</a></h3>
+<p>Now before jumping on this solution for you Java app, you might have questions and worries like &ldquo;what happens when you want to log an event but the Logstash server is down?&rdquo;, &ldquo;Do the log calls suddenly block waiting for the connection to be obtained?&rdquo;, &ldquo;Does it have a performance impact?&rdquo;. The answer is NO, because <strong>the data is being sent to Logstash asynchronously</strong>.
+The <a href="https://github.com/logstash/logstash-logback-encoder/blob/master/src/main/java/net/logstash/logback/appender/AbstractLogstashTcpSocketAppender.java">LogstashTcpSocketAppender</a> actually writes into a <a href="https://github.com/logstash/logstash-logback-encoder/blob/master/src/main/java/net/logstash/logback/appender/AsyncDisruptorAppender.java">LMAX RingBuffer</a> and that RingBuffer is consumed and the data pushed to Logstash on a separate thread. So we&rsquo;ll not see any blocking of the application code even if the Logstash server is unavailable.</p>
+<p>Also you need to understand that <strong>the events will be dropped in case the events are produced faster than Logstash can consume them</strong>(or if Logstash is not available) so there is no danger of running out of memory with the increase of unconsumed log events. Further customization and tweaking of the RingBuffer is specified in the logstash-logback-encoder <a href="https://github.com/logstash/logstash-logback-encoder">documentation</a>.</p>
+<p>Let&rsquo;s see how a <em>logback.xml</em> configuration would look like using this custom Logstash Appender:</p>
+<pre><code>    &lt;appender name=&quot;STASH&quot; class=&quot;net.logstash.logback.appender.LogstashTcpSocketAppender&quot;&gt;
+        &lt;destination&gt;logstash_host:5000&lt;/destination&gt;
+
+        &lt;encoder class=&quot;net.logstash.logback.encoder.LoggingEventCompositeJsonEncoder&quot;&gt;
+            &lt;providers&gt;
+                &lt;mdc/&gt; &lt;!-- MDC variables on the Thread will be written as JSON fields--&gt; 
+                &lt;context/&gt; &lt;!--Outputs entries from logback's context --&gt;                               
+                &lt;version/&gt; &lt;!-- Logstash json format version, the @version field in the output--&gt;
+                &lt;logLevel/&gt;
+                &lt;loggerName/&gt;
+
+                &lt;pattern&gt;
+                 &lt;pattern&gt; &lt;!-- we can add some custom fields to be sent with all the log entries.                  
+                    {      &lt;!--make filtering easier in Logstash--&gt;
+                    &quot;appName&quot;: &quot;elk-testdata&quot;,&lt;!--or searching with Kibana--&gt;
+                    &quot;appVersion&quot;: &quot;1.0&quot;
+                    }
+                 &lt;/pattern&gt;
+                &lt;/pattern&gt;
+
+                &lt;threadName/&gt;
+                &lt;message/&gt;
+
+                &lt;logstashMarkers/&gt; &lt;!-- Useful so we can add extra information for specific log lines as Markers--&gt; 
+                &lt;arguments/&gt; &lt;!--or through StructuredArguments--&gt;
+
+                &lt;stackTrace/&gt;
+            &lt;/providers&gt;
+        &lt;/encoder&gt;
+    &lt;/appender&gt;
+
+    &lt;!-- Our logger writes to file, console and sends the data to Logstash --&gt;
+    &lt;logger name=&quot;ro.fortsoft.elk.testdata&quot; level=&quot;INFO&quot; additivity=&quot;false&quot;&gt;
+        &lt;appender-ref ref=&quot;FILE&quot;/&gt;
+        &lt;appender-ref ref=&quot;CONSOLE&quot;/&gt;
+        &lt;appender-ref ref=&quot;STASH&quot;/&gt;
+    &lt;/logger&gt;    
+</code></pre>
+<p>so the line</p>
+<pre><code>log.info(&quot;FAILED login for user='{}'&quot;, username);
+</code></pre>
+<p>pushes the following json to Logstash(let&rsquo;s consider that &lsquo;sid&rsquo;, &lsquo;userId&rsquo; and &lsquo;remoteIP&rsquo; were <a href="http://logback.qos.ch/manual/mdc.html">MDC variables</a>):</p>
+<pre><code>{
+&quot;sid&quot; =&gt; &quot;1t1z90su54ca3xnzp71u2wdwa&quot;,
+&quot;userId&quot; =&gt; &quot;80503&quot;,
+&quot;remoteIP&quot; =&gt; &quot;192.168.1.10&quot;,
+&quot;HOSTNAME&quot; =&gt; &quot;DX-56WKT93&quot;,
+&quot;@version&quot; =&gt; 1,
+&quot;appName&quot; =&gt; &quot;elk-testdata&quot;,
+&quot;appVersion&quot; =&gt; &quot;1.0&quot;,
+&quot;logger_name&quot; =&gt; &quot;ro.fortsoft.elk.testdata.generator.LoginEvent&quot;,
+&quot;level&quot; =&gt; &quot;INFO&quot;,
+&quot;thread_name&quot; =&gt; &quot;frontend-web-6&quot;,
+&quot;message&quot; =&gt; &quot;FAILED login for user='oneX5@gmail.com'&quot;,
+&quot;@timestamp&quot; =&gt; &quot;2015-07-23T10:22:16.757Z&quot;,
+&quot;host&quot; =&gt; &quot;127.0.0.1&quot;,
+&quot;type&quot; =&gt; &quot;syslog&quot;
+}
+</code></pre>
+<h4 id="mdc-variables-automatically-added-to-logstash">MDC variables automatically added to Logstash</h4>
+<p>MDC variables are perfect for scenarios like web requests which are processed by a single thread.
+Through a Servlet Filter you might read some data from the web requests or from the web session and then pass the control to the Servlet that does the processing(while clearing the value ). The simplest example would be the &lsquo;userId&rsquo; for an authenticated user to always appear in the logs and not have to &lsquo;manually&rsquo; add it for each log statement.</p>
+<p>Or another ex. could be to implement a request tracking system across a series of microservices. By passing along some kind of correlationId you could see which requests in other systems were triggered by user actions and why they failed.
+One simple way to do this could be by having a Servlet filter that reads a value say &lsquo;GURID&rsquo; from the Requests Headers and place it in an MDC variable. When making REST requests to other services read the &lsquo;GURID&rsquo; variable from the MDC context and pass it along in the request headers to other service and so on.</p>
+<h4 id="sending-custom-fields-for-a-logging-statement">Sending custom fields for a logging statement</h4>
+<p>There might be cases when we might want to explicitly supply a separate field for certain logging statements.</p>
+<pre><code>log.info(&quot;FAILED login for user='{}' from IP={}&quot;, username, ipArgument);
+</code></pre>
+<p>They are useful because in our quest for doing log analytics we might want to do some grouping by a certain field.<br>
+Like in the example above we might want to see how many &ldquo;FAILED Login&rdquo; entries there are, but from the same IP -perhaps we want to temporarily ban that IP-.</p>
+<p>There are two ways of adding custom fields to be sent to Logstash:</p>
+<ul>
+<li>SLF4J <strong>Markers</strong>, from when you don&rsquo;t want the field value to appear in the log message(that gets written to console or file)      <br>
+You might not have used it but there are already available methods(for each log level) in standard SLF4J that allow a Marker parameter:</li>
+</ul>
+<pre><code>public void debug(Marker marker, String format, Object arg);
+public void info(Marker marker, String format, Object arg);
+...
+</code></pre>
+<p>so</p>
+<pre><code> Marker ipArgument = Markers.append(&quot;remoteIP&quot;, remoteIP);
+ log.info(ipArgument, &quot;FAILED login for user='{}'&quot;, username);
+</code></pre>
+<p>would produce</p>
+<pre><code>{ ....
+ &quot;remoteIP&quot;:&quot;192.168.1.178&quot;,
+ &quot;message&quot;:&quot;FAILED login for user='hacker'&quot;
+...
+}
+</code></pre>
+<ul>
+<li><strong>StructuredArguments</strong> is a class provided by logstash-logback-encoder. You can use it when you want it both sent in the json and also key and/or value inside the log message.</li>
+</ul>
+<p>So we could do the same as above</p>
+<pre><code>  StructuredArgument ipArgument = StructuredArguments.value(&quot;remoteIp&quot;, remoteIP);
+  log.info(&quot;FAILED login for user='{}' IP={}&quot;, username, ipArgument);
+</code></pre>
+<pre><code>{ ....
+ &quot;remoteIP&quot;:&quot;192.168.1.178&quot;,
+ &quot;message&quot;:&quot;FAILED login for user='hacker' IP=192.168.1.178&quot;
+...
+}
+</code></pre>
+<p>PS: As seen above the &lsquo;remoteIP&rsquo; field could have also been extracted by Logstash by writing some grok pattern on the log message.</p>
+<p>Conclusion:
+I hope to have opened your appetite for log shipping and doing analytics on your log data by trying the ELK stack.
+You can look at the <a href="https://github.com/balamaci/blog-elk-docker">github repo</a> to get a look at the code to start your own ELK stack on <a href="https://balamaci.ro/docker-series-intro-to-docker/">docker</a> images.</p>
+<p>Stay tuned for <a href="https://balamaci.ro/java-app-monitoring-with-elk-elastic-search/">Part II</a> in which I plan to discuss in more detail ElasticSearch.</p>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/2015/11/02/orchestrating-a-reusable-bdd-web-testing-setup-part-ii/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">BDD web testing setup - Docker, Cucumber and Serenity - Part II</span>
+    </a>
+    
+    
+    <a href="/2016/03/21/java-app-monitoring-with-elk-elastic-search/" class="navigation-next">
+      <span class="navigation-tittle">Java app monitoring with ELK - Part II- ElasticSearch</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js" integrity="sha256-vrn14y7WH7zgEElyQqm2uCGSQrX/xjYDjniRUQx3NyU=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function addBlockSwitches() {
+	$('.primary').each(function() {
+		primary = $(this);
+		createSwitchItem(primary, createBlockSwitch(primary)).item.addClass("selected");
+		primary.children('.title').remove();
+	});
+	$('.secondary').each(function(idx, node) {
+		secondary = $(node);
+		primary = findPrimary(secondary);
+		switchItem = createSwitchItem(secondary, primary.children('.switch'));
+		switchItem.content.addClass('hidden');
+		findPrimary(secondary).append(switchItem.content);
+		secondary.remove();
+	});
+}
+
+function createBlockSwitch(primary) {
+	blockSwitch = $('<div class="switch"></div>');
+	primary.prepend(blockSwitch);
+	return blockSwitch;
+}
+
+function findPrimary(secondary) {
+	candidate = secondary.prev();
+	while (!candidate.is('.primary')) {
+		candidate = candidate.prev();
+	}
+	return candidate;
+}
+
+function createSwitchItem(block, blockSwitch) {
+	blockName = block.children('.title').text();
+	content = block.children('.content').first().append(block.next('.colist'));
+	item = $('<div class="switch--item">' + blockName + '</div>');
+	blockSwitch.append(item);
+	return {'item': item, 'content': content};
+}
+
+function globalSwitch() {
+	$('.switch--item').each(function() {
+		var blockId = blockIdForSwitchItem($(this));
+		$(this).off('click');
+		$(this).on('click', function() {
+			selectedText = $(this).text()
+			window.localStorage.setItem(blockId, selectedText);
+			$(".switch--item").filter(function() {
+				return blockIdForSwitchItem($(this)) === blockId;
+			}).filter(function() {
+				return $(this).text() === selectedText;
+			}).each(function() {
+				select($(this))
+			});
+		});
+		if ($(this).text() === window.localStorage.getItem(blockId)) {
+			select($(this))
+		}
+	});
+}
+
+function blockIdForSwitchItem(item) {
+	idComponents = []
+	idComponents.push(item.text().toLowerCase());
+	item.siblings(".switch--item").each(function(index, sibling) {
+		idComponents.push($(sibling).text().toLowerCase());
+	});
+	return idComponents.sort().join("-")
+}
+
+function select(selected) {
+	selected.addClass('selected');
+	selected.siblings().removeClass('selected');
+	selectedContent = selected.parent().siblings(".content").eq(selected.index())
+	selectedContent.removeClass('hidden');
+	selectedContent.siblings().addClass('hidden');
+}
+
+$(addBlockSwitches);
+$(globalSwitch);
+</script>
+
+
+    
+
+
+
+    </body>
+</html>
+

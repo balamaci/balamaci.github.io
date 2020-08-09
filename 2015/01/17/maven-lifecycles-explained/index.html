@@ -1,0 +1,643 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.73.0" />
+
+    
+    
+    
+
+<title>Maven lifecycles and plugins explained • Serban Balamaci</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Serban Balamaci">
+<meta property="og:title" content="Maven lifecycles and plugins explained">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://balamaci.ro/2015/01/17/maven-lifecycles-explained/" />
+<meta property="og:description" content="Java mostly, and general tech">
+<meta property="og:image" content="https://balamaci.ro/social-sharing.png">
+<meta property="og:image:type" content="image/png">
+    
+    
+    
+<meta property="og:image:width" content="192">
+<meta property="og:image:height" content="192">
+    
+
+<meta property="og:updated_time" content="2015-01-17T11:42:14Z">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@sbalamaci">
+<meta name="twitter:title" content="Maven lifecycles and plugins explained">
+
+<meta name="twitter:image" content="https://balamaci.ro/social-sharing.png">
+
+<meta name="twitter:description" content="Java mostly, and general tech">
+<meta name="twitter:creator" content="@sbalamaci">
+    
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/a11y-light.min.css" media="(prefers-color-scheme: light)"><link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/gruvbox-dark.min.css" media="(prefers-color-scheme: dark)">
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.57d57be207f95258b69c5563e34ed2c632000ecb862ce9bd97e7e35f3957094c.css" integrity="sha256-V9V74gf5Uli2nFVj407SxjIADsuGLOm9l&#43;fjXzlXCUw=">
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde-dark.2eddfb769610f72f40f6bc949e62a3acf298eb8504c073739085a417978b18cd.css" integrity="sha256-Lt37dpYQ9y9A9ryUnmKjrPKY64UEwHNzkIWkF5eLGM0=" media="(prefers-color-scheme: dark)">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    
+    <link rel="shortcut icon" sizes="192x192" href="/android-192-favicon.png">
+
+    
+    <link rel="shortcut icon" href="/android-192-favicon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/v4-shims.min.css" integrity="sha256-wN7QJaqAwQ03kgUhyN4EU2phRdDkLrQYbFe0EvpQ60U=" crossorigin="anonymous" />
+
+    
+    
+
+
+    
+</head>
+
+
+    <body class="">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://balamaci.ro">Serban Balamaci</a>
+      </span>
+      
+      
+        <div class="author-image">
+          <img src="https://www.gravatar.com/avatar/309afbf8c2f162060e4fa28d670d2ec8?s=240&d=mp" class="img--circle img--headshot element--center" alt="gravatar">
+        </div>
+      
+      <p class="site__description">
+         Java and JVM related 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">Serban Balamaci</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/"><span class='fa-icon'><i class='fas fa-home'></i></span> Home
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/posts/"><span class='fa-icon'><i class='fas fa-stream'></i></span> Posts
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/series/"><span class='fa-icon'><i class='fas fa-list-alt'></i></span> Series
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/"><span class='fa-icon'><i class='fas fa-tags'></i></span> Tags
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/whoami/"><span class='fa-icon'><i class='fas fa-id-card'></i></span> About
+						<span></span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/@sbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="bird" class="svg-inline--fa fa-bird fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></i></a>
+	
+	
+	
+	<a href="https://github.com/balamaci" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/serbanbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="pro-network" class="svg-inline--fa fa-pro-network fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="container fixed-container">
+    
+<div class="copyright">
+  &copy; 2010 - 2020 Serban Balamaci
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+
+<article>
+  <header>
+    <h1>Maven lifecycles and plugins explained</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> 2015-01-17
+    
+    
+    
+      
+      
+          in
+          
+          
+              <a class="badge badge-category" href="/categories/maven">MAVEN</a>
+              
+          
+      
+    
+    
+    
+      
+      
+          <br/>
+           <i class="fas fa-tags"></i>
+          
+          <a class="badge badge-tag" href="/tags/maven">maven</a>
+          
+      
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 20 min read
+
+    
+    
+    
+
+</div>
+
+
+  </header>
+  
+  
+  
+  <div class="post md">
+    <p>Maven is much more than just a simple dependency management and packaging tool. Through a set of <strong>plugins</strong> it becomes a powerful tool for handling the &ldquo;backbone&rdquo; of CI setup that might require generating new source files, compile, package, execute bash scripts that for ex. start a docker container, start integration tests, before finaly pushing the deliverables to a repository.</p>
+<p>And heck, <strong>combined with Jenkins</strong> it becomes so powerful it can even fight crime. Ok maybe not that powerful. Or at least so powerful it might make you think again if you really need <strong>Gradle</strong> to implement what you need.</p>
+<p>Many java devs don&rsquo;t really pay it enough attention besides using it as a tool to build a package, and because of that I think it was necesary to write a short explanation and gather some usecase before we proceed with more interesting things like a CI series in the next articles.</p>
+<h2 id="maven-default-lifecycle">Maven default lifecycle</h2>
+<p>One of the reasons people are not satisfied with Maven is that it&rsquo;s got this <strong>default lifecycle</strong>(also called the build cycle) that actually consist of a set of <strong>phases</strong>(steps) that pretty much should cover the general steps of releasing a software project but may not fit always the needs of a project build and release. I&rsquo;m just going to add a few words to those who are not self explanatory by their name.</p>
+<ul>
+<li><!-- raw HTML omitted -->[validate]<!-- raw HTML omitted --> - Validates the project is correct and all necessary information is available to complete a build</li>
+<li><!-- raw HTML omitted -->[initialize]<!-- raw HTML omitted --> - create directories, sets properties</li>
+<li><!-- raw HTML omitted -->[generate-sources]<!-- raw HTML omitted --> - generate extra source files for example the jooql plugin is generating classes from the database metadata.</li>
+<li><!-- raw HTML omitted -->[process-sources]<!-- raw HTML omitted --> - additional processing of the sources like rewriting, adding extra code, filtering files, etc.</li>
+<li><!-- raw HTML omitted -->[generate-resources]<!-- raw HTML omitted --></li>
+<li><!-- raw HTML omitted -->[process-resources]<!-- raw HTML omitted --> - copy the resources to the target directory.</li>
+<li><!-- raw HTML omitted -->[compile]<!-- raw HTML omitted --></li>
+<li><!-- raw HTML omitted -->[process-classes]<!-- raw HTML omitted --> - post-process the generated files from compilation, for example to do bytecode enhancement on Java classes</li>
+<li><!-- raw HTML omitted -->[generate-test-sources]<!-- raw HTML omitted --> - like their generate-source/resource counterparts but for test classes</li>
+<li><!-- raw HTML omitted -->[process-test-sources]<!-- raw HTML omitted --></li>
+<li><!-- raw HTML omitted -->[generate-test-resources]<!-- raw HTML omitted --></li>
+<li><!-- raw HTML omitted -->[process-test-resources]<!-- raw HTML omitted --></li>
+<li><!-- raw HTML omitted -->[test-compile]<!-- raw HTML omitted --></li>
+<li><!-- raw HTML omitted -->[process-test-classes]<!-- raw HTML omitted --></li>
+<li><!-- raw HTML omitted -->**[test]**<!-- raw HTML omitted --> - runs the unit tests and generates the test report, this is the job of the **Maven Surefire** Plugin.</li>
+<li><!-- raw HTML omitted -->prepare-package<!-- raw HTML omitted --></li>
+<li><!-- raw HTML omitted -->**[package]**<!-- raw HTML omitted --> - packages the application.</li>
+<li><!-- raw HTML omitted -->[pre-integration-test]<!-- raw HTML omitted --> - runs before the integration tests, I use this for ex. to start a Tomcat container into which to deploy the war package built above.</li>
+<li><!-- raw HTML omitted -->[integration-test]<!-- raw HTML omitted --> - performs the integration tests, this is the job of the <strong>Maven Failsafe</strong> plugin.</li>
+<li><!-- raw HTML omitted -->[post-integration-test]<!-- raw HTML omitted --> - cleans up after the integration tests, like stoping the container</li>
+<li><!-- raw HTML omitted -->**[verify]**<!-- raw HTML omitted --> - checks that the final package meets the quality criterias - checkstyle plugin for ex is bound to this phase.</li>
+<li><!-- raw HTML omitted -->**[install]**<!-- raw HTML omitted --> - Install the jar archive into the local Maven repository(the .m2/repository directory).</li>
+<li><!-- raw HTML omitted -->**[deploy]**<!-- raw HTML omitted --> - Install the jar archive into a remote  Maven repository.</li>
+</ul>
+<p>These build phases are executed sequentially in <strong>the given order</strong>.
+Calling one phase of the lifecycle results in the execution of all phases up to and including that phase.
+To do all the steps, you only need to call the last build phase to be executed, in this case  <strong>mvn deploy</strong>. Calling <strong>mvn verify</strong> will do the all the steps except <strong>install</strong> and <strong>deploy</strong>.</p>
+<h3 id="goals-and-plugins">Goals and Plugins</h3>
+<p>Now we&rsquo;ve seen that Maven defines this steps(phases), but the ideea is that <strong>you can attach one or more  actions</strong> to them as they get stepped through. These tasks or units of work are called <strong>goals</strong>. I like to think of them as the &ldquo;public methods&rdquo; of the <strong>plugins</strong> into which goals are bundled to provide some highlevel functionality.
+Plugins themselves can be referenced in the project pom.xml in the <strong>plugins</strong> section.</p>
+<pre><code class="language-prettyprint">&lt;plugins&gt;
+...
+&lt;/plugins&gt;
+</code></pre>
+<p>They will be resolved and downloaded by maven from the repository and their functionality can be bound to the build phases(thought the plugin goals) so that the <strong>goals gets executed if that phase is reached</strong>.
+As an example I&rsquo;m attaching to the <strong>pre-integration-test</strong> phase the <strong>exec</strong> goal of the <strong>exec-maven-plugin</strong> which is supposed to execute the specified executable - in this case starting a docker container which contains a Tomcat server into which we plan to deploy the packaged application-.</p>
+<pre><code class="language-prettyprint">&lt;plugins&gt; 
+...           
+   &lt;plugin&gt;
+          &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+          &lt;artifactId&gt;exec-maven-plugin&lt;/artifactId&gt;
+          &lt;version&gt;1.2.1&lt;/version&gt;
+          &lt;executions&gt;
+               &lt;execution&gt;
+                    &lt;id&gt;start-tomcat-docker&lt;/id&gt;
+                    &lt;goals&gt;
+                        &lt;goal&gt;exec&lt;/goal&gt;
+                    &lt;/goals&gt;
+                    &lt;phase&gt;pre-integration-test&lt;/phase&gt;
+                    &lt;configuration&gt;
+                        &lt;environmentVariables&gt;                                                &lt;DOCKER_IMG&gt;balamaci/tomcat7&lt;/DOCKER_IMG&gt;
+                        &lt;/environmentVariables&gt;
+                        &lt;executable&gt;${project.basedir}/scripts/start-docker-tomcat.sh&lt;/executable&gt;
+                        &lt;/configuration&gt;
+                &lt;/execution&gt;
+           &lt;/executions&gt;
+   &lt;/plugin&gt;
+&lt;/plugins&gt;
+</code></pre>
+<p>You can <strong>invoke a maven goal separate from the build cycle</strong> on it&rsquo;s own.</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<p>You can bind <strong>more than one goal of the same or to different plugins to a build phase</strong>, and they will be executed in the order in which they apear in the pom.xml</p>
+<h3 id="other-lifecycles">Other lifecycles</h3>
+<p>Now you might have asked yourself where probably the most used command <strong>mvn clean</strong> fits into the equation since it&rsquo;s not mentioned as a lifecycle phase.
+Well that is because <strong>clean is a lifecycle</strong> with it&rsquo;s list of phases.</p>
+<ul>
+<li>pre-clean</li>
+<li>clean</li>
+<li>post-clean</li>
+</ul>
+<p><strong>mvn site</strong> is another lifecycle used to generate documentation.</p>
+<p>Also in theory you can also create your own custom  lifecycle along with customized phases, but I&rsquo;ve never had to, so I cannot comment on this&hellip;</p>
+<h3 id="default-bindings">Default bindings</h3>
+<p>Maven, even if you don&rsquo;t explicitly add something in the <strong>plugins</strong> section to bind any <strong>goal-&gt;phase</strong> appears to be doing quite a lot of things itself when you invoke a build phase like <strong>mvn package</strong>.
+This is because maven has <strong>by default bounded some plugin goals to the default build lifecycle</strong>. Exactly what plugin goals are bound <strong>differs depending on the type of packaging</strong>: pom, jar, war, ejb, etc).</p>
+<p>You can override and customize the default configuration of these plugins by adding them to the <strong>plugins</strong> section and passing in your required configuration.</p>
+<h3 id="maven-profiles">Maven Profiles</h3>
+<p>Build profiles are helpful to further customize and run different build setups.</p>
+<p>You might want this for different reason, most likely go through a speedier build setup on your development machine vers what needs to be done when running on Jenkins.
+Or another realcase example in case of a web app which contains a lot of js files, you might want to combine and minify the files when releasing a production version, but you might want to skip this step when just running the application in development.</p>
+<p>Profiles are defined like:</p>
+<pre><code>&lt;profiles&gt;
+  &lt;profile&gt;
+    &lt;id&gt;development&lt;/id&gt;
+      &lt;activation&gt;
+         &lt;activeByDefault&gt;true&lt;/activeByDefault&gt;
+      &lt;/activation&gt;
+      
+      &lt;!-- we can define properties here... --&gt;
+      &lt;properties&gt;
+          &lt;skip.integration.tests&gt;true&lt;/skip.integration.tests&gt;
+      &lt;/properties&gt;
+      &lt;!-- add different dependencies --&gt;
+      &lt;!-- add or configure plugins differently--&gt;
+      &lt;build&gt;
+         &lt;plugins&gt;
+           &lt;plugin&gt;
+              &lt;groupId&gt;com.mysema.maven&lt;/groupId&gt;
+              &lt;artifactId&gt;apt-maven-plugin&lt;/artifactId&gt;
+              &lt;version&gt;${mysema.apt.version}&lt;/version&gt;
+              &lt;dependencies&gt;
+                  &lt;dependency&gt;
+                    &lt;groupId&gt;com.mysema.querydsl&lt;/groupId&gt;
+                    &lt;artifactId&gt;querydsl-apt&lt;/artifactId&gt;
+                    &lt;version&gt;${querydsl.version}&lt;/version&gt;
+                  &lt;/dependency&gt;
+              &lt;/dependencies&gt;
+              &lt;executions&gt;
+                &lt;execution&gt;
+                  &lt;phase&gt;generate-sources&lt;/phase&gt;
+                  &lt;goals&gt;
+                     &lt;goal&gt;process&lt;/goal&gt;
+                  &lt;/goals&gt;
+                  &lt;configuration&gt;
+                     &lt;outputDirectory&gt;target/generated-sources/queries&lt;/outputDirectory&gt;
+                     &lt;processor&gt;com.mysema.query.apt.jpa.JPAAnnotationProcessor&lt;/processor&gt;
+                  &lt;/configuration&gt;
+                &lt;/execution&gt;
+              &lt;/executions&gt;
+        &lt;/plugin&gt;
+       &lt;/plugins&gt;
+  &lt;/profile&gt;
+  &lt;profile&gt;
+    &lt;id&gt;production&lt;/id&gt;
+    &lt;!-- ...and here we can define other sets of properties--&gt;
+    &lt;!-- ...other dependencies and plugins--&gt;
+  &lt;/profile&gt;
+&lt;/profiles&gt;
+</code></pre>
+<p>We see that by default &lsquo;dev&rsquo; is active, we can easily use the production profile by doing <strong>mvn -P production</strong></p>
+<h3 id="usecases-and-the-plugins-for-them">Usecases and the plugins for them</h3>
+<h4 id="releasing-a-new-version">Releasing a new version</h4>
+<p>For performing a new release of a project I use the <a href="https://maven.apache.org/maven-release/maven-release-plugin/examples/prepare-release.html">maven-release-plugin</a>. The plugin itself does a lot of stuff under the hood</p>
+<ul>
+<li><strong>mvn release:prepare</strong></li>
+<li><strong>mvn release:perform</strong></li>
+<li><strong>mvn release:stage</strong></li>
+</ul>
+<h3 id="packaging-your-app-as-a-fat-jar">Packaging your app as a &ldquo;fat&rdquo; jar</h3>
+<p>Sometimes you just want to handle a single deliverable to be easier to deploy and run a java application. The problem is that your .jar app file is depending on other jars, but the good news is you can rebundle the dependencies classes inside your jar, obtaining a &ldquo;fat&rdquo; jar through <strong>maven-shade-plugin</strong> explained <a href="http://www.mkyong.com/maven/create-a-fat-jar-file-maven-shade-plugin/">here</a>, and while it&rsquo;s a better option than the <strong>maven-assembly</strong> plugin.</p>
+<p><strong>Spring boot</strong> does this &ldquo;fat jar&rdquo; thing with the their <a href="http://docs.spring.io/spring-boot/docs/current/reference/html/build-tool-plugins-maven-plugin.html">spring-boot-maven-plugin</a></p>
+<p>For other ways of packaging your java application might have a look at <a href="https://github.com/puniverse/capsule">capsule</a> to see what it does.</p>
+<h3 id="getting-code-coverage-reports-with-jacoco">Getting code coverage reports with Jacoco</h3>
+<p>Already a great explanation <a href="http://www.petrikainulainen.net/programming/maven/creating-code-coverage-reports-for-unit-and-integration-tests-with-the-jacoco-maven-plugin/">here</a>.</p>
+<h3 id="executing-scripts">Executing scripts</h3>
+<p>Sometimes in your build you might want to execute a script file.
+Already gave an example of the <strong>exec-maven-plugin</strong> plugin.</p>
+<h3 id="reading-properties-from-files">Reading properties from files.</h3>
+<p>Maybe you need to provide the conection information for a plugin which needs a database connection.
+Or you need to read into your build some value that was generated externally like from a bash script like the case bellow where I read the started docker container IP(which was outputed in a properties file).</p>
+<pre><code class="language-prettyprint">&lt;plugin&gt;
+   &lt;groupId&gt;org.codehaus.mojo&lt;/groupId&gt;
+   &lt;artifactId&gt;properties-maven-plugin&lt;/artifactId&gt;
+   &lt;version&gt;1.0-alpha-2&lt;/version&gt;
+   &lt;executions&gt;
+       &lt;execution&gt;
+          &lt;id&gt;read-container-properties&lt;/id&gt;
+          &lt;phase&gt;pre-integration-test&lt;/phase&gt;
+          &lt;goals&gt;
+             &lt;goal&gt;read-project-properties&lt;/goal&gt;
+          &lt;/goals&gt;
+              &lt;configuration&gt;
+                 &lt;files&gt;
+                    &lt;file&gt;${docker.output.dir}/container.properties&lt;/file&gt;
+                 &lt;/files&gt;
+              &lt;/configuration&gt;
+      &lt;/execution&gt;
+   &lt;/executions&gt;
+&lt;/plugin&gt;
+</code></pre>
+<h3 id="doing-integration-tests-apart-from-unit-tests">Doing integration tests apart from unit tests</h3>
+<p>While in Unit Tests you&rsquo;d mock the response of external dependencies and test components/classes of you project in isolation, Integration tests are the one  covering the system as a whole, the components glued together even maybe with some actual real external dependencies with the idea of having less surprises in production system not working the same as their mocked versions.
+Now because integration tests have a higher cost to run than the unit tests, you&rsquo;re going to want to execute them separate from the unit tests and maybe less often and on a dedicated build system like <strong>Jenkins</strong>.</p>
+<p>You also maybe want to be able to execute the whole build lifecycle without running the costly integration tests - see <strong>Profiles</strong> section above how it can be easily done.</p>
+<p>Running of the unit tests are handled by the separate plugins again:</p>
+<ul>
+<li><strong>surefire</strong> -&gt; unit tests</li>
+<li><strong>failsafe</strong> -&gt; integration tests
+and we can configure these two plugins separately as to use different convetion to distingu like classes starting with <strong>Test*</strong> are unit tests and <strong>ITest*</strong> could be the integration tests.</li>
+</ul>
+<p>This I see after writting this :) has been improved upon <a href="http://www.petrikainulainen.net/programming/maven/integration-testing-with-maven/">here</a> by keeping the integration classes in a different directory from the unit tests.
+Just to mention here the <a href="http://mojo.codehaus.org/build-helper-maven-plugin/">Build Helper Plugin</a> which is used to add extra source/resource dirs into the build, like the /src/main/integration-tests directory.</p>
+<p>I myself tend to keep the sources of the integration tests in a different repo because I don&rsquo;t run them localy, but through jenkins.</p>
+<p>See <a href="http://www.balamaci.ro">here</a> my next article about doing Integration tests with the help of Jenkins, Docker, Webdriver.</p>
+<h3 id="deploying-a-war-file-to-a-running-app-container">Deploying a war file to a running app container</h3>
+<p>For this usecase the <a href="http://cargo.codehaus.org/Maven2+plugin">maven-cargo</a> plugin can be used. For ex. I&rsquo;m deploying the packaged app inside a test container as part of the <strong>integration-test</strong></p>
+<pre><code class="language-prettyprint">&lt;plugin&gt;
+  &lt;groupId&gt;org.codehaus.cargo&lt;/groupId&gt;
+  &lt;artifactId&gt;cargo-maven2-plugin&lt;/artifactId&gt;
+  &lt;version&gt;1.4.11&lt;/version&gt;
+  &lt;configuration&gt;
+     &lt;container&gt;
+        &lt;containerId&gt;tomcat7x&lt;/containerId&gt;
+        &lt;type&gt;remote&lt;/type&gt;
+     &lt;/container&gt;
+     &lt;configuration&gt;
+          &lt;type&gt;runtime&lt;/type&gt;
+          &lt;properties&gt;
+            &lt;cargo.hostname&gt;${CONTAINER_IP}&lt;/cargo.hostname&gt;
+                &lt;cargo.servlet.port&gt;${TOMCAT_PORT}&lt;/cargo.servlet.port&gt;
+                &lt;cargo.remote.username&gt;${TOMCAT_ADMIN_USER}&lt;/cargo.remote.username&gt;
+                &lt;cargo.remote.password&gt;${TOMCAT_ADMIN_PASS}&lt;/cargo.remote.password&gt;
+          &lt;/properties&gt;
+     &lt;/configuration&gt;
+     &lt;deployer&gt;
+         &lt;type&gt;remote&lt;/type&gt;
+     &lt;/deployer&gt;
+     &lt;deployables&gt;
+        &lt;deployable&gt;
+            &lt;type&gt;war&lt;/type&gt;
+            &lt;location&gt;${project.build.directory}/pippo-demo.war&lt;/location&gt;
+            &lt;properties&gt;
+                 &lt;context&gt;pippo&lt;/context&gt;
+            &lt;/properties&gt;
+        &lt;/deployable&gt;
+     &lt;/deployables&gt;
+  &lt;/configuration&gt;
+  &lt;executions&gt;
+     &lt;execution&gt;
+       &lt;id&gt;war-deploy&lt;/id&gt;
+       &lt;phase&gt;integration-test&lt;/phase&gt;
+       &lt;goals&gt;
+          &lt;goal&gt;deploy&lt;/goal&gt;
+       &lt;/goals&gt;
+     &lt;/execution&gt;
+  &lt;/executions&gt;
+&lt;/plugin&gt;
+</code></pre>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/2014/02/11/docker-part-ii/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">Docker Series - Docker part II</span>
+    </a>
+    
+    
+    <a href="/2015/01/24/continous-integration-with-jenkins-docker-ansible-webdriver/" class="navigation-next">
+      <span class="navigation-tittle">Part 1 - Continous Integration with Jenkins, Docker, WebDriver ...</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js" integrity="sha256-vrn14y7WH7zgEElyQqm2uCGSQrX/xjYDjniRUQx3NyU=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function addBlockSwitches() {
+	$('.primary').each(function() {
+		primary = $(this);
+		createSwitchItem(primary, createBlockSwitch(primary)).item.addClass("selected");
+		primary.children('.title').remove();
+	});
+	$('.secondary').each(function(idx, node) {
+		secondary = $(node);
+		primary = findPrimary(secondary);
+		switchItem = createSwitchItem(secondary, primary.children('.switch'));
+		switchItem.content.addClass('hidden');
+		findPrimary(secondary).append(switchItem.content);
+		secondary.remove();
+	});
+}
+
+function createBlockSwitch(primary) {
+	blockSwitch = $('<div class="switch"></div>');
+	primary.prepend(blockSwitch);
+	return blockSwitch;
+}
+
+function findPrimary(secondary) {
+	candidate = secondary.prev();
+	while (!candidate.is('.primary')) {
+		candidate = candidate.prev();
+	}
+	return candidate;
+}
+
+function createSwitchItem(block, blockSwitch) {
+	blockName = block.children('.title').text();
+	content = block.children('.content').first().append(block.next('.colist'));
+	item = $('<div class="switch--item">' + blockName + '</div>');
+	blockSwitch.append(item);
+	return {'item': item, 'content': content};
+}
+
+function globalSwitch() {
+	$('.switch--item').each(function() {
+		var blockId = blockIdForSwitchItem($(this));
+		$(this).off('click');
+		$(this).on('click', function() {
+			selectedText = $(this).text()
+			window.localStorage.setItem(blockId, selectedText);
+			$(".switch--item").filter(function() {
+				return blockIdForSwitchItem($(this)) === blockId;
+			}).filter(function() {
+				return $(this).text() === selectedText;
+			}).each(function() {
+				select($(this))
+			});
+		});
+		if ($(this).text() === window.localStorage.getItem(blockId)) {
+			select($(this))
+		}
+	});
+}
+
+function blockIdForSwitchItem(item) {
+	idComponents = []
+	idComponents.push(item.text().toLowerCase());
+	item.siblings(".switch--item").each(function(index, sibling) {
+		idComponents.push($(sibling).text().toLowerCase());
+	});
+	return idComponents.sort().join("-")
+}
+
+function select(selected) {
+	selected.addClass('selected');
+	selected.siblings().removeClass('selected');
+	selectedContent = selected.parent().siblings(".content").eq(selected.index())
+	selectedContent.removeClass('hidden');
+	selectedContent.siblings().addClass('hidden');
+}
+
+$(addBlockSwitches);
+$(globalSwitch);
+</script>
+
+
+    
+
+
+
+    </body>
+</html>
+

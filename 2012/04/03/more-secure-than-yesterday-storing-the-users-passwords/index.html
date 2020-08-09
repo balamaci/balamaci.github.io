@@ -1,0 +1,495 @@
+<!DOCTYPE html>
+<html lang="en">
+    
+    
+
+
+    <head>
+    <link href="https://gmpg.org/xfn/11" rel="profile">
+    <meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<meta http-equiv="Cache-Control" content="public" />
+<!-- Enable responsiveness on mobile devices -->
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1">
+<meta name="generator" content="Hugo 0.73.0" />
+
+    
+    
+    
+
+<title>More Secure than Yesterday - Storing the Users Passwords • Serban Balamaci</title>
+
+
+
+
+
+
+
+
+
+
+
+
+
+    
+<meta property="og:locale" content="en">
+<meta property="og:site_name" content="Serban Balamaci">
+<meta property="og:title" content="More Secure than Yesterday - Storing the Users Passwords">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://balamaci.ro/2012/04/03/more-secure-than-yesterday-storing-the-users-passwords/" />
+<meta property="og:description" content="Java mostly, and general tech">
+<meta property="og:image" content="https://balamaci.ro/social-sharing.png">
+<meta property="og:image:type" content="image/png">
+    
+    
+    
+<meta property="og:image:width" content="192">
+<meta property="og:image:height" content="192">
+    
+
+<meta property="og:updated_time" content="2012-04-03T21:00:00Z">
+
+
+
+<meta name="twitter:card" content="summary">
+<meta name="twitter:site" content="@sbalamaci">
+<meta name="twitter:title" content="More Secure than Yesterday - Storing the Users Passwords">
+
+<meta name="twitter:image" content="https://balamaci.ro/social-sharing.png">
+
+<meta name="twitter:description" content="Java mostly, and general tech">
+<meta name="twitter:creator" content="@sbalamaci">
+    
+<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/a11y-light.min.css" media="(prefers-color-scheme: light)"><link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/9.18.1/styles/gruvbox-dark.min.css" media="(prefers-color-scheme: dark)">
+
+
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde.57d57be207f95258b69c5563e34ed2c632000ecb862ce9bd97e7e35f3957094c.css" integrity="sha256-V9V74gf5Uli2nFVj407SxjIADsuGLOm9l&#43;fjXzlXCUw=">
+
+
+<link rel="stylesheet" href="/scss/hyde-hyde-dark.2eddfb769610f72f40f6bc949e62a3acf298eb8504c073739085a417978b18cd.css" integrity="sha256-Lt37dpYQ9y9A9ryUnmKjrPKY64UEwHNzkIWkF5eLGM0=" media="(prefers-color-scheme: dark)">
+
+
+<link rel="stylesheet" href="/scss/print.2744dcbf8a0b2e74f8a50e4b34e5f441be7cf93cc7de27029121c6a09f9e77bc.css" integrity="sha256-J0Tcv4oLLnT4pQ5LNOX0Qb58&#43;TzH3icCkSHGoJ&#43;ed7w=" media="print">
+
+
+
+    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
+    <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Icons -->
+    
+    <link rel="apple-touch-icon-precomposed" sizes="72x72" href="/apple-touch-icon-72-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="114x114" href="/apple-touch-icon-114-precomposed.png">
+    <link rel="apple-touch-icon-precomposed" sizes="144x144" href="/apple-touch-icon-144-precomposed.png">
+    
+    <link rel="shortcut icon" sizes="192x192" href="/android-192-favicon.png">
+
+    
+    <link rel="shortcut icon" href="/android-192-favicon.png">
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/all.min.css" integrity="sha256-h20CPZ0QyXlBuAw7A+KluUYx/3pK+c7lYEpqLTlxjYQ=" crossorigin="anonymous" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.13.0/css/v4-shims.min.css" integrity="sha256-wN7QJaqAwQ03kgUhyN4EU2phRdDkLrQYbFe0EvpQ60U=" crossorigin="anonymous" />
+
+    
+    
+
+
+    
+</head>
+
+
+    <body class="">
+    
+<div class="sidebar">
+  <div class="container ">
+    <div class="sidebar-about">
+      <span class="site__title">
+        <a href="https://balamaci.ro">Serban Balamaci</a>
+      </span>
+      
+      
+        <div class="author-image">
+          <img src="https://www.gravatar.com/avatar/309afbf8c2f162060e4fa28d670d2ec8?s=240&d=mp" class="img--circle img--headshot element--center" alt="gravatar">
+        </div>
+      
+      <p class="site__description">
+         Java and JVM related 
+      </p>
+    </div>
+    <div class="collapsible-menu">
+      <input type="checkbox" id="menuToggle">
+      <label for="menuToggle">Serban Balamaci</label>
+      <div class="menu-content">
+        <div>
+	<ul class="sidebar-nav">
+		 
+		 
+			 
+				<li>
+					<a href="/"><span class='fa-icon'><i class='fas fa-home'></i></span> Home
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/posts/"><span class='fa-icon'><i class='fas fa-stream'></i></span> Posts
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/series/"><span class='fa-icon'><i class='fas fa-list-alt'></i></span> Series
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/tags/"><span class='fa-icon'><i class='fas fa-tags'></i></span> Tags
+						<span></span>
+					</a>
+				</li>
+			 
+		 
+			 
+				<li>
+					<a href="/whoami/"><span class='fa-icon'><i class='fas fa-id-card'></i></span> About
+						<span></span>
+					</a>
+				</li>
+			 
+		
+	</ul>
+</div>
+
+        <section class="social">
+	
+	<a href="https://twitter.com/@sbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="bird" class="svg-inline--fa fa-bird fa-w-16" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 512 512"><path fill="currentColor" d="M459.37 151.716c.325 4.548.325 9.097.325 13.645 0 138.72-105.583 298.558-298.558 298.558-59.452 0-114.68-17.219-161.137-47.106 8.447.974 16.568 1.299 25.34 1.299 49.055 0 94.213-16.568 130.274-44.832-46.132-.975-84.792-31.188-98.112-72.772 6.498.974 12.995 1.624 19.818 1.624 9.421 0 18.843-1.3 27.614-3.573-48.081-9.747-84.143-51.98-84.143-102.985v-1.299c13.969 7.797 30.214 12.67 47.431 13.319-28.264-18.843-46.781-51.005-46.781-87.391 0-19.492 5.197-37.36 14.294-52.954 51.655 63.675 129.3 105.258 216.365 109.807-1.624-7.797-2.599-15.918-2.599-24.04 0-57.828 46.782-104.934 104.934-104.934 30.213 0 57.502 12.67 76.67 33.137 23.715-4.548 46.456-13.32 66.599-25.34-7.798 24.366-24.366 44.833-46.132 57.827 21.117-2.273 41.584-8.122 60.426-16.243-14.292 20.791-32.161 39.308-52.628 54.253z"></path></svg></i></a>
+	
+	
+	
+	<a href="https://github.com/balamaci" rel="me"><i class="fab fa-github fa-lg" aria-hidden="true"></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	<a href="https://linkedin.com/in/serbanbalamaci" rel="me"><i class="fa-w-16" aria-hidden="true"><svg aria-hidden="true" focusable="false" data-prefix="fab" data-icon="pro-network" class="svg-inline--fa fa-pro-network fa-w-14" role="img" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><path fill="currentColor" d="M416 32H31.9C14.3 32 0 46.5 0 64.3v383.4C0 465.5 14.3 480 31.9 480H416c17.6 0 32-14.5 32-32.3V64.3c0-17.8-14.4-32.3-32-32.3zM135.4 416H69V202.2h66.5V416zm-33.2-243c-21.3 0-38.5-17.3-38.5-38.5S80.9 96 102.2 96c21.2 0 38.5 17.3 38.5 38.5 0 21.3-17.2 38.5-38.5 38.5zm282.1 243h-66.4V312c0-24.8-.5-56.7-34.5-56.7-34.6 0-39.9 27-39.9 54.9V416h-66.4V202.2h63.7v29.2h.9c8.9-16.8 30.6-34.5 62.9-34.5 67.2 0 79.7 44.3 79.7 101.9V416z"></path></svg></i></a>
+	
+	
+	
+	
+	
+	
+	
+	
+	
+</section>
+
+      </div>
+    </div>
+
+  </div>
+  <div class="container fixed-container">
+    
+<div class="copyright">
+  &copy; 2010 - 2020 Serban Balamaci
+  
+    <a href="https://creativecommons.org/licenses/by-sa/4.0">CC BY-SA 4.0</a>
+  
+</div>
+
+
+
+  </div>
+</div>
+
+        <div class="content container">
+            
+    
+
+<article>
+  <header>
+    <h1>More Secure than Yesterday - Storing the Users Passwords</h1>
+    
+    
+<div class="post__meta">
+    
+    
+      <i class="fas fa-calendar-alt"></i> 2012-04-03
+    
+    
+    
+    
+    
+    <br/>
+    <i class="fas fa-clock"></i> 15 min read
+
+    
+    
+    
+
+</div>
+
+
+  </header>
+  
+  
+  
+  <div class="post md">
+    <p>Today we&rsquo;re tackling the common problem of keeping our users passwords secure. It&rsquo;s going to be a recap of the best practices and reasons behind them, and I&rsquo;ll be introducing a very useful library for cryptography in Java to have a concrete implementation of how you can store your user&rsquo;s passwords in a safe way.</p>
+<h3 id="about-algorithms-and-practices">About algorithms and practices</h3>
+<h4 id="you-should-not-use-plaintext-passwords---this-is-the-wrong-way-to-do-it-and-you-have-no-excuse-for-still-using-it-its-bad-for-the-obvious-reasons">You should not use plaintext passwords - this is the wrong way to do it and you have no excuse for still using it. It&rsquo;s bad for the obvious reasons:</h4>
+<ul>
+<li>
+<p><strong>Data theft</strong> - sure you make think you have in place that would prevent an outsider to but on the other hand a lot of people use the same password for their email, twitter, facebook account, etc. The user entrusts you with his data, so are you REALLY, REALLY 100% confident there is absolutely NO WAY an attacker could get access to the password field in your database? No sql injection in your code, no backdoor to your server, no bug in the database.</p>
+</li>
+<li>
+<p><strong>Trusting people</strong> - in most of the cases you are not the sole person with access to the database. Even if you are the administrator, save yourself from the temptation of trying your users passwords on their provided emails.</p>
+</li>
+</ul>
+<h4 id="what-to-do-instead">What to do instead?</h4>
+<p>Well there are two way to look at the cryptography methods. There is <strong>Two Way</strong> (<strong>Reversible</strong>) encryption algorithms which means once you encrypt a text you can also decrypt it later, and <strong>One Way</strong> (<strong>NOT reversible</strong>) also known as <strong>Hashing functions</strong> or <strong>Digest algorithms</strong>.
+Among the most used hashing algorithms were(MD5) and now SHA1(Git uses SHA1):</p>
+<ul>
+<li><strong>MD5</strong> - no longer considered reliable <strong>as a HASH function</strong> (this is not neceseraly what&rsquo;s caused it&rsquo;s demise as the default algorithm to use for password hashing, although the missunderstood fear must have contributed a lot).
+A <strong>colission</strong> happens when two diferent string like <em>&lsquo;123456&rsquo;</em> and <em>&lsquo;str0NG!Pass&rsquo;</em> have the same hash. So theoretically the attacker might need to try a reduced set of dictionary words.
+But hashing functions inevitable have collisions since they are limited in output. I mean you can MD5 hash a whole document and it&rsquo;s output will still need be 32 chars. So when you are pressing the representation of a bigger string into a smaller one, it&rsquo;s innevitable to have collisions, the questions is how often they occur. See <a href="https://en.wikipedia.org/wiki/Collision_resistant">Collision Resistance</a> for more details.
+But the real reason why MD5 fails as a password hashing mechanism it&rsquo;s because it&rsquo;s fast, as we&rsquo;ll see below.</li>
+<li><strong>SHA familly</strong> - SHA1 and SHA-2 variants: SHA-224, SHA-256, SHA-384, SHA-512</li>
+</ul>
+<p>see <a href="http://en.wikipedia.org/wiki/Cryptographic_hash_function">here</a> for a comparison.</p>
+<p>You&rsquo;d say there&rsquo;s not much use for <!-- raw HTML omitted -->Hashing function<!-- raw HTML omitted --> if you cannot get back the password you &ldquo;encrypted&rdquo; and stored because you cannot validate the user when he presents his password.
+Actually it turns out a <!-- raw HTML omitted -->Hashing function is what you want to use<!-- raw HTML omitted -->, because you don&rsquo;t have to know the password of the user if you&rsquo;d proceed like this:</p>
+<!-- raw HTML omitted -->
+<p>If you were to store it encrypted with a reversible algorithm, the attacker(who let&rsquo;s say has in some way access to your users password data) would only need to know the key(which could be in a properties file on the server), the algorithm you used for encryption and he will then have access to all passwords.</p>
+<p>There is one case in which you&rsquo;d need to choose a TWO way encryption though. If you are also using some legacy service that authenticates against the plain-text password like for example a FTP account. Apart from this <!-- raw HTML omitted -->there is little reason why you should not always use password hashing<!-- raw HTML omitted -->.</p>
+<h3 id="what-if-a-user-loses-his-password-how-can-you-remind-it-to-him">What if a user loses his password how can you remind it to him?</h3>
+<p>Simple answer is that you <!-- raw HTML omitted -->cannot<!-- raw HTML omitted --> and you should instead offer the user the possibility to reset his password to a new one which you send by email and advise the user to change it as soon as possible since the email is not a secure medium for holding a password.
+<!-- raw HTML omitted -->A site that send you back your original password today is laughed in IT business because it means it shows little respect for user privacy and is a service you should move away from<!-- raw HTML omitted -->. <!-- raw HTML omitted -->If you are the owner of such a site it means bad publicity for you<!-- raw HTML omitted --> but luckily read below how you can fix this.</p>
+<!-- raw HTML omitted -->
+<p>Luckily there is an easy way to protect against this by:</p>
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<!-- raw HTML omitted -->
+<pre><code>    &lt;!-- only useful for Spring usage --&gt;
+    &lt;dependency&gt;
+        &lt;groupId&gt;org.jasypt&lt;/groupId&gt;
+        &lt;artifactId&gt;jasypt-spring3&lt;/artifactId&gt;
+        &lt;version&gt;1.9.0&lt;/version&gt;
+    &lt;/dependency&gt;
+</code></pre>
+<pre><code>
+The base class for implementing digest is &lt;b&gt;StandardStringDigester&lt;/b&gt; which does all the things:
+&lt;ol&gt;
+&lt;li&gt;&lt;b&gt;Use a salt and attach it to the password&lt;/b&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Encrypt by applying hash&lt;/b&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Iterate the hash function&lt;/b&gt;&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Encode the result with BASE64&lt;/b&gt; - because we it's safer to get the string encoded to Base64 so that it's easier to store in a DB and you're not dependent of the DB character encoding&lt;/li&gt;
+&lt;li&gt;&lt;b&gt;Provide simple method to validate the password on login&lt;/b&gt;&lt;/li&gt;
+&lt;/ol&gt;
+
+```java
+StandardStringDigester digester = new StandardStringDigester();
+digester.setAlgorithm(&quot;SHA-256&quot;); //we set the algorithm
+digester.setIterations(&quot;2000&quot;);//number of iterations  
+digester.setSaltSizeBytes(32); 
+digester.setSaltGenerator(SaltGenerator); //if we do not set it explicit, the default is RandomSaltGenerator
+...
+String digest = digester.digest(userPassword); //we store the digest to persistence storage
+...
+//
+
+//For authentication we just need to do:
+if (digester.matches(inputPassword, storedDigest)) {
+  // user authenticated
+} else {
+  // bad login!
+}
+</code></pre>
+<p>But wait, where is the salt part retrieve and storage done? It&rsquo;s already contained in the <!-- raw HTML omitted -->digest<!-- raw HTML omitted --> string. Since we setSaltSizeBytes(nr_bytes) we know what part of the digest is the salt information. So while it&rsquo;s not stored in a different field, it can still be extracted.</p>
+<p>Actually in a multithreaded environment you are better off using</p>
+<pre><code class="language-prettyprint">PooledStringDigester digester = new PooledStringDigester();
+digester.setPoolSize(4);// This would be a good value for a 4-core system 
+digester.setAlgorithm(&quot;SHA-1&quot;);
+.... //all the methods used as above
+</code></pre>
+<h3 id="spring-31-usage">Spring 3.1 usage</h3>
+<p>Jasypt also makes Spring integration very easy by providing it&rsquo;s own <!-- raw HTML omitted -->namespace<!-- raw HTML omitted --></p>
+<pre><code>&lt;beans xmlns=&quot;http://www.springframework.org/schema/beans&quot;
+       ...
+       xmlns:encryption=&quot;http://www.jasypt.org/schema/encryption&quot;
+       ...
+       xsi:schemaLocation=&quot;http://www.springframework.org/schema/beans
+                           http://www.springframework.org/schema/beans/spring-beans-3.1.xsd
+                           ...
+                           http://www.jasypt.org/schema/encryption
+                           http://www.jasypt.org/schema/encryption/jasypt-spring3-encryption-1.xsd
+                           ...&quot;&gt;
+
+&lt;!-- Construct a PooledStringDigester bean that can be referenced. All digesters and encryptors in jasypt are thread-safe --&gt;
+&lt;encryption:string-digester id=&quot;password-digester&quot; pool-size=&quot;4&quot; algorithm=&quot;SHA-256&quot; salt-size-bytes=&quot;16&quot; iterations=&quot;50000&quot;/&gt;
+
+&lt;/beans&gt;
+</code></pre>
+<h3 id="conclusions">Conclusions</h3>
+<ul>
+<li>No excuse to use cleartext passwords anymore</li>
+<li>If you provide the user&rsquo;s lost password in an email to him it makes you services look lame.<!-- raw HTML omitted --> Some of your users will understand that your site has a major security issue.</li>
+<li>Don&rsquo;t try to implement your own security algorithm<!-- raw HTML omitted -->, there are mathematical geniuses way smarter than me and you who&rsquo;s passion is to think about stuff like this.</li>
+<li>Use a hashing algorithm, preferably from the SHA-2 family or better PBKDF2<!-- raw HTML omitted -->(which by design run slower).</li>
+<li>Use a random salt</li>
+<li>Iterate hash</li>
+<li>Use library which makes security easy</li>
+</ul>
+<p>Hope you got some benefit for the article. Till next time&hellip; have fun.</p>
+
+  </div>
+  
+
+<div class="navigation navigation-single">
+    
+    <a href="/2012/03/29/more-secure-than-yesterday-using-recaptcha-with-wicket/" class="navigation-prev">
+      <i aria-hidden="true" class="fa fa-chevron-left"></i>
+      <span class="navigation-tittle">More Secure than Yesterday - using ReCaptcha with Wicket</span>
+    </a>
+    
+    
+    <a href="/2013/01/27/more-secure-than-yesterday-preventing-session-fixation-and-general-session-stealing-type-of-attacks/" class="navigation-next">
+      <span class="navigation-tittle">More Secure than Yesterday – Preventing &#34;Session stealing&#34; type of attacks.</span>
+      <i aria-hidden="true" class="fa fa-chevron-right"></i>
+    </a>
+    
+</div>
+
+
+  
+
+  
+
+</article>
+
+
+        </div>
+        
+    
+
+
+
+
+
+
+
+
+
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin="anonymous"></script>
+    <script type="text/javascript">
+        
+        hljs.initHighlightingOnLoad();
+    </script>
+    
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/zepto/1.2.0/zepto.min.js" integrity="sha256-vrn14y7WH7zgEElyQqm2uCGSQrX/xjYDjniRUQx3NyU=" crossorigin="anonymous"></script>
+<script type="text/javascript">
+function addBlockSwitches() {
+	$('.primary').each(function() {
+		primary = $(this);
+		createSwitchItem(primary, createBlockSwitch(primary)).item.addClass("selected");
+		primary.children('.title').remove();
+	});
+	$('.secondary').each(function(idx, node) {
+		secondary = $(node);
+		primary = findPrimary(secondary);
+		switchItem = createSwitchItem(secondary, primary.children('.switch'));
+		switchItem.content.addClass('hidden');
+		findPrimary(secondary).append(switchItem.content);
+		secondary.remove();
+	});
+}
+
+function createBlockSwitch(primary) {
+	blockSwitch = $('<div class="switch"></div>');
+	primary.prepend(blockSwitch);
+	return blockSwitch;
+}
+
+function findPrimary(secondary) {
+	candidate = secondary.prev();
+	while (!candidate.is('.primary')) {
+		candidate = candidate.prev();
+	}
+	return candidate;
+}
+
+function createSwitchItem(block, blockSwitch) {
+	blockName = block.children('.title').text();
+	content = block.children('.content').first().append(block.next('.colist'));
+	item = $('<div class="switch--item">' + blockName + '</div>');
+	blockSwitch.append(item);
+	return {'item': item, 'content': content};
+}
+
+function globalSwitch() {
+	$('.switch--item').each(function() {
+		var blockId = blockIdForSwitchItem($(this));
+		$(this).off('click');
+		$(this).on('click', function() {
+			selectedText = $(this).text()
+			window.localStorage.setItem(blockId, selectedText);
+			$(".switch--item").filter(function() {
+				return blockIdForSwitchItem($(this)) === blockId;
+			}).filter(function() {
+				return $(this).text() === selectedText;
+			}).each(function() {
+				select($(this))
+			});
+		});
+		if ($(this).text() === window.localStorage.getItem(blockId)) {
+			select($(this))
+		}
+	});
+}
+
+function blockIdForSwitchItem(item) {
+	idComponents = []
+	idComponents.push(item.text().toLowerCase());
+	item.siblings(".switch--item").each(function(index, sibling) {
+		idComponents.push($(sibling).text().toLowerCase());
+	});
+	return idComponents.sort().join("-")
+}
+
+function select(selected) {
+	selected.addClass('selected');
+	selected.siblings().removeClass('selected');
+	selectedContent = selected.parent().siblings(".content").eq(selected.index())
+	selectedContent.removeClass('hidden');
+	selectedContent.siblings().addClass('hidden');
+}
+
+$(addBlockSwitches);
+$(globalSwitch);
+</script>
+
+
+    
+
+
+
+    </body>
+</html>
+
