@@ -1,7 +1,7 @@
 +++
 author = "Serban Balamaci"
 date = 2016-03-21T13:10:26Z
-description = ""
+description = "Java application monitoring with ELK stack"
 draft = false
 slug = "java-app-monitoring-with-elk-elastic-search"
 title = "Java app monitoring with ELK - Part II- ElasticSearch"
